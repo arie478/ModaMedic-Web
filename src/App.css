@@ -1,38 +1,128 @@
-.App {
+.App, App-header{
   text-align: center;
+  width:100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+#labels #hello {
+  float: right;
+  font-size: medium;
+  margin-top: 10px;
+  margin-right: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+div.App, div.App-header {
+  width:100%;
 }
 
+#change{
+  font-size: medium;
+  margin-top: 10px;
+  width: fit-content;
+  float: left;
+  margin-left: 0%;
+}
+
+#sep{
+  font-size: medium;
+  margin-top: 10px;
+  width: fit-content;
+  float: left;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+#change:hover{
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#labels {
+  overflow: hidden;/* Makes this div contain its floats */
+}
+
+#logout{
+  float: left;
+  text-align: left;
+  font-size: medium;
+  margin-top: 10px;
+}
+
+.lineC{
+  direction: rtl;
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+#logout:hover{
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  background-color: white;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
 }
 
 .App-link {
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.popup {
+
+  float: right;
+  text-align: right;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  background-color: rgba(0,0,0, 0.5);
+}
+
+.popup_inner {
+
+  position: absolute;
+  left: 35%;
+  right: 35%;
+  top: 25%;
+  bottom: 35%;
+  margin: auto;
+  background: white;
+}
+
+#pass, #pass2{
+  width: 40%;
+}
+
+#h3{
+  text-align: center;
+}
+
+#x {
+  color: rgb(180, 180, 180);
+  font-size: large;
+  font-family: Arial, sans-serif;
+  float: right;
+  text-align: right;
+  background-color: white;
+  font-weight: bolder; 
+  width: fit-content;
+  margin-top: 0;
+}
+
+#diffPass{
+  font-weight: bold;
 }

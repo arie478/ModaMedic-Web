@@ -1,0 +1,183 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.inputs {
+    width: 100%;
+    padding: 5px 5px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+} 
+
+p{
+    text-align: center;
+}
+
+label {
+    display: block;
+    font: .8rem 'Fira Sans', sans-serif;
+    direction: rtl;
+    text-align: right;
+}
+
+#id, #answer, #pass, #pass2{
+    width: 50%;
+    margin-right: 25%;
+    margin-left: 25%;
+}
+
+#date{
+    width: 50%;
+    margin-right: 25.2%;
+    margin-left: 24.8%;
+}
+
+#lid, #lpass, #lpass2, .error{
+    margin-right: 25%;
+    text-align: right;
+}
+
+
+#remember{
+    float: right;
+    margin-top: 2%;
+    margin-right: 0;
+    cursor: pointer;
+}
+
+#send{
+    width: 15%;
+    margin-left: 40%;
+    margin-right: 45%;
+    margin-top: 3%;
+}
+
+#wrong{
+    color: red;
+    font: .2rem 
+}
+
+h3{
+    text-align: center;
+    margin-bottom: 3%;
+}
+
+button {
+    padding: 5px 5px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+}
+
+button:hover {
+    color: gray;
+    opacity: 0.8;
+}
+
+.popup {
+
+    float: right;
+    text-align: right;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+}
+
+.popup_innerWrong {
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 30%;
+    bottom: 40%;
+    margin: auto;
+    background: white;
+}
+
+.popup_innerEmail {
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 30%;
+    bottom: 35%;
+    margin: auto;
+    background: white;
+}
+
+.popup_innerAdd {
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: 10%;
+    bottom: 10%;
+    margin: auto;
+    background: white;
+    height: 600px;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
+#wrongType{
+    margin-top: 5%;
+}
+
+#x {
+    color: rgb(180, 180, 180);
+    font-size: large;
+    font-family: Arial, sans-serif;
+    float: right;
+    text-align: right;
+    background-color: white;
+    font-weight: bolder; 
+    width: fit-content;
+    
+}
+
+#x:hover{
+    color: black;
+}
+
+#forget{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#forget:hover{
+    font-weight: bold;
+}
+
+#register{
+    color: blue;
+    text-decoration: underline;
+    margin-top: 4%;
+    cursor: pointer;
+}
+
+#register:hover{
+    font-weight: bold;
+}
+
+#h3{
+    text-align: center;
+  }
+
+.lineC{
+direction: rtl;
+display:flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+margin-top: 3px;
+margin-bottom: 3px;
+}
+  

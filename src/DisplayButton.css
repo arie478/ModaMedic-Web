@@ -1,0 +1,77 @@
+.checkButton{
+    background-color:rgb(255, 255, 255);
+    border:1px solid rgb(148, 148, 148);
+    overflow:auto;
+    width: 220px;
+    display:inline-block;
+    height: 40px;
+}
+
+div.ex1 {
+    width:100%;
+}
+
+#cbRight{
+    border-radius: 15px 0px 0px 15px;
+}
+
+#cbLeft{
+    border-radius: 0px 15px 15px 0px;
+}
+
+
+.checkButton label span {
+    text-align:center;
+    width: 100%;
+    margin-top: 10px;
+    font-size: medium;
+    display:block;
+}
+
+.checkButton label input {
+    position:absolute;
+    top:-20px;
+}
+
+#cbLeft input:checked + span{
+    height: 40.3px;
+    margin: 0%;
+    padding: 0%;
+    overflow-y: hidden;
+    width: 220px;
+}
+
+#cbRight input:checked + span{
+    height: 40.3px;
+    margin: 0%;
+    padding: 0%;
+    overflow-y: hidden;
+    width: 220px;
+}
+
+#cbRight input:hover + span{
+    cursor: pointer;
+}
+
+#cbLeft input:hover + span{
+    cursor: pointer;
+}
+
+#text{
+    margin: 4%;
+}
+
+
+
+.checkButton input:checked + span {
+    background-color:rgb(168, 168, 168);
+    
+    color:rgb(0, 0, 0);
+}
+
+.display{
+    width: 100%;
+    align-items: middle;
+    display: inline-block;
+    text-align:center
+}

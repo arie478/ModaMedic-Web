@@ -1,0 +1,89 @@
+#mdd th, #mdd td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+    width: 8.7%;
+    font-size: 15px;
+    font-weight:normal;
+    margin: 0;
+    padding: 1%;
+    text-align: center;
+}
+
+#daily th{
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+    width: 15%;
+    font-size: 15px;
+    font-weight:normal;
+    margin: 0;
+    padding-top: 0.5%;
+    text-align: center;
+    height: 70px;
+}
+
+
+#daily td{
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+    width: 15%;
+    font-size: 15px;
+    font-weight:normal;
+    margin: 0;
+    padding-top: 0.5%;
+    text-align: center;
+    height: 70px;
+}
+
+#mdd tr, #daily tr, #daily tr{
+    width: auto;
+}
+
+#per th, #per td  {
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+    width: 12%;
+    font-size: 15px;
+    font-weight:normal;
+    padding: 1%;
+    text-align: center;
+}
+
+#mdd th{
+    height: 50px;
+}
+
+#mdd td{
+    height: 35px;
+}
+
+#per th{
+    height: 80px;
+}
+
+
+.before{
+    color: rgb(33, 66, 128);
+}
+
+.after{
+    color: rgb(189, 44, 44)
+}
+
+#mdd, #daily, #per{
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.tabels{
+    width: fit-content;
+    margin-left:auto; 
+    margin-right:auto;
+}
+
+.center{
+    text-align:center;
+}

@@ -1,0 +1,65 @@
+.labels_in_add_user {
+    /* Other styling... */
+    text-align: right;
+    float:right;
+    margin-right: 10%;
+    font-size: 16px;
+    padding-top: 10px;
+    width: 25%;
+    margin-top: 2%;
+}
+
+
+.inputs_in_add_user, .select_in_add_user{
+    width: 50%;
+    height: 28px;
+    float: right;
+    margin-top: 2%;
+}
+
+.select_in_add_user{
+    direction: rtl;
+}
+
+
+
+.submit_and_reset_buttons {
+    width: 80px;
+    height: 30px;
+    margin: 8px 100px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+
+}
+
+.divs_in_add{
+    overflow: hidden;
+    text-align: center;
+}
+
+h2{
+    text-align: center;
+}
+
+
+.Home-header {
+    background-color: white;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+}
+
+
+/*.input {*/
+/*    height: 20px;*/
+/*    width: 300px;*/
+/*    border: 1px solid #000;*/
+/*    margin-top: 10px;*/
+/*    float: right;*/
+/*    margin-right: 15px;*/
+/*}*/
+
