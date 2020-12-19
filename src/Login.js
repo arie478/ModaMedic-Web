@@ -14,6 +14,7 @@ class Login extends Component{
             showPopup: false,
             name: "",
             doctor: false,
+            patient: false,
             showID: false,
             showWrongUser: false,
             showQ: false,
@@ -35,6 +36,12 @@ class Login extends Component{
             sessionStorage.setItem("name", localStorage.getItem("name"));
             sessionStorage.setItem("type", localStorage.getItem("type"));
             sessionStorage.setItem("doctor", localStorage.getItem("doctor"));
+        }
+        else if(localStorage.getItem("patient")){
+            sessionStorage.setItem("token", localStorage.getItem("token"));
+            sessionStorage.setItem("name", localStorage.getItem("name"));
+            sessionStorage.setItem("type", localStorage.getItem("type"));
+            sessionStorage.setItem("patient", localStorage.getItem("patient"));
         }
         this.change = this.change.bind(this);
         this.sumbit = this.sumbit.bind(this);
@@ -74,7 +81,7 @@ class Login extends Component{
 
     async handleSubmit(e){
         e.preventDefault();
-        let url = 'https://icc.ise.bgu.ac.il/njsw03users/forgotPassword';
+        let url = 'http://localhost:8180/users/forgotPassword';
         const response = await axios.post(
             url,
             {
@@ -88,7 +95,7 @@ class Login extends Component{
         }
         else{
             var qID = response.data.data;
-            const response1 = await axios.get("https://icc.ise.bgu.ac.il/njsw03users/getVerificationQuestion?QuestionID=" + qID);
+            const response1 = await axios.get("http://localhost:8180/users/getVerificationQuestion?QuestionID=" + qID);
             this.setState({
                 showID: false,
                 showWrongUser: false,
@@ -105,7 +112,7 @@ class Login extends Component{
         e.preventDefault();
         var date = new Date(this.state.date);
         var dateLong = date.getTime();
-        let url = 'https://icc.ise.bgu.ac.il/njsw03users/checkVerification';
+        let url = 'http://localhost:8180/users/checkVerification';
         const response = await axios.post(
             url,
             {
@@ -141,14 +148,14 @@ class Login extends Component{
         }
         else{
           var token = this.state.token;
-          var url = 'https://icc.ise.bgu.ac.il/njsw03users/passwordChangeCheck/changePassword';
+          var url = 'http://localhost:8180/users/passwordChangeCheck/changePassword';
           const response = await axios.post(
             url,
             {
               "NewPassword":this.state.pass
-            }, 
-            { 
-                headers: { 
+            },
+            {
+                headers: {
                     'Content-Type': 'application/json',
                     'x-auth-token': token
                 }
@@ -159,7 +166,7 @@ class Login extends Component{
             this.togglePopup();
           }
         }
-    
+
       }
 
     register(e){
@@ -175,7 +182,7 @@ class Login extends Component{
 
     sumbit(e){
         e.preventDefault();
-        axios.post('https://icc.ise.bgu.ac.il/njsw03users/login', {
+        axios.post('http://localhost:8180/users/login', {
             UserID: this.state.ID,
             Password: this.state.password
         }).then(res => {
@@ -183,17 +190,31 @@ class Login extends Component{
                 this.setState({wrong: true})
             }
             else if(res.data.data.type[0] === "patient"){
-                this.setState({name: res.data.data.name,
-                    ID: "",
-                    password: "",
-                    wrong: false,
-                    showID: false,
-                    showWrongUser: true,
-                    showQ: false,
-                    showChange: false,
-                    register: false
+                sessionStorage.setItem("token", res.data.data.token);
+                sessionStorage.setItem("name", res.data.data.name);
+                sessionStorage.setItem("type", res.data.data.type);
+                this.setState({
+                    patient: sessionStorage.getItem("type").includes("patient")
                 });
-                this.togglePopup();
+                sessionStorage.setItem("patient", this.state.patient);
+                window.location.reload(false);
+                if(this.state.remember){
+                    localStorage.setItem("token", res.data.data.token);
+                    localStorage.setItem("name", res.data.data.name);
+                    localStorage.setItem("type", res.data.data.type);
+                    localStorage.setItem("patient", this.state.patient);
+                }
+                // this.setState({name: res.data.data.name,
+                //     ID: "",
+                //     password: "",
+                //     wrong: false,
+                //     showID: false,
+                //     showWrongUser: true,
+                //     showQ: false,
+                //     showChange: false,
+                //     register: false
+                // });
+                // this.togglePopup();
             }
             else{
                 sessionStorage.setItem("token", res.data.data.token);
@@ -201,7 +222,7 @@ class Login extends Component{
                 sessionStorage.setItem("type", res.data.data.type);
                 this.setState({
                     doctor: sessionStorage.getItem("type").includes("doctor")
-                })
+                });
                 sessionStorage.setItem("doctor", this.state.doctor);
                 window.location.reload(false);
                 if(this.state.remember){
@@ -263,15 +284,15 @@ class Popup extends React.Component {
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
-            { this.props.showWrongUser ?
-                <div className='popup'>
-                    <div className='popup_innerWrong' >
-                        <button onClick={this.props.closePopup} id="x">x</button>
-                        <h3>,שלום {this.props.text}</h3>
-                        <p id="wrongType"> אין לך את ההרשאות המתאימות על מנת להיכנס לאתר</p>
-                    </div>
-                </div> : null
-            }
+            {/*{ this.props.showWrongUser ?*/}
+            {/*    <div className='popup'>*/}
+            {/*        <div className='popup_innerWrong' >*/}
+            {/*            <button onClick={this.props.closePopup} id="x">x</button>*/}
+            {/*            <h3>,שלום {this.props.text}</h3>*/}
+            {/*            <p id="wrongType"> אין לך את ההרשאות המתאימות על מנת להיכנס לאתר</p>*/}
+            {/*        </div>*/}
+            {/*    </div> : null*/}
+            {/*}*/}
             { this.props.showID ?
                 <div className='popup'>
                     <div className='popup_innerEmail' >

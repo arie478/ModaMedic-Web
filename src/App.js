@@ -4,12 +4,14 @@ import axios from 'axios';
 import {Redirect} from "react-router-dom";
 import "./Logo";
 import "./Search";
+import "./PatientSearch";
+
 
 import Logo from './Logo';
 import Search from './Search';
 
 
-class App extends Component{
+class App extends Component {
     constructor(props){
       super(props);
       this.state = {
@@ -40,7 +42,7 @@ class App extends Component{
       });
     }
     else{
-      let url = 'https://icc.ise.bgu.ac.il/njsw03auth/usersAll/askChangePassword';
+      let url = 'http://localhost:8180/auth/usersAll/askChangePassword';
       var token;
       const response = await axios.post(
         url,
@@ -53,7 +55,7 @@ class App extends Component{
         }
       );
       token = response.data.data;
-      url = 'https://icc.ise.bgu.ac.il/njsw03users/passwordChangeCheck/changePassword';
+      url = 'http://localhost:8180/users/passwordChangeCheck/changePassword';
       const responsec = await axios.post(
         url,
         {
@@ -111,9 +113,10 @@ class App extends Component{
         <div className="App">
           <header className="App-header">
             <Logo />
-            <Search />
+              <Search />
             <br />
             {sessionStorage.getItem("doctor") !== "true" ?  <Redirect from="/search" to="/" /> : null  }
+            {/*{sessionStorage.getItem("patient") !== "true" ?  <Redirect from="/search" to="/PatientSearch" /> : null  }*/}
           </header>
         </div>
         {this.state.showPopup ? 

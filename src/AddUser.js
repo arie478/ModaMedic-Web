@@ -53,7 +53,7 @@ class AddUser extends Component {
         let initialQuestions = [];
         let initQuestionsID = [];
         let initQuestionsText = [];
-        fetch('https://icc.ise.bgu.ac.il/njsw03users/getVerifications')
+        fetch('http://localhost:8180/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -85,7 +85,7 @@ class AddUser extends Component {
         event.preventDefault();
         var bDay = new Date(this.state.bday);
         var now = new Date();
-        axios.post('https://icc.ise.bgu.ac.il/njsw03users/doctorRegister', {
+        axios.post('http://localhost:8180/users/doctorRegister', {
             UserID: this.state.userName,
             Password: this.state.password,
             First_Name: this.state.fName,
@@ -115,7 +115,7 @@ class AddUser extends Component {
         let initialQuestions = [];
         let initQuestionsID = [];
         let initQuestionsText = [];
-        fetch('https://icc.ise.bgu.ac.il/njsw03users/getVerifications')
+        fetch('http://localhost:8180/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {

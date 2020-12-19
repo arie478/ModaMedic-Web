@@ -18,6 +18,7 @@ class HomeLogin extends Component{
             <div>
                 <div className="Home">
                     {sessionStorage.getItem("doctor") === "true" ?  <Redirect from={path} to="/search" /> : null  }
+                    {sessionStorage.getItem("patient") === "true" ?  <Redirect from={path} to="/patientSearch" /> : null  }
                     <header className="Home-header">
                         <Logo />
                         <Login />

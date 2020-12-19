@@ -3,7 +3,7 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card'
 import DisplayButton from './DisplayButton';
 
-class Search extends Component {
+class PatientSearch extends Component {
     constructor() {
         super()
         var date = new Date();
@@ -36,11 +36,11 @@ class Search extends Component {
         /*
         axios.get(
             "http://localhost:8180/auth/usersAll/getLasts",
-            { 
-                headers: { 
+            {
+                headers: {
                     'Content-Type': 'application/json',
                     'x-auth-token': sessionStorage.getItem("token")
-                } 
+                }
             }
         ).then(function (response){
             if(response.data.data){
@@ -79,7 +79,7 @@ class Search extends Component {
             weekly: false,
             monthly: false,
             user: {},
-            ready: false, 
+            ready: false,
             todayDate: x,
             optionsPName: list,
             optionsLName: list1,
@@ -96,7 +96,7 @@ class Search extends Component {
 
     togglePopup() {
         this.setState({
-          showPopup: !this.state.showPopup
+            showPopup: !this.state.showPopup
         });
     }
 
@@ -142,31 +142,31 @@ class Search extends Component {
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date)
             let start_time = date.getTime();
-            getUrl += ("&start_time=" + start_time); 
+            getUrl += ("&start_time=" + start_time);
         }
         if(this.state.end_date !== ""){
             date = new Date(this.state.end_date)
             date = new Date(date.getTime() + 86400000);
             let end_time = date.getTime();
-            getUrl += ("&end_time=" + end_time); 
+            getUrl += ("&end_time=" + end_time);
         }
-            const response = await axios.get(
-                getUrl,
-                { 
-                    headers: { 
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem("token")
-                    } 
+        const response = await axios.get(
+            getUrl,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
-            );
-            if(response.data.message === "Not Found"){
-                return null;
             }
-            return({
-                values: response.data.data,
-                name : name,
-                numOfUsers: response.data.data.length
-            });
+        );
+        if(response.data.message === "Not Found"){
+            return null;
+        }
+        return({
+            values: response.data.data,
+            name : name,
+            numOfUsers: response.data.data.length
+        });
     }
 
     async selectUser(key){
@@ -271,7 +271,7 @@ class Search extends Component {
             numOfUsers = response.numOfUsers;
         }
         let responseQ = await this.getRequest("שאלון תקופתי", "answers/getPeriodicAnswers")
-        var num = 0; 
+        var num = 0;
         var id = {};
         for(i = 0; i < responseQ.values.length; i++){
             if(!id[responseQ.values[i].UserID]){
@@ -335,107 +335,107 @@ class Search extends Component {
                 <form onSubmit={this.handleSubmit}>
                     <div className="search">
                         <label className="lSearch" >
-                                חפש מטופל:
+                            חפש מטופל:
                         </label>
                         <input className="iSearch"
-                            id="pname"
-                            type="text" 
-                            name="pName"
-                            value={this.state.pName} 
-                            placeholder="שם פרטי ומשפחה" 
-                            onChange={this.handleChange} 
-                            list="first-list"
-                            required
+                               id="pname"
+                               type="text"
+                               name="pName"
+                               value={this.state.pName}
+                               placeholder="שם פרטי ומשפחה"
+                               onChange={this.handleChange}
+                               list="first-list"
+                               required
                         />
-                        <button className="bSearch"> 
+                        <button className="bSearch">
                             חפש
                         </button>
                     </div>
                     <div className="dates">
-                            <label className="cSearch">
-                                בחר תאריכים: מ
-                            </label>
-                            <input className="dSearch"
-                                type="date"
-                                name="start_date"
-                                value={this.state.start_date} 
-                                onChange={this.handleChange}
-                                max={this.state.end_date}
-                            />
-                            <label className="aSearch">
-                                עד
-                            </label>
-                            <input className="dSearch"
-                                type="date"
-                                name="end_date"
-                                value={this.state.end_date} 
-                                onChange={this.handleChange}
-                                max={today}
-                            />
+                        <label className="cSearch">
+                            בחר תאריכים: מ
+                        </label>
+                        <input className="dSearch"
+                               type="date"
+                               name="start_date"
+                               value={this.state.start_date}
+                               onChange={this.handleChange}
+                               max={this.state.end_date}
+                        />
+                        <label className="aSearch">
+                            עד
+                        </label>
+                        <input className="dSearch"
+                               type="date"
+                               name="end_date"
+                               value={this.state.end_date}
+                               onChange={this.handleChange}
+                               max={today}
+                        />
                     </div>
                     <div className="mdd">
                         <label className="mLabel">
-                                בחר מדדים:
+                            בחר מדדים:
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="steps"
-                            checked={this.state.steps}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="steps"
+                               checked={this.state.steps}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             צעדים
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="distance"
-                            checked={this.state.distance}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="distance"
+                               checked={this.state.distance}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             מרחק
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="weather"
-                            checked={this.state.weather}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="weather"
+                               checked={this.state.weather}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             מזג האוויר
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="calories"
-                            checked={this.state.calories}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="calories"
+                               checked={this.state.calories}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             קלוריות
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="sleeping_hours"
-                            checked={this.state.sleeping_hours}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="sleeping_hours"
+                               checked={this.state.sleeping_hours}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שעות שינה
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="dailyQ"
-                            checked={this.state.dailyQ}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="dailyQ"
+                               checked={this.state.dailyQ}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שאלון יומי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="perQ"
-                            checked={this.state.perQ}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="perQ"
+                               checked={this.state.perQ}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שאלונים תקופתיים
@@ -443,40 +443,40 @@ class Search extends Component {
                     </div>
                     <div className="mddShow">
                         <label className="mLabel">
-                                בחר אופן הצגה:
+                            בחר אופן הצגה:
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="showDaily"
-                            checked={this.state.showDaily}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="showDaily"
+                               checked={this.state.showDaily}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             יומי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="weekly"
-                            checked={this.state.weekly}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="weekly"
+                               checked={this.state.weekly}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שבועי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="monthly"
-                            checked={this.state.monthly}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="monthly"
+                               checked={this.state.monthly}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
-                             חודשי
+                            חודשי
                         </label>
                     </div>
                 </form>
                 <br />
-                <DisplayButton 
-                    dataArr={this.state.dataArr} 
+                <DisplayButton
+                    dataArr={this.state.dataArr}
                     steps={this.state.steps}
                     distance={this.state.distance}
                     calories={this.state.calories}
@@ -494,7 +494,7 @@ class Search extends Component {
                     name={this.state.pName.trim() + " " + this.state.fName.trim()}
                     ready={this.state.ready}
                 />
-                {this.state.showPopup ? 
+                {this.state.showPopup ?
                     <Popup
                         text={this.state.text}
                         closePopup={this.togglePopup.bind(this)}
@@ -505,30 +505,30 @@ class Search extends Component {
     }
 }
 
-export default Search
+export default PatientSearch
 
 class Popup extends React.Component {
     render() {
-      return (
-        <div className='popup'>
-            <div className='popup_inner' >
-                <button onClick={this.props.closePopup} id="x">x</button>
-                <h4>:אנא בחר מבין הרשומות הבאות</h4>
-                {this.props.text}
+        return (
+            <div className='popup'>
+                <div className='popup_inner' >
+                    <button onClick={this.props.closePopup} id="x">x</button>
+                    <h4>:אנא בחר מבין הרשומות הבאות</h4>
+                    {this.props.text}
+                </div>
             </div>
-        </div>
-      );
+        );
     }
-  }
+}
 /*
 
                         <input className="iSearch"
                             id="fname"
-                            type="text" 
+                            type="text"
                             name="fName"
-                            value={this.state.fName} 
-                            placeholder="שם משפחה" 
-                            onChange={this.handleChange} 
+                            value={this.state.fName}
+                            placeholder="שם משפחה"
+                            onChange={this.handleChange}
                             list="last-list"
                             required
                         />
