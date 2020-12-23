@@ -9,6 +9,7 @@ import "./PatientSearch";
 
 import Logo from './Logo';
 import Search from './Search';
+import PatientSearch from "./PatientSearch";
 
 
 class App extends Component {
@@ -107,13 +108,13 @@ class App extends Component {
           <label id="logout" onClick={() => this.logout()}>התנתק</label>
           <label id="sep" onClick={() => this.change()}> |</label>
           <label id="change" onClick={() => this.change()}>שנה סיסמא</label>
-          <label id="hello">שלום ד"ר {sessionStorage.getItem("name")} </label>
+          <label id="hello">שלום {sessionStorage.getItem("name")} </label>
           
         </div>
         <div className="App">
           <header className="App-header">
             <Logo />
-              <Search />
+            <Search />
             <br />
             {sessionStorage.getItem("doctor") !== "true" ?  <Redirect from="/search" to="/" /> : null  }
             {/*{sessionStorage.getItem("patient") !== "true" ?  <Redirect from="/search" to="/PatientSearch" /> : null  }*/}

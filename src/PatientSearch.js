@@ -10,51 +10,31 @@ class PatientSearch extends Component {
         var x = date.toISOString().split("T")[0];
         var list = [], list1 = [];
         var namesDiv = [];
-        axios.get(
-            "http://localhost:8180/auth/usersAll/getNames",
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }
-        ).then(function (response){
-            if(response.data.data){
-                for(var i = 0; i < response.data.data.length; i++){
-                    namesDiv.push(response.data.data[i]);
-                }
-                var names = response.data.data.map(function(item, i){
-                    return item.first.trim() + " " + item.last.trim();
-                })
-                names = names.sort();
-                var uniqueNames = Array.from(new Set(names));
-                for(i = 0; i < uniqueNames.length; i++){
-                    list.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
-                }
-            }
-        });
-        /*
-        axios.get(
-            "http://localhost:8180/auth/usersAll/getLasts",
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }
-        ).then(function (response){
-            if(response.data.data){
-                var names = response.data.data.map(function(item, i){
-                    return item.trim();
-                })
-                names = names.sort();
-                var uniqueNames = Array.from(new Set(names));
-                for(var  i = 0; i < uniqueNames.length; i++){
-                    list1.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
-                }
-            }
-        });
-        */
+        // axios.get(
+        //     "http://localhost:8180/auth/usersAll/getNames",
+        //     {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'x-auth-token': sessionStorage.getItem("token")
+        //         }
+        //     }
+        // ).then(function (response){
+        //     if(response.data.data){
+        //         for(var i = 0; i < response.data.data.length; i++){
+        //             namesDiv.push(response.data.data[i]);
+        //         }
+        //         var names = response.data.data.map(function(item, i){
+        //             return item.first.trim() + " " + item.last.trim();
+        //         })
+        //         names = names.sort();
+        //         var uniqueNames = Array.from(new Set(names));
+        //         for(i = 0; i < uniqueNames.length; i++){
+        //             list.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
+        //         }
+        //     }
+        // });
+        namesDiv.push(sessionStorage.getItem("name"));
+
         this.state = {
             pName: "",
             fName: "",
@@ -90,8 +70,8 @@ class PatientSearch extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getRequest = this.getRequest.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
-        this.selectUser = this.selectUser.bind(this);
-        this.findUser = this.findUser.bind(this);
+        // this.selectUser = this.selectUser.bind(this);
+        // this.findUser = this.findUser.bind(this);
     }
 
     togglePopup() {
@@ -100,15 +80,15 @@ class PatientSearch extends Component {
         });
     }
 
-    findUser(user){
-        for(var i = 0; i < this.state.namesDiv.length; i++){
-            var name = this.state.namesDiv[i].first.trim() + " " + this.state.namesDiv[i].last.trim();
-            if(name.toLocaleLowerCase() === user.toLocaleLowerCase()){
-                return ([this.state.namesDiv[i].first.trim(), this.state.namesDiv[i].last.trim()])
-            }
-        }
-        return["," , ","];
-    }
+    // findUser(user){
+    //     for(var i = 0; i < this.state.namesDiv.length; i++){
+    //         var name = this.state.namesDiv[i].first.trim() + " " + this.state.namesDiv[i].last.trim();
+    //         if(name.toLocaleLowerCase() === user.toLocaleLowerCase()){
+    //             return ([this.state.namesDiv[i].first.trim(), this.state.namesDiv[i].last.trim()])
+    //         }
+    //     }
+    //     return["," , ","];
+    // }
 
     handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -137,8 +117,9 @@ class PatientSearch extends Component {
     }
 
     async getRequest(name, url){
-        var nameSplit = this.findUser(this.state.pName);
-        let getUrl = 'http://localhost:8180/auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
+        var nameSplit = sessionStorage.getItem("name").split(" ");
+        // var nameSplit = this.findUser(this.state.pName);
+        let getUrl = 'http://localhost:8180/auth/patients/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date)
             let start_time = date.getTime();
@@ -165,7 +146,7 @@ class PatientSearch extends Component {
         return({
             values: response.data.data,
             name : name,
-            numOfUsers: response.data.data.length
+            // numOfUsers: response.data.data.length
         });
     }
 
@@ -227,50 +208,50 @@ class PatientSearch extends Component {
         var numOfUsers = 0;
         var arr = []
         var  i = 0;
-        let response = await this.getRequest("צעדים", "metrics/getSteps");
-        if(!response){
-            window.alert("לא קיים מטופל");
-            return;
-        }
+        let response = await this.getRequest("צעדים", "metrics/steps");
+        // if(!response){
+        //     window.alert("לא קיים מטופל");
+        //     return;
+        // }
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        response = await this.getRequest("מרחק", "metrics/getDistance")
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        response = await this.getRequest("מרחק", "metrics/distance")
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        response = await this.getRequest("קלוריות", "metrics/getCalories")
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        response = await this.getRequest("קלוריות", "metrics/calories")
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        response = await this.getRequest("מזג האוויר", "metrics/getWeather")
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        response = await this.getRequest("מזג האוויר", "metrics/weather")
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        response = await this.getRequest("שעות שינה", "metrics/getSleep");
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        response = await this.getRequest("שעות שינה", "metrics/sleep");
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        response = await this.getRequest("תשובות יומיות", "answers/getDailyAnswers")
-        if(response.numOfUsers > numOfUsers){
-            numOfUsers = response.numOfUsers;
-        }
-        let responseQ = await this.getRequest("שאלון תקופתי", "answers/getPeriodicAnswers")
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        response = await this.getRequest("תשובות יומיות", "answers/dailyAnswers")
+        // if(response.numOfUsers > numOfUsers){
+        //     numOfUsers = response.numOfUsers;
+        // }
+        let responseQ = await this.getRequest("שאלון תקופתי", "answers/periodicAnswers")
         var num = 0;
         var id = {};
         for(i = 0; i < responseQ.values.length; i++){
@@ -285,40 +266,39 @@ class PatientSearch extends Component {
         this.setState({
             dataArr : arr,
             dailyA: response.values,
-            numOfUsers: numOfUsers,
+            // numOfUsers: numOfUsers,
             questionnaire: responseQ
         })
-        if(numOfUsers === 1){
             let x = this.state.dailyA[0].UserID["BirthDate"];
             if(!x)
                 x = this.state.periodicAnswers[0].UserID["BirthDate"];
             if(!x)
                 x = this.state.dataArr[0][0].UserID["BirthDate"];
             this.selectUser(x)
-        }
-        if(numOfUsers > 1){
-            var cards = [];
-            for(i = 0; i < numOfUsers; i++){
-                let x = this.state.dailyA[i].UserID["BirthDate"];
-                if(!x)
-                    x = this.state.periodicAnswers[i].UserID["BirthDate"];
-                if(!x)
-                    x = this.state.dataArr[0][i].UserID["BirthDate"];
-                let dateC = new Date(x);
-                this.state.x.push(dateC.toLocaleDateString('en-GB', {day: 'numeric', month: 'numeric', year:"numeric"}))
-                cards.push(
-                    <Card className="card" key={this.state.x[i]}  onClick={() => this.selectUser(x)}>
-                        <Card.Body className="cardBody">שם פרטי: {this.state.pName.trim()} </Card.Body>
-                        <Card.Body className="cardBody">שם משפחה: {this.state.fName.trim()} </Card.Body>
-                        <Card.Body className="cardBody">תאריך לידה: {this.state.x[i]}</Card.Body>
-                    </Card>
-                );
-            }
-            this.setState({
-                text: cards
-            })
-            this.togglePopup();
-        }
+        // }
+        // if(numOfUsers > 1){
+        //     var cards = [];
+        //     for(i = 0; i < numOfUsers; i++){
+        //         let x = this.state.dailyA[i].UserID["BirthDate"];
+        //         if(!x)
+        //             x = this.state.periodicAnswers[i].UserID["BirthDate"];
+        //         if(!x)
+        //             x = this.state.dataArr[0][i].UserID["BirthDate"];
+        //         let dateC = new Date(x);
+        //         this.state.x.push(dateC.toLocaleDateString('en-GB', {day: 'numeric', month: 'numeric', year:"numeric"}))
+        //         cards.push(
+        //             <Card className="card" key={this.state.x[i]}  onClick={() => this.selectUser(x)}>
+        //                 <Card.Body className="cardBody">שם פרטי: {this.state.pName.trim()} </Card.Body>
+        //                 <Card.Body className="cardBody">שם משפחה: {this.state.fName.trim()} </Card.Body>
+        //                 <Card.Body className="cardBody">תאריך לידה: {this.state.x[i]}</Card.Body>
+        //             </Card>
+        //         );
+        //     }
+        //     this.setState({
+        //         text: cards
+        //     })
+        //     this.togglePopup();
+        // }
     }
 
     render() {
@@ -326,6 +306,7 @@ class PatientSearch extends Component {
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
+
                 <datalist id="first-list">
                     {this.state.optionsPName}
                 </datalist>
@@ -334,19 +315,19 @@ class PatientSearch extends Component {
                 </datalist>
                 <form onSubmit={this.handleSubmit}>
                     <div className="search">
-                        <label className="lSearch" >
-                            חפש מטופל:
-                        </label>
-                        <input className="iSearch"
-                               id="pname"
-                               type="text"
-                               name="pName"
-                               value={this.state.pName}
-                               placeholder="שם פרטי ומשפחה"
-                               onChange={this.handleChange}
-                               list="first-list"
-                               required
-                        />
+                    {/*    <label className="lSearch" >*/}
+                    {/*        חפש מטופל:*/}
+                    {/*    </label>*/}
+                    {/*    <input className="iSearch"*/}
+                    {/*           id="pname"*/}
+                    {/*           type="text"*/}
+                    {/*           name="pName"*/}
+                    {/*           value={this.state.pName}*/}
+                    {/*           placeholder="שם פרטי ומשפחה"*/}
+                    {/*           onChange={this.handleChange}*/}
+                    {/*           list="first-list"*/}
+                    {/*           required*/}
+                    {/*    />*/}
                         <button className="bSearch">
                             חפש
                         </button>
@@ -509,15 +490,17 @@ export default PatientSearch
 
 class Popup extends React.Component {
     render() {
-        return (
-            <div className='popup'>
-                <div className='popup_inner' >
-                    <button onClick={this.props.closePopup} id="x">x</button>
-                    <h4>:אנא בחר מבין הרשומות הבאות</h4>
-                    {this.props.text}
-                </div>
-            </div>
-        );
+        return
+        // (
+            // <div className='popup'>
+            //     <div className='popup_inner' >
+            //         <button onClick={this.props.closePopup} id="x">x</button>
+            //         <h4>:אנא בחר מבין הרשומות הבאות</h4>
+            //         {this.props.text}
+            //     </div>
+            // </div>
+        // )
+        ;
     }
 }
 /*
