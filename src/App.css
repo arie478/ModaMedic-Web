@@ -1,4 +1,4 @@
-.App, App-header{
+.App, .App-header{
   text-align: center;
   width:100%;
 }
@@ -32,7 +32,7 @@ div.App, div.App-header {
 }
 
 #change:hover{
-  color: blue;
+  color: dimgray;
   text-decoration: underline;
   cursor: pointer;
 }

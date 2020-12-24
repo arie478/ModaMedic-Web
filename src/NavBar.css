@@ -1,0 +1,218 @@
+.bg-dark {
+    background-color: #343a40!important;
+}
+
+/*.navbar .navbar-expand .navbar-dark .bg-dark{*/
+/*    position: relative;*/
+/*    padding: .5rem 1rem;*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    align-items: center;*/
+/*    justify-content: space-between;*/
+/*}*/
+
+/*!*.navbar-expand {*!*/
+/*!*    flex-flow: row nowrap;*!*/
+/*!*    justify-content: flex-start;*!*/
+/*!*}*!*/
+
+.navbar, .navbar .container, .navbar .container-fluid, .navbar .container-lg, .navbar .container-md, .navbar .container-sm, .navbar .container-xl {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar {
+    position: relative;
+    padding: .5rem 1rem;
+    display: flex;
+    /*flex-wrap: wrap;*/
+    align-items: center;
+    justify-content: space-between;
+}
+
+/*!*.after, .before {*!*/
+/*!*    box-sizing: border-box;*!*/
+/*!*}*!*/
+
+/*.article, .aside, .figcaption, .figure, .footer, .header, .hgroup, .main, .nav, .section {*/
+/*    display: block;*/
+/*}*/
+
+
+
+/*.button {*/
+/*    color: white;*/
+/*    font-size: medium;*/
+/*    margin-top: 10px;*/
+/*    width: -moz-fit-content;*/
+/*    width: fit-content;*/
+/*    float: left;*/
+/*    margin-left: 0%;*/
+/*}*/
+
+
+
+
+#labels #hello {
+    float: right;
+    font-size: medium;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+div.App, div.App-header {
+    width:100%;
+}
+
+#change{
+    font-size: medium;
+    margin-top: 10px;
+    width: fit-content;
+    float: left;
+    margin-left: 0%;
+    background: #343a40;
+    color: white;
+}
+
+#sep{
+    font-size: medium;
+    margin-top: 10px;
+    width: fit-content;
+    float: left;
+    margin-right: 8px;
+    margin-left: 8px;
+}
+
+#change:hover{
+    color: darkslategray;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#labels {
+    overflow: hidden;/* Makes this div contain its floats */
+}
+
+#logout{
+    float: left;
+    text-align: left;
+    font-size: medium;
+    margin-top: 10px;
+}
+
+.lineC{
+    direction: rtl;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+#logout:hover{
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.App-header {
+    background-color: white;
+    min-height: 20vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+}
+
+.App-link {
+    color: #61dafb;
+}
+
+.popup {
+
+    float: right;
+    text-align: right;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: rgba(0,0,0, 0.5);
+}
+
+.popup_inner {
+
+    position: absolute;
+    left: 35%;
+    right: 35%;
+    top: 25%;
+    bottom: 35%;
+    margin: auto;
+    background: white;
+}
+
+#pass, #pass2{
+    width: 40%;
+}
+
+#h3{
+    text-align: center;
+}
+
+#x {
+    color: rgb(180, 180, 180);
+    font-size: large;
+    font-family: Arial, sans-serif;
+    float: right;
+    text-align: right;
+    background-color: white;
+    font-weight: bolder;
+    width: fit-content;
+    margin-top: 0;
+}
+
+#diffPass{
+    font-weight: bold;
+}
+
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+    position: absolute;
+}
+
+.navbar-nav .dropdown-menu {
+    position: static;
+    float: none;
+}
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1000;
+    display: none;
+    float: left;
+    min-width: 10rem;
+    padding: .5rem 0;
+    margin: .125rem 0 0;
+    font-size: 1rem;
+    color: #212529;
+    text-align: left;
+    list-style: none;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    border-radius: .25rem;
+}
+
+#dropdown-item-button{
+    color: white;
+}

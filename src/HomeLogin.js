@@ -5,6 +5,12 @@ import Logo from "./Logo"
 import {
     Redirect
 } from "react-router-dom";
+import Navbar from "react-bootstrap/cjs/Navbar";
+import Button from "react-bootstrap/Button";
+import Nav from "react-bootstrap/Nav";
+import Container from "react-bootstrap/Container";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import NavBar from "./NavBar";
 
 
 class HomeLogin extends Component{
@@ -16,9 +22,10 @@ class HomeLogin extends Component{
         }
         return(
             <div>
+
                 <div className="Home">
-                    {sessionStorage.getItem("doctor") === "true" ?  <Redirect from={path} to="/search" /> : null  }
-                    {sessionStorage.getItem("patient") === "true" ?  <Redirect from={path} to="/patientSearch" /> : null  }
+                    {sessionStorage.getItem("token") ?  <Redirect from={path} to="/search" /> : null  }
+                    <br />
                     <header className="Home-header">
                         <Logo />
                         <Login />
