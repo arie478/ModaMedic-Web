@@ -215,4 +215,11 @@ div.App, div.App-header {
 
 #dropdown-item-button{
     color: white;
+    margin-right: initial;
+}
+
+.userIcon{
+    float: right;
+    margin-top: -20px;
+    margin-right: -25px;
 }

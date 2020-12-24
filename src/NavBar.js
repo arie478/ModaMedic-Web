@@ -8,7 +8,7 @@ import {Redirect} from "react-router-dom";
 import axios from "axios";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-// import { MDBIcon } from "mdbreact";
+import { FaUser } from 'react-icons/fa'
 
 
 class NavBar extends React.Component {
@@ -100,35 +100,30 @@ class NavBar extends React.Component {
     }
 
 
+
 render() {
+    require("./NavBar.css");
     return (
         <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
             <Navbar.Brand>
                 <img
                     alt=""
                     src={require("./first_logo.png")}
-                    width="60"
+                    width="70"
                     height="30"
                     className="d-inline-block align-top"
                 />{' '}
             </Navbar.Brand>
-            {/*<MDBIcon icon="user" className="mr-2" />*/}
-            <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
-                <NavDropdown.ItemText ></NavDropdown.ItemText>
+<div>
+               <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
                 <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
                 <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
                 <NavDropdown.Item as="button">פרטים אישיים</NavDropdown.Item>
-            </NavDropdown>
-            {/*<NavDropdown style={{color : 'white'}} title = {sessionStorage.getItem("name")} id="basic-nav-dropdown">*/}
-            {/*    <NavDropdown.Item onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>*/}
-            {/*    <NavDropdown.Item onClick={() => this.logout()}>התנתק</NavDropdown.Item>*/}
-            {/*    /!*<NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>*!/*/}
-            {/*</NavDropdown>*/}
-            {/*<NavItem style={{color : 'white'}}> {sessionStorage.getItem("name")} </NavItem>*/}
-            {/*<Button id="sep" onClick={() => this.change()}> |</Button>*/}
-            {/*<Button class="text" id="change" onClick={() => this.change()}>שנה סיסמא</Button>*/}
+            </NavDropdown><FaUser class="userIcon" style={{color: 'white'}}/>
+
+        </div>
             {/*<Button id="change" onClick={() => this.logout()}>התנתק</Button>*/}
-            <Button id="change">מדדים אישיים</Button>
+            <Button id="change" >מדדים אישיים</Button>
             <Button id="change">שאלונים</Button>
             <Button id="change">לוח הודעות</Button>
             <Button id="change">תרגולים רפואיים</Button>

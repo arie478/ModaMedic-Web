@@ -33,28 +33,6 @@ class Search extends Component {
                 }
             }
         });
-        /*
-        axios.get(
-            "http://localhost:8180/auth/usersAll/getLasts",
-            { 
-                headers: { 
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                } 
-            }
-        ).then(function (response){
-            if(response.data.data){
-                var names = response.data.data.map(function(item, i){
-                    return item.trim();
-                })
-                names = names.sort();
-                var uniqueNames = Array.from(new Set(names));
-                for(var  i = 0; i < uniqueNames.length; i++){
-                    list1.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
-                }
-            }
-        });
-        */
         this.state = {
             pName: "",
             fName: "",
