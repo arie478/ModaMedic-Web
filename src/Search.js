@@ -5,7 +5,7 @@ import DisplayButton from './DisplayButton';
 
 class Search extends Component {
     constructor() {
-        super()
+        super();
         var date = new Date();
         var x = date.toISOString().split("T")[0];
         var list = [], list1 = [];
@@ -120,21 +120,21 @@ class Search extends Component {
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date)
             let start_time = date.getTime();
-            getUrl += ("&start_time=" + start_time); 
+            getUrl += ("&start_time=" + start_time);
         }
         if(this.state.end_date !== ""){
             date = new Date(this.state.end_date)
             date = new Date(date.getTime() + 86400000);
             let end_time = date.getTime();
-            getUrl += ("&end_time=" + end_time); 
+            getUrl += ("&end_time=" + end_time);
         }
             const response = await axios.get(
                 getUrl,
-                { 
-                    headers: { 
+                {
+                    headers: {
                         'Content-Type': 'application/json',
                         'x-auth-token': sessionStorage.getItem("token")
-                    } 
+                    }
                 }
             );
             if(response.data.message === "Not Found"){

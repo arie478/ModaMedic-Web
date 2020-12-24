@@ -2,10 +2,12 @@ import React, {Component} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route
+    Route, Redirect
 } from "react-router-dom";
 import App from './App';
 import HomeLogin from './HomeLogin';
+import MessagesPage from "./MessagesPage";
+import PatientSearch from "./PatientSearch";
 
 
 class Home extends Component{
@@ -16,14 +18,20 @@ class Home extends Component{
     */
 
     render(){
+        const patientSearch = <PatientSearch/>;
+        const messagesPage = <MessagesPage/>;
         return(
             <Router basename={window.location.pathname || ''}>
+            {/*<Router basename={window.location.pathname || ''}>*/}
                 <Switch>
                     <Route exact path="/">
                         <HomeLogin />
                     </Route>
-                    <Route path="/search">
-                        <App />
+                    <Route exact path="/search">
+                        <App component={patientSearch}/>
+                    </Route>
+                    <Route exact path="/messages">
+                        <App component={messagesPage}/>
                     </Route>
                 </Switch>
               </Router>

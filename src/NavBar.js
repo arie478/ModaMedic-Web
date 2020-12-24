@@ -8,7 +8,9 @@ import {Redirect} from "react-router-dom";
 import axios from "axios";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import { FaUser } from 'react-icons/fa'
+import { FaUser,FaUserMd } from 'react-icons/fa'
+// import {FaUserMd} from "react-icons";
+import NavLink from "react-bootstrap/NavLink";
 
 
 class NavBar extends React.Component {
@@ -19,13 +21,29 @@ class NavBar extends React.Component {
             pass: "",
             pass2: "",
             diff: false,
-            isLogOut: false
+            isLogOut: false,
+            isMessage: false,
+            isPatientInfo: false
         };
         this.logout = this.logout.bind(this);
         this.change = this.change.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
+    goToMessages() {
+        this.setState({
+            isPatientInfo: false,
+            isMessage: true
+        })
+    }
+
+    goToSearch() {
+        this.setState({
+            isPatientInfo: true,
+            isMessage:false
+        })
     }
 
     togglePopup() {
@@ -100,9 +118,21 @@ class NavBar extends React.Component {
     }
 
 
+    isDoctor(){
+        return sessionStorage.getItem('doctor')
+    }
+
 
 render() {
+    var path = window.location.pathname;
     require("./NavBar.css");
+    var iconType;
+    if (this.isDoctor()) {
+        iconType = <FaUserMd class="userIcon" style={{color: 'white'}} size={25}/>
+
+    }else{
+        iconType =  <FaUser class="userIcon" style={{color: 'white'}} size={25}/>
+    }
     return (
         <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
             <Navbar.Brand>
@@ -119,15 +149,16 @@ render() {
                 <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
                 <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
                 <NavDropdown.Item as="button">פרטים אישיים</NavDropdown.Item>
-            </NavDropdown><FaUser class="userIcon" style={{color: 'white'}}/>
+            </NavDropdown>{iconType}
 
         </div>
-            {/*<Button id="change" onClick={() => this.logout()}>התנתק</Button>*/}
-            <Button id="change" >מדדים אישיים</Button>
+            <Button id="change" onClick={() => this.goToSearch()}>מדדים אישיים</Button>
             <Button id="change">שאלונים</Button>
-            <Button id="change">לוח הודעות</Button>
+            <Button id="change" onClick={() => this.goToMessages()}>לוח הודעות</Button>
             <Button id="change">תרגולים רפואיים</Button>
             <Button id="change">הדרכות ניתוח</Button>
+            {this.state.isMessage ? <Redirect to="/messages" /> : null}
+            {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
             {this.state.isLogOut ? <Redirect to="/" /> : null}
             {this.state.showPopup ?
                 <Popup

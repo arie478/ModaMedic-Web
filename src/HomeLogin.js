@@ -11,6 +11,8 @@ import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import NavBar from "./NavBar";
+import PatientSearch from "./PatientSearch";
+import App from "./App";
 
 
 class HomeLogin extends Component{

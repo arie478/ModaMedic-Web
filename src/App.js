@@ -10,6 +10,7 @@ import "./PatientSearch";
 import Logo from './Logo';
 import PatientSearch from "./PatientSearch";
 import NavBar from "./NavBar";
+import MessagesPage from "./MessagesPage";
 
 
 class App extends Component {
@@ -109,7 +110,8 @@ class App extends Component {
         <div className="App">
           <header className="App-header">
             <Logo />
-            <PatientSearch />
+              {this.props.component}
+            {/*<PatientSearch />*/}
             {/*{this.state.isLogOut ? <Redirect to="/" /> : null}*/}
             <br />
           </header>
