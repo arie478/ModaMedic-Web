@@ -11,6 +11,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaUser,FaUserMd } from 'react-icons/fa'
 // import {FaUserMd} from "react-icons";
 import NavLink from "react-bootstrap/NavLink";
+import 'bootstrap/dist/css/bootstrap.css'
+
 
 
 class NavBar extends React.Component {
@@ -123,52 +125,58 @@ class NavBar extends React.Component {
     }
 
 
-render() {
-    var path = window.location.pathname;
-    require("./NavBar.css");
-    var iconType;
-    if (this.isDoctor()) {
-        iconType = <FaUserMd class="userIcon" style={{color: 'white'}} size={25}/>
+    render() {
+        var path = window.location.pathname;
+        require("./NavBar.css");
+        var iconType;
+        if (this.isDoctor()) {
+            iconType = <FaUserMd class="userIcon" style={{color: 'white'}} size={25}/>
 
-    }else{
-        iconType =  <FaUser class="userIcon" style={{color: 'white'}} size={25}/>
-    }
-    return (
-        <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
-            <Navbar.Brand>
-                <img
-                    alt=""
-                    src={require("./first_logo.png")}
-                    width="70"
-                    height="30"
-                    className="d-inline-block align-top"
-                />{' '}
-            </Navbar.Brand>
-<div>
-               <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
-                <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
-                <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
-                <NavDropdown.Item as="button">פרטים אישיים</NavDropdown.Item>
-            </NavDropdown>{iconType}
+        }else{
+            iconType =  <FaUser class="userIcon" style={{color: 'white'}} size={25}/>
+        }
+        return (
+            <div>
+                <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
+                    <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
+                    <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
+                    <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
+                    <NavDropdown.Item as="button">פרטים אישיים</NavDropdown.Item>
+                </NavDropdown>
 
-        </div>
-            <Button id="change" onClick={() => this.goToSearch()}>מדדים אישיים</Button>
-            <Button id="change">שאלונים</Button>
-            <Button id="change" onClick={() => this.goToMessages()}>לוח הודעות</Button>
-            <Button id="change">תרגולים רפואיים</Button>
-            <Button id="change">הדרכות ניתוח</Button>
-            {this.state.isMessage ? <Redirect to="/messages" /> : null}
-            {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
-            {this.state.isLogOut ? <Redirect to="/" /> : null}
-            {this.state.showPopup ?
-                <Popup
-                    change={this.handleChange.bind(this)}
-                    closePopup={this.togglePopup.bind(this)}
-                    handleSubmit={this.handleSubmit.bind(this)}
-                    diff={this.state.diff}
-                /> : null
-            }
-        </Navbar>
+                    {iconType}
+                    <div id="buttons">
+                        <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
+                        <button id="change" class="btn btn-dark" type="button">שאלונים</button>
+                        <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
+                        <button id="change" class="btn btn-dark" type="button" >תרגולים רפואיים</button>
+                        <button id="change" class="btn btn-dark"type="button">הדרכות ניתוח</button>
+                        {this.state.isMessage ? <Redirect to="/messages" /> : null}
+                        {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
+                        {this.state.isLogOut ? <Redirect to="/" /> : null}
+                        {this.state.showPopup ?
+                            <Popup
+                                change={this.handleChange.bind(this)}
+                                closePopup={this.togglePopup.bind(this)}
+                                handleSubmit={this.handleSubmit.bind(this)}
+                                diff={this.state.diff}
+                            /> : null
+                        }
+                    </div>
+
+                    <Navbar.Brand>
+                        <img
+                            alt=""
+                            src={require("./first_logo.png")}
+                            width="70"
+                            height="30"
+                            className="d-inline-block align-top"
+                        />{' '}
+                    </Navbar.Brand>
+                </Navbar>
+                <br/>
+                <br/>
+            </div>
         )
     };
 }
@@ -178,7 +186,7 @@ export default NavBar;
 class Popup extends React.Component {
 
     render() {
-        require("./App.css");
+        // require("./App.css");
         return (
             <div className='popup'>
                 <div className='popup_inner'>

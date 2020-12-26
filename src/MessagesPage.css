@@ -1,0 +1,49 @@
+/*.table-bordered, .table-bordered td, .table-bordered th {*/
+/*    border: 1px solid #dee2e6;*/
+/*}*/
+
+.table {
+    width: 100%;
+    margin-bottom: 3rem;
+    color: #212529;
+}
+#mdd table {
+    border-collapse: collapse;
+
+}
+
+    /*.tableMessages{*/
+    /*    height: 150%;*/
+    /*    width: 150%;*/
+    /*    align-items: center;*/
+    /*    !*width: fit-content;*!*/
+    /*    margin-left:auto;*/
+    /*    margin-right:auto;*/
+    /*}*/
+
+/*.ReactPlayground-StyledExample-module--cls2--Z1-mo {*/
+/*    position: relative;*/
+/*    padding: 1rem;*/
+/*    border: .2rem solid #ececec;*/
+/*    border-radius: 8px;*/
+/*    margin-right: 0;*/
+/*    margin-left: 0;*/
+/*    color: #212529;*/
+/*}*/
+
+#mdd th{
+    height: 35px;
+    width: 150px;
+}
+
+#mdd td{
+    height: 35px;
+    width: 150px;
+}
+
+
+#mdd tr {
+    display: table-row;
+    vertical-align: inherit;
+    border-color: inherit;
+}

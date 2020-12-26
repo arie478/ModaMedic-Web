@@ -3,36 +3,13 @@ import axios from 'axios';
 import Card from 'react-bootstrap/Card'
 import DisplayButton from './DisplayButton';
 
-class Search extends Component {
+class PatientSearch extends Component {
+
+
     constructor() {
         super();
         var date = new Date();
         var x = date.toISOString().split("T")[0];
-        var list = [], list1 = [];
-        var namesDiv = [];
-        axios.get(
-            "http://localhost:8180/auth/usersAll/getNames",
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }
-        ).then(function (response){
-            if(response.data.data){
-                for(var i = 0; i < response.data.data.length; i++){
-                    namesDiv.push(response.data.data[i]);
-                }
-                var names = response.data.data.map(function(item, i){
-                    return item.first.trim() + " " + item.last.trim();
-                })
-                names = names.sort();
-                var uniqueNames = Array.from(new Set(names));
-                for(i = 0; i < uniqueNames.length; i++){
-                    list.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
-                }
-            }
-        });
         this.state = {
             pName: "",
             fName: "",
@@ -57,24 +34,62 @@ class Search extends Component {
             weekly: false,
             monthly: false,
             user: {},
-            ready: false, 
+            ready: false,
             todayDate: x,
-            optionsPName: list,
-            optionsLName: list1,
+            // optionsPName: [],
             className: "normal",
-            namesDiv: namesDiv
-        }
+            // namesDiv: [],
+            isFetchingNames: false
+        };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getRequest = this.getRequest.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
         this.selectUser = this.selectUser.bind(this);
         this.findUser = this.findUser.bind(this);
+        this.fetchNames = this.fetchNames.bind(this)
+    }
+    componentDidMount() {
+        if (sessionStorage.getItem('doctor')) {
+            this.fetchNames();
+        }
     }
 
+    async fetchNames(){
+        var list = [];
+        var namesDiv = [];
+        this.setState({isFetchingNames: true});
+        var response = await axios.get(
+            "http://localhost:8180/auth/usersAll/getNames",
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                }
+            }
+        );
+        if(response.data.data){
+            for(var i = 0; i < response.data.data.length; i++){
+                namesDiv.push(response.data.data[i]);
+            }
+            var names = response.data.data.map(function(item, i){
+                return item.first.trim() + " " + item.last.trim();
+            });
+            names = names.sort();
+            var uniqueNames = Array.from(new Set(names));
+            for(i = 0; i < uniqueNames.length; i++){
+                list.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
+            }
+        }
+        this.setState({
+            isFetchingNames: false,
+            optionsPName: list,
+            namesDiv: namesDiv,
+        });
+    }
     togglePopup() {
         this.setState({
-          showPopup: !this.state.showPopup
+            showPopup: !this.state.showPopup
         });
     }
 
@@ -114,7 +129,17 @@ class Search extends Component {
         }
     }
 
-    async getRequest(name, url){
+    async getRequest(name,url){
+        if(sessionStorage.getItem('doctor')){
+            return this.getDoctorRequest(name, url);
+        }
+        if(sessionStorage.getItem('patient')){
+            return this.getPatientRequest(name, url);
+        }
+        return null;
+    }
+
+    async getDoctorRequest(name, url){
         var nameSplit = this.findUser(this.state.pName);
         let getUrl = 'http://localhost:8180/auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
         if(this.state.start_date !== ""){
@@ -128,24 +153,60 @@ class Search extends Component {
             let end_time = date.getTime();
             getUrl += ("&end_time=" + end_time);
         }
-            const response = await axios.get(
-                getUrl,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem("token")
-                    }
+        const response = await axios.get(
+            getUrl,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
-            );
-            if(response.data.message === "Not Found"){
-                return null;
             }
-            return({
-                values: response.data.data,
-                name : name,
-                numOfUsers: response.data.data.length
-            });
+        );
+        if(response.data.message === "Not Found"){
+            return null;
+        }
+        return({
+            values: response.data.data,
+            name : name,
+            numOfUsers: response.data.data.length
+        });
     }
+
+    async getPatientRequest(name, url){
+        let getUrl = `http://localhost:8180/auth/patients/${url}`;
+        let start_time;
+        if(this.state.start_date !== ""){
+            var date = new Date(this.state.start_date);
+            start_time = date.getTime();
+            // getUrl += ("&start_time=" + start_time);
+        }
+        let end_time;
+        if(this.state.end_date !== ""){
+            date = new Date(this.state.end_date)
+            date = new Date(date.getTime() + 86400000);
+            end_time = date.getTime();
+            // getUrl += ("&end_time=" + end_time);
+        }
+        const response = await axios.get(
+            getUrl,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                },
+                params: {
+                    start_time: start_time,
+                    end_time: end_time
+                }
+            }
+        );
+        return({
+            values: response.data.data,
+            name : name,
+            numOfUsers: response.data.data.length
+        });
+    }
+
 
     async selectUser(key){
         let arr = this.state.dataArr;
@@ -187,7 +248,7 @@ class Search extends Component {
             user: user,
             ready: true,
             className: "normal"
-        })
+        });
         if(this.state.showPopup){
             this.togglePopup();
         }
@@ -201,9 +262,9 @@ class Search extends Component {
             ready: false,
             className: "waiting",
             periodicAnswers: []
-        })
+        });
         var numOfUsers = 0;
-        var arr = []
+        var arr = [];
         var  i = 0;
         let response = await this.getRequest("צעדים", "metrics/getSteps");
         if(!response){
@@ -249,7 +310,7 @@ class Search extends Component {
             numOfUsers = response.numOfUsers;
         }
         let responseQ = await this.getRequest("שאלון תקופתי", "answers/getPeriodicAnswers")
-        var num = 0; 
+        var num = 0;
         var id = {};
         for(i = 0; i < responseQ.values.length; i++){
             if(!id[responseQ.values[i].UserID]){
@@ -265,7 +326,7 @@ class Search extends Component {
             dailyA: response.values,
             numOfUsers: numOfUsers,
             questionnaire: responseQ
-        })
+        });
         if(numOfUsers === 1){
             let x = this.state.dailyA[0].UserID["BirthDate"];
             if(!x)
@@ -294,14 +355,40 @@ class Search extends Component {
             }
             this.setState({
                 text: cards
-            })
+            });
             this.togglePopup();
         }
     }
-
+    isDoctor(){
+        return sessionStorage.getItem('doctor')
+    }
     render() {
         require("./search.css");
         var today = (new Date()).toISOString().split("T")[0];
+        var searchButton;
+
+        if (this.isDoctor()) {
+            searchButton = <div className="search">
+                <label className="lSearch">
+                    חפש מטופל:
+                </label>
+                <input className="iSearch"
+                       id="pname"
+                       type="text"
+                       name="pName"
+                       value={this.state.pName}
+                       placeholder="שם פרטי ומשפחה"
+                       onChange={this.handleChange}
+                       list="first-list"
+                       required
+                />
+                <button className="bSearch">
+                    חפש
+                </button>
+            </div>
+        } else {
+            searchButton = <div><button className="bSearch">חפש</button></div>
+        }
         return (
             <div>
                 <datalist id="first-list">
@@ -310,110 +397,94 @@ class Search extends Component {
                 <datalist id="last-list">
                     {this.state.optionsLName}
                 </datalist>
+
                 <form onSubmit={this.handleSubmit}>
-                    <div className="search">
-                        <label className="lSearch" >
-                                חפש מטופל:
-                        </label>
-                        <input className="iSearch"
-                            id="pname"
-                            type="text" 
-                            name="pName"
-                            value={this.state.pName} 
-                            placeholder="שם פרטי ומשפחה" 
-                            onChange={this.handleChange} 
-                            list="first-list"
-                            required
-                        />
-                        <button className="bSearch"> 
-                            חפש
-                        </button>
-                    </div>
+                    {searchButton}
                     <div className="dates">
-                            <label className="cSearch">
-                                בחר תאריכים: מ
-                            </label>
-                            <input className="dSearch"
-                                type="date"
-                                name="start_date"
-                                value={this.state.start_date} 
-                                onChange={this.handleChange}
-                                max={this.state.end_date}
-                            />
-                            <label className="aSearch">
-                                עד
-                            </label>
-                            <input className="dSearch"
-                                type="date"
-                                name="end_date"
-                                value={this.state.end_date} 
-                                onChange={this.handleChange}
-                                max={today}
-                            />
+                        <label className="cSearch">
+                            בחר תאריכים: מ
+                        </label>
+                        <input className="dSearch"
+                               type="date"
+                               name="start_date"
+                               value={this.state.start_date}
+                               onChange={this.handleChange}
+                               max={this.state.end_date}
+                        />
+                        <label className="aSearch">
+                            עד
+                        </label>
+                        <input className="dSearch"
+                               type="date"
+                               name="end_date"
+                               value={this.state.end_date}
+                               onChange={this.handleChange}
+                               max={today}
+                        />
                     </div>
                     <div className="mdd">
                         <label className="mLabel">
-                                בחר מדדים:
+                            בחר מדדים:
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="steps"
-                            checked={this.state.steps}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="steps"
+                               checked={this.state.steps}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             צעדים
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="distance"
-                            checked={this.state.distance}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="distance"
+                               checked={this.state.distance}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             מרחק
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="weather"
-                            checked={this.state.weather}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="weather"
+                               checked={this.state.weather}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             מזג האוויר
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="calories"
-                            checked={this.state.calories}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="calories"
+                               checked={this.state.calories}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             קלוריות
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="sleeping_hours"
-                            checked={this.state.sleeping_hours}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="sleeping_hours"
+                               checked={this.state.sleeping_hours}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שעות שינה
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="dailyQ"
-                            checked={this.state.dailyQ}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="dailyQ"
+                               checked={this.state.dailyQ}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שאלון יומי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="perQ"
-                            checked={this.state.perQ}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="perQ"
+                               checked={this.state.perQ}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שאלונים תקופתיים
@@ -421,40 +492,40 @@ class Search extends Component {
                     </div>
                     <div className="mddShow">
                         <label className="mLabel">
-                                בחר אופן הצגה:
+                            בחר אופן הצגה:
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="showDaily"
-                            checked={this.state.showDaily}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="showDaily"
+                               checked={this.state.showDaily}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             יומי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="weekly"
-                            checked={this.state.weekly}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="weekly"
+                               checked={this.state.weekly}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
                             שבועי
                         </label>
                         <input className="cInput"
-                            type="checkbox" 
-                            name="monthly"
-                            checked={this.state.monthly}
-                            onChange={this.handleChange}
+                               type="checkbox"
+                               name="monthly"
+                               checked={this.state.monthly}
+                               onChange={this.handleChange}
                         />
                         <label className="mLabel">
-                             חודשי
+                            חודשי
                         </label>
                     </div>
                 </form>
                 <br />
-                <DisplayButton 
-                    dataArr={this.state.dataArr} 
+                <DisplayButton
+                    dataArr={this.state.dataArr}
                     steps={this.state.steps}
                     distance={this.state.distance}
                     calories={this.state.calories}
@@ -472,7 +543,7 @@ class Search extends Component {
                     name={this.state.pName.trim() + " " + this.state.fName.trim()}
                     ready={this.state.ready}
                 />
-                {this.state.showPopup ? 
+                {this.state.showPopup ?
                     <Popup
                         text={this.state.text}
                         closePopup={this.togglePopup.bind(this)}
@@ -483,30 +554,30 @@ class Search extends Component {
     }
 }
 
-export default Search
+export default PatientSearch
 
 class Popup extends React.Component {
     render() {
-      return (
-        <div className='popup'>
-            <div className='popup_inner' >
-                <button onClick={this.props.closePopup} id="x">x</button>
-                <h4>:אנא בחר מבין הרשומות הבאות</h4>
-                {this.props.text}
+        return (
+            <div className='popup'>
+                <div className='popup_inner' >
+                    <button onClick={this.props.closePopup} id="x">x</button>
+                    <h4>:אנא בחר מבין הרשומות הבאות</h4>
+                    {this.props.text}
+                </div>
             </div>
-        </div>
-      );
+        );
     }
-  }
+}
 /*
 
                         <input className="iSearch"
                             id="fname"
-                            type="text" 
+                            type="text"
                             name="fName"
-                            value={this.state.fName} 
-                            placeholder="שם משפחה" 
-                            onChange={this.handleChange} 
+                            value={this.state.fName}
+                            placeholder="שם משפחה"
+                            onChange={this.handleChange}
                             list="last-list"
                             required
                         />

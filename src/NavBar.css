@@ -1,5 +1,6 @@
 .bg-dark {
     background-color: #343a40!important;
+    height: 50px;
 }
 
 /*.navbar .navbar-expand .navbar-dark .bg-dark{*/
@@ -16,21 +17,21 @@
 /*!*    justify-content: flex-start;*!*/
 /*!*}*!*/
 
-.navbar, .navbar .container, .navbar .container-fluid, .navbar .container-lg, .navbar .container-md, .navbar .container-sm, .navbar .container-xl {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-}
+/*.navbar, .navbar .container, .navbar .container-fluid, .navbar .container-lg, .navbar .container-md, .navbar .container-sm, .navbar .container-xl {*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    align-items: center;*/
+/*    justify-content: space-between;*/
+/*}*/
 
-.navbar {
-    position: relative;
-    padding: .5rem 1rem;
-    display: flex;
-    /*flex-wrap: wrap;*/
-    align-items: center;
-    justify-content: space-between;
-}
+/*.navbar {*/
+/*    position: relative;*/
+/*    padding: .5rem 1rem;*/
+/*    display: flex;*/
+/*    !*flex-wrap: wrap;*!*/
+/*    align-items: center;*/
+/*    justify-content: space-between;*/
+/*}*/
 
 /*!*.after, .before {*!*/
 /*!*    box-sizing: border-box;*!*/
@@ -66,14 +67,20 @@ div.App, div.App-header {
     width:100%;
 }
 
+
+#buttons{
+    margin-left: 44px;
+}
 #change{
     font-size: medium;
     margin-top: 10px;
+    margin-right: 90px;
     width: fit-content;
-    float: left;
-    margin-left: 0%;
+    float: right;
+    margin-left: 100px;
     background: #343a40;
     color: white;
+
 }
 
 #sep{
@@ -113,7 +120,7 @@ div.App, div.App-header {
 }
 
 #logout:hover{
-    color: blue;
+    color: white;
     text-decoration: underline;
     cursor: pointer;
 }
@@ -181,14 +188,14 @@ div.App, div.App-header {
     font-weight: bold;
 }
 
-.navbar-expand-lg .navbar-nav .dropdown-menu {
-    position: absolute;
-}
+/*.navbar-expand-lg .navbar-nav .dropdown-menu {*/
+/*    position: absolute;*/
+/*}*/
 
-.navbar-nav .dropdown-menu {
-    position: static;
-    float: none;
-}
+/*.navbar-nav .dropdown-menu {*/
+/*    position: static;*/
+/*    float: none;*/
+/*}*/
 .dropdown-menu.show {
     display: block;
 }
@@ -215,11 +222,11 @@ div.App, div.App-header {
 
 #dropdown-item-button{
     color: white;
-    margin-right: initial;
+    margin-right: -8px;
 }
 
 .userIcon{
     float: right;
-    margin-top: -24px;
-    margin-right: -37px;
+    margin-top: -5px;
+    margin-right: -5px;
 }

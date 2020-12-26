@@ -8,6 +8,7 @@ import App from './App';
 import HomeLogin from './HomeLogin';
 import MessagesPage from "./MessagesPage";
 import PatientSearch from "./PatientSearch";
+import Search from "./Search";
 
 
 class Home extends Component{
