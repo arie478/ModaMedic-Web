@@ -51,6 +51,7 @@ class MessagesPage extends Component {
             }).then(res => {
             window.alert("ההודעה נוספה בהצלחה!");
             this.fetchMessages();
+            this.setState({content:"כתוב את הודעתך כאן"})
         });
     }
 
