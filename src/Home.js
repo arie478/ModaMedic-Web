@@ -7,8 +7,7 @@ import {
 import App from './App';
 import HomeLogin from './HomeLogin';
 import MessagesPage from "./MessagesPage";
-import PatientSearch from "./PatientSearch";
-import Search from "./Search";
+import PatientSearchNew from "./PatientSearchNew";
 
 
 class Home extends Component{
@@ -19,20 +18,17 @@ class Home extends Component{
     */
 
     render(){
-        const patientSearch = <PatientSearch/>;
-        const messagesPage = <MessagesPage/>;
         return(
             <Router basename={window.location.pathname || ''}>
-            {/*<Router basename={window.location.pathname || ''}>*/}
                 <Switch>
                     <Route exact path="/">
                         <HomeLogin />
                     </Route>
                     <Route exact path="/search">
-                        <App component={patientSearch}/>
+                        <App component={<PatientSearchNew />}/>
                     </Route>
                     <Route exact path="/messages">
-                        <App component={messagesPage}/>
+                        <App component={<MessagesPage />}/>
                     </Route>
                 </Switch>
               </Router>

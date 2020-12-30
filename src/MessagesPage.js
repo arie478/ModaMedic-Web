@@ -1,17 +1,17 @@
 import React, {Component} from "react"
-import {Form} from "react-bootstrap";
-import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
 
+
 class MessagesPage extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             messages:[],
-            content:'כתוב את הודעתך כאן'
+            content:'כתוב את הודעתך כאן',
+            patientUserId: sessionStorage.getItem("patientUserId")
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -19,11 +19,14 @@ class MessagesPage extends Component {
 
     componentDidMount() {
         if (sessionStorage.getItem('patient')) {
-            this.fetchMessages();
+            this.fetchMessagesPatient();
+        }
+        if (sessionStorage.getItem('doctor') && sessionStorage.getItem("patientUserId")) {
+            this.fetchMessagesDoctor();
         }
     }
 
-    async fetchMessages(){
+    async fetchMessagesPatient(){
         var response = await axios.get(
             "http://localhost:8180/auth/patients/messages",
             {
@@ -38,6 +41,23 @@ class MessagesPage extends Component {
         }
     }
 
+    async fetchMessagesDoctor(){
+        let patientId = encodeURIComponent(sessionStorage.getItem("patientUserId"));
+        var response = await axios.get(
+            `http://localhost:8180/auth/doctors/messages/${patientId}`,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                }
+            }
+        );
+        if(response.data.data) {
+            this.setState({messages: response.data.data});
+        }
+    }
+
+
     async addMessage(){
         axios.post('http://localhost:8180/auth/patients/messages',
             {
@@ -50,7 +70,7 @@ class MessagesPage extends Component {
                 }
             }).then(res => {
             window.alert("ההודעה נוספה בהצלחה!");
-            this.fetchMessages();
+            this.fetchMessagesPatient();
             this.setState({content:"כתוב את הודעתך כאן"})
         });
     }
@@ -59,7 +79,7 @@ class MessagesPage extends Component {
 
     handleChange(event) {
         this.setState({content: event.target.value});
-}
+    }
 
     handleSubmit(event) {
         event.preventDefault();
@@ -71,11 +91,12 @@ class MessagesPage extends Component {
 
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        <textarea value={this.state.content} onChange={this.handleChange} />
-                    </label>
-                    <input type="submit" value="Submit" />
+                <form style={{align:"center"}} onSubmit={this.handleSubmit}>
+                    <lable>
+                    <textarea class="textarea" value={this.state.content} onChange={this.handleChange} />
+                    <br/>
+                    <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
+                    </lable>
                 </form>
                 <br/>
                 {this.state.messages.length > 0 &&
@@ -83,19 +104,17 @@ class MessagesPage extends Component {
                     <Table id="mdd" striped bordered hover>
                         <thead>
                         <tr>
-                            {/*<th>#</th>*/}
-                            <th>תאריך</th>
-                            <th>מוען</th>
-                            <th>תוכן ההודעה</th>
-
+                            <th style={{width: 250}} >תאריך</th>
+                            <th style={{width: 250}} >מוען</th>
+                            <th style={{width: 500}}>תוכן ההודעה</th>
                         </tr>
                         </thead>
                         <tbody>
                             {this.state.messages.map((message) => (
                                 <tr>
-                                    <td>{new Date(message.Date).toLocaleString()}</td>
-                                    <td>{`${message.FromFirstName} ${message.FromLastName}`}</td>
-                                    <td>{message.Content}</td>
+                                    <td style={{width: 250}}>{new Date(message.Date).toLocaleString()}</td>
+                                    <td style={{width: 250}}>{`${message.FromFirstName} ${message.FromLastName}`}</td>
+                                    <td style={{width: 500, textAlign: "right"}}>{message.Content}</td>
                                 </tr>
                             ))}
                         </tbody>

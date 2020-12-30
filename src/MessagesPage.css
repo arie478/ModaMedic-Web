@@ -6,13 +6,37 @@
     width: 100%;
     margin-bottom: 3rem;
     color: #212529;
+    text-align: center;
+    align-items: center;
 }
 #mdd table {
-    border-collapse: collapse;
+    /*border-collapse: collapse;*/
 
 }
 
-    /*.tableMessages{*/
+#root {
+    display: flex;
+    position: center;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.textarea {
+    border-color: black;
+    border-radius: 5px;
+    resize: none;
+    font-size: 20px;
+    line-height: 24px;
+    height: 200px;
+    width: 400px;
+    text-align: right;
+    /*alignment: center;*/
+    /*margin-right: auto;*/
+    /*margin-left: auto;*/
+}
+                                                                                     /*.tableMessages{*/
     /*    height: 150%;*/
     /*    width: 150%;*/
     /*    align-items: center;*/
@@ -47,3 +71,4 @@
     vertical-align: inherit;
     border-color: inherit;
 }
+

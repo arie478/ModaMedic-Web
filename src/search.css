@@ -45,10 +45,14 @@ h4{
 
 .mdd {
     margin-top: 15px;
+    margin-right: 20px;
+    text-align: center;
 }
 
 .mddShow {
     margin-top: 10px;
+    margin-right: 20px;
+
 }
 
 
@@ -82,6 +86,8 @@ h4{
 
 .cSearch{
     font-size: small;
+    -webkit-text-stroke: medium;
+
 }
 
 option{
@@ -97,6 +103,8 @@ option{
 .aSearch{
     font-size: small;
     text-align: center;
+    -webkit-text-stroke: medium;
+
 }
 
 .cInput{
@@ -107,7 +115,8 @@ option{
 .mLabel{
     font-size: small;
     color: black;
-    margin-left: 8px;
+    margin-left: 20px;
+    -webkit-text-stroke: medium;
 }
 
 
@@ -146,4 +155,8 @@ option{
 
 .normal{
     cursor: auto;
+}
+
+.space{
+    margin-left: 0.5rem;
 }

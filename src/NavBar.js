@@ -1,16 +1,10 @@
 import React from 'react'
 import "./NavBar.css"
 import { Navbar,Nav } from 'react-bootstrap'
-import PatientSearch from './PatientSearch';
-import NavItem from "react-bootstrap/NavItem";
-import Button from "react-bootstrap/Button";
 import {Redirect} from "react-router-dom";
 import axios from "axios";
 import NavDropdown from "react-bootstrap/NavDropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import { FaUser,FaUserMd } from 'react-icons/fa'
-// import {FaUserMd} from "react-icons";
-import NavLink from "react-bootstrap/NavLink";
 import 'bootstrap/dist/css/bootstrap.css'
 
 
@@ -106,10 +100,13 @@ class NavBar extends React.Component {
         sessionStorage.removeItem("type");
         sessionStorage.removeItem("name");
         sessionStorage.removeItem("doctor");
+        sessionStorage.removeItem("patient");
+        sessionStorage.removeItem("patientUserId");
         localStorage.removeItem("token");
         localStorage.removeItem("type");
         localStorage.removeItem("name");
         localStorage.removeItem("doctor");
+        localStorage.removeItem("patient");
         this.setState({
             isLogOut: true
         })

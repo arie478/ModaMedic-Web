@@ -5,14 +5,6 @@ import Logo from "./Logo"
 import {
     Redirect
 } from "react-router-dom";
-import Navbar from "react-bootstrap/cjs/Navbar";
-import Button from "react-bootstrap/Button";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import NavDropdown from "react-bootstrap/NavDropdown";
-import NavBar from "./NavBar";
-import PatientSearch from "./PatientSearch";
-import App from "./App";
 
 
 class HomeLogin extends Component{
