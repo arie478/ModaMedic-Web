@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import {Redirect} from "react-router-dom";
 
 const initialState = {
     userName: "",
@@ -13,7 +14,8 @@ const initialState = {
     questions :[],
     answerUserQuestion: "",
     selectedUserType: "patient",
-    quesionChosen: 0
+    quesionChosen: 0,
+    type: ''
 };
 
 class AddUser extends Component {
@@ -33,7 +35,15 @@ class AddUser extends Component {
             answerUserQuestion: "",
             selectedUserType: "patient",
             code: "",
-            quesionChosen: 0
+            quesionChosen: 0,
+            Gender: "",
+            Smoke: "",
+            DateOfSurgery:"",
+            SurgeryType: "",
+            Education: "",
+            Height: "",
+            Weight: "",
+            BMI:"",
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -85,29 +95,61 @@ class AddUser extends Component {
         event.preventDefault();
         var bDay = new Date(this.state.bday);
         var now = new Date();
-        axios.post('http://localhost:8180/users/doctorRegister', {
-            UserID: this.state.userName,
-            Password: this.state.password,
-            First_Name: this.state.fName,
-            Last_Name: this.state.lName,
-            Phone_Number: this.state.phone,
-            BirthDate: bDay.getTime(),
-            Code: this.state.code,
-            VerificationQuestion: this.state.quesionChosen,
-            VerificationAnswer: this.state.answerUserQuestion,
-            ValidTime: now.getTime()
-        }).then(res => {
-            if(res.data.message === "Wrong Code"){
-                window.alert("קוד האימות אינו נכון");
-            }
-            else if(res.data.message === "Taken Email"){
-                window.alert("כתובת הדואל כבר רשומה במערכת");
-            }
-            else{
-                window.alert("ההרשמה בוצעה בהצלחה נא לבצע התחברות");
-                window.location.reload(false);
-            }
-        })
+        if(this.state.type === 'doctor') {
+            axios.post('http://localhost:8180/users/doctorRegister', {
+                UserID: this.state.userName,
+                Password: this.state.password,
+                First_Name: this.state.fName,
+                Last_Name: this.state.lName,
+                Phone_Number: this.state.phone,
+                BirthDate: bDay.getTime(),
+                Code: this.state.code,
+                VerificationQuestion: this.state.quesionChosen,
+                VerificationAnswer: this.state.answerUserQuestion,
+                ValidTime: now.getTime()
+            }).then(res => {
+                if (res.data.message === "Wrong Code") {
+                    window.alert("קוד האימות אינו נכון");
+                } else if (res.data.message === "Taken Email") {
+                    window.alert("כתובת הדואל כבר רשומה במערכת");
+                } else {
+                    window.alert("ההרשמה בוצעה בהצלחה נא לבצע התחברות");
+                    window.location.reload(false);
+                }
+            })
+        }
+        if(this.state.type === 'patient') {
+            axios.post('http://localhost:8180/users/patientRegister', {
+
+                UserID: this.state.userName,
+                    Password: this.state.password,
+                First_Name: this.state.fName,
+                Last_Name: this.state.lName,
+                Phone_Number: this.state.phone,
+                Gender: this.state.gender,
+                Smoke: this.state.smoke,
+                DateOfSurgery: this.state.dateOfSurgery,
+                SurgeryType: this.state.surgeryType,
+                Education: this.state.education,
+                Height: this.state.height,
+                Weight: this.state.weight,
+                BMI:this.state.bmi,
+                BirthDate: bDay.getTime(),
+                Code: this.state.code,
+                VerificationQuestion: this.state.quesionChosen,
+                VerificationAnswer: this.state.answerUserQuestion,
+                ValidTime: now.getTime()
+            }).then(res => {
+                if (res.data.message === "Wrong Code") {
+                    window.alert("קוד האימות אינו נכון");
+                } else if (res.data.message === "Taken Email") {
+                    window.alert("כתובת הדואל כבר רשומה במערכת");
+                } else {
+                    window.alert("ההרשמה בוצעה בהצלחה נא לבצע התחברות");
+                    window.location.reload(false);
+                }
+            })
+        }
     }
 
     handleReset(event) {
@@ -138,6 +180,12 @@ class AddUser extends Component {
         });
     }
 
+    isDoctor(){
+        this.setState({type: 'doctor'})
+    }
+    isPatient(){
+        this.setState({type: 'patient'})
+    }
     render() {
         require("./AddUser.css");
         let quesions = this.state.questionsText;
@@ -148,49 +196,124 @@ class AddUser extends Component {
         return (
             
             <div>
-                <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">כתובת דוא"ל</label>
-                        <input className="inputs_in_add_user" name="userName" type="text" value={this.state.userName} onChange={e => this.handleChange(e)} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">שם פרטי</label>
-                        <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">שם משפחה </label>
-                        <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">סיסמה </label>
-                        <input className="inputs_in_add_user" name="password" type="password" value={this.state.password} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">מספר טלפון</label>
-                        <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}" value={this.state.phone} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">תאריך לידה</label>
-                        <input className="inputs_in_add_user" name="bday" type="date" max={today} value={this.state.bday} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">קוד אימות </label>
-                        <input className="inputs_in_add_user" name="code" type="text" value={this.state.code} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">שאלת אימות </label>
-                        <select className="select_in_add_user" onChange= {this.onSelect}>
-                            {optionItems}
-                        </select>
-                    </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">תשובה </label>
-                        <input className="inputs_in_add_user" name="answerUserQuestion" type="text" value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
-                    </div>
-                    <div className="divs_in_add">
-                        <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
-                    </div>
-                </form>
+                <button onClick={() => this.isDoctor()}> דוקטור </button>
+                <button onClick={() => this.isPatient()}> מטופל </button>
+                {this.state.type === 'doctor' ?
+                    <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">כתובת דוא"ל</label>
+                            <input className="inputs_in_add_user" name="userName" type="text"
+                                   value={this.state.userName} onChange={e => this.handleChange(e)} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם פרטי</label>
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם משפחה </label>
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">סיסמה </label>
+                            <input className="inputs_in_add_user" name="password" type="password"
+                                   value={this.state.password} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מספר טלפון</label>
+                            <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                   value={this.state.phone} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">תאריך לידה</label>
+                            <input className="inputs_in_add_user" name="bday" type="date" max={today}
+                                   value={this.state.bday} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">קוד אימות </label>
+                            <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שאלת אימות </label>
+                            <select className="select_in_add_user" onChange={this.onSelect}>
+                                {optionItems}
+                            </select>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">תשובה </label>
+                            <input className="inputs_in_add_user" name="answerUserQuestion" type="text"
+                                   value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
+                        </div>
+                    </form>
+                : null}
+                {this.state.type === 'patient' ?
+                    <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">כתובת דוא"ל</label>
+                            <input className="inputs_in_add_user" name="userName" type="text"
+                                   value={this.state.userName} onChange={e => this.handleChange(e)} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם פרטי</label>
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם משפחה </label>
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">סיסמה </label>
+                            <input className="inputs_in_add_user" name="password" type="password"
+                                   value={this.state.password} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מספר טלפון</label>
+                            <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                   value={this.state.phone} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">תאריך לידה</label>
+                            <input className="inputs_in_add_user" name="bday" type="date" max={today}
+                                   value={this.state.bday} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">משקל(ק"ג) </label>
+                            <input className="inputs_in_add_user" name="weight" type="number" value={this.state.weight}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">גובה(ס"מ) </label>
+                            <input className="inputs_in_add_user" name="height" type="number" value={this.state.height}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">קוד אימות </label>
+                            <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שאלת אימות </label>
+                            <select className="select_in_add_user" onChange={this.onSelect}>
+                                {optionItems}
+                            </select>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">תשובה </label>
+                            <input className="inputs_in_add_user" name="answerUserQuestion" type="text"
+                                   value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
+                        </div>
+                    </form>
+                    : null}
             </div>
         );
     }

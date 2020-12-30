@@ -180,4 +180,7 @@ align-items: center;
 margin-top: 3px;
 margin-bottom: 3px;
 }
-  
+
+.space{
+    margin-left: 0.5rem;
+}
