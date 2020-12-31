@@ -2,12 +2,10 @@ import React, {Component} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
-    Route, Redirect
+    Route
 } from "react-router-dom";
 import App from './App';
 import HomeLogin from './HomeLogin';
-import MessagesPage from "./MessagesPage";
-import PatientSearchNew from "./PatientSearchNew";
 
 
 class Home extends Component{
@@ -25,10 +23,10 @@ class Home extends Component{
                         <HomeLogin />
                     </Route>
                     <Route exact path="/search">
-                        <App component={<PatientSearchNew />}/>
+                        <App component='search'/>
                     </Route>
                     <Route exact path="/messages">
-                        <App component={<MessagesPage />}/>
+                        <App component='messages'/>
                     </Route>
                 </Switch>
               </Router>

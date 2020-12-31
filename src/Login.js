@@ -368,6 +368,7 @@ class Popup extends React.Component {
                 <div className='popup'>
                     <div className='popup_innerAdd' >
                         <button onClick={this.props.closePopup} id="x">x</button>
+                        <br/>
                         <h3>הרשמה</h3>
                         <Adduser />
                     </div>

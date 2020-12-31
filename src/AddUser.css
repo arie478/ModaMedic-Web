@@ -3,7 +3,7 @@
     text-align: right;
     float:right;
     margin-right: 10%;
-    font-size: 16px;
+    font-size: 14px;
     padding-top: 10px;
     width: 25%;
     margin-top: 2%;
@@ -21,7 +21,9 @@
     direction: rtl;
 }
 
-
+.buttonsChoose{
+    text-align: center;
+}
 
 .submit_and_reset_buttons {
     width: 80px;
@@ -50,9 +52,23 @@ h2{
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-size: calc(10px + 2vmin);
+    font-size: calc(8px + 1vmin);
 }
 
+
+.dropdownquestionnairesOption{
+    overflow: hidden;
+    text-align: center;
+}
+
+.dropdown, .dropleft {
+    position: center;
+    width: 50%;
+    text-align: right;
+    margin-left: 90px;
+    border: black;
+    background: white;
+}
 
 /*.input {*/
 /*    height: 20px;*/

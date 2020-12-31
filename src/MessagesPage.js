@@ -10,50 +10,58 @@ class MessagesPage extends Component {
         super(props);
         this.state = {
             messages:[],
-            content:'כתוב את הודעתך כאן',
-            patientUserId: sessionStorage.getItem("patientUserId")
+            content:'כתוב את הודעתך כאן'
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
-        if (sessionStorage.getItem('patient')) {
-            this.fetchMessagesPatient();
-        }
-        if (sessionStorage.getItem('doctor') && sessionStorage.getItem("patientUserId")) {
+        this.fetchMessagesPatient();
+        this.fetchMessagesDoctor();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        console.log(`prevProps ${prevProps.patientUserId}`);
+        console.log(`props ${this.props.patientUserId}`);
+        if(this.props.patientUserId && this.props.patientUserId !== prevProps.patientUserId) {
+            console.log(`inside if componentDidUpdate`);
             this.fetchMessagesDoctor();
         }
     }
 
     async fetchMessagesPatient(){
-        var response = await axios.get(
-            "http://localhost:8180/auth/patients/messages",
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
+        if(sessionStorage.getItem('patient')) {
+            var response = await axios.get(
+                "http://localhost:8180/auth/patients/messages",
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
                 }
+            );
+            if (response.data.data) {
+                this.setState({messages: response.data.data});
             }
-        );
-        if(response.data.data) {
-            this.setState({messages: response.data.data});
         }
     }
 
     async fetchMessagesDoctor(){
-        let patientId = encodeURIComponent(sessionStorage.getItem("patientUserId"));
-        var response = await axios.get(
-            `http://localhost:8180/auth/doctors/messages/${patientId}`,
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
+        if(sessionStorage.getItem('doctor') && this.props.patientUserId) {
+            let patientId = encodeURIComponent(this.props.patientUserId);
+            var response = await axios.get(
+                `http://localhost:8180/auth/doctors/messages/${patientId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
                 }
+            );
+            if (response.data.data) {
+                this.setState({messages: response.data.data});
             }
-        );
-        if(response.data.data) {
-            this.setState({messages: response.data.data});
         }
     }
 
@@ -88,15 +96,12 @@ class MessagesPage extends Component {
 
     render() {
         require("./MessagesPage.css");
-
         return (
             <div>
-                <form style={{align:"center"}} onSubmit={this.handleSubmit}>
-                    <lable>
+                <form onSubmit={this.handleSubmit}>
                     <textarea class="textarea" value={this.state.content} onChange={this.handleChange} />
                     <br/>
                     <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
-                    </lable>
                 </form>
                 <br/>
                 {this.state.messages.length > 0 &&

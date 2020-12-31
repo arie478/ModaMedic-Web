@@ -16,7 +16,7 @@ class SearchPatient extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
-        this.fetchNames = this.fetchNames.bind(this)
+        this.fetchNames = this.fetchNames.bind(this);
         this.handlePName = this.handlePName.bind(this)
     }
 
