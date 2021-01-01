@@ -12,29 +12,27 @@ const initialState = {
     lName: "",
     password: "",
     bday: new Date(),
-    email: "",
     questionsID: [],
     questionsText: [],
     questions :[],
     answerUserQuestion: "",
-    selectedUserType: "patient",
     quesionChosen: 0,
+    code: "",
     type: '',
     questionnairesID:[],
-    questionnairesText:[]
+    questionnairesText:[],
+    gender: "",
+    smoke: "",
+    dateOfSurgery:"",
+    surgeryType: "",
+    education: "",
+    height: "",
+    weight: "",
+    bmi:"",
+    questionnaires: [],
+    questionnairesChosen:0,
 };
-export const colourOptions = [
-    { value: 'ocean', label: 'Ocean', color: '#00B8D9', isFixed: true },
-    { value: 'blue', label: 'Blue', color: '#0052CC', isDisabled: true },
-    { value: 'purple', label: 'Purple', color: '#5243AA' },
-    { value: 'red', label: 'Red', color: '#FF5630', isFixed: true },
-    { value: 'orange', label: 'Orange', color: '#FF8B00' },
-    { value: 'yellow', label: 'Yellow', color: '#FFC400' },
-    { value: 'green', label: 'Green', color: '#36B37E' },
-    { value: 'forest', label: 'Forest', color: '#00875A' },
-    { value: 'slate', label: 'Slate', color: '#253858' },
-    { value: 'silver', label: 'Silver', color: '#666666' },
-];
+
 class AddUser extends Component {
 
     constructor(props) {
@@ -44,17 +42,17 @@ class AddUser extends Component {
             fName: "",
             lName: "",
             password: "",
-            bday: "new Date()",
+            bday: new Date(),
             phone: "",
             questionsID: [],
             questionsText: [],
             questions :[],
             answerUserQuestion: "",
-            selectedUserType: "patient",
             code: "",
             questionnaires: [],
             questionnairesID:[],
             questionnairesText:[],
+            questionnairesChosen:0,
             quesionChosen: 0,
             gender: "",
             smoke: "",
@@ -79,7 +77,8 @@ class AddUser extends Component {
             gender: selectedIndex,
             smoke: selectedIndex,
             education: selectedIndex,
-            surgeryType: selectedIndex
+            surgeryType: selectedIndex,
+            questionnairesChosen: selectedIndex
         });
     }
 
@@ -131,7 +130,6 @@ class AddUser extends Component {
                 questionnairesText: initQuestionnairesText
             });
         });
-        // }
     }
 
     handleChange(e) {
@@ -153,7 +151,6 @@ class AddUser extends Component {
                 Phone_Number: this.state.phone,
                 BirthDate: bDay.getTime(),
                 Code: this.state.code,
-                Questionnaires: this.state.questionnaires,
                 VerificationQuestion: this.state.quesionChosen,
                 VerificationAnswer: this.state.answerUserQuestion,
                 ValidTime: now.getTime()
@@ -169,6 +166,7 @@ class AddUser extends Component {
             })
         }
         if(this.state.type === 'patient') {
+            var dateOfSurgery = new Date(this.state.DateOfSurgery);
             axios.post('http://localhost:8180/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
@@ -177,7 +175,7 @@ class AddUser extends Component {
                 Phone_Number: this.state.phone,
                 Gender: this.state.gender,
                 Smoke: this.state.smoke,
-                DateOfSurgery: this.state.dateOfSurgery,
+                DateOfSurgery: dateOfSurgery.getTime(),
                 SurgeryType: this.state.surgeryType,
                 Education: this.state.education,
                 Height: this.state.height,
@@ -185,6 +183,7 @@ class AddUser extends Component {
                 BMI:this.state.bmi,
                 BirthDate: bDay.getTime(),
                 Code: this.state.code,
+                Questionnaires: this.state.questionnairesChosen,
                 VerificationQuestion: this.state.quesionChosen,
                 VerificationAnswer: this.state.answerUserQuestion,
                 ValidTime: now.getTime()
@@ -227,6 +226,30 @@ class AddUser extends Component {
                 questions: initialQuestions
             });
         });
+
+        let initQuestionnairesID = [];
+        let initQuestionnairesText = [];
+        let initQuestionnaires = [];
+        fetch('http://localhost:8180/questionnaires/all')
+            .then(response => {
+                return response.json();
+            }).then(results => {
+
+            initQuestionnaires = results.data;
+
+            for(var i = 0; i < initQuestionnaires.length; i++) {
+                var obj = initQuestionnaires[i];
+
+                initQuestionnairesID.push(obj.QuestionnaireID);
+                initQuestionnairesText.push(obj.QuestionnaireText);
+            }
+            this.setState({
+                questionnaires: initQuestionnaires,
+                questionnairesID: initQuestionnairesID,
+                questionnairesText: initQuestionnairesText
+            });
+        });
+
     }
 
     isDoctor(){
@@ -261,7 +284,7 @@ class AddUser extends Component {
                 <label class="buttonsChoose">
                     <Button style={{width: 150}} variant="info" onClick={() => this.isDoctor()}> דוקטור </Button>
                     {'                                                                '}
-                    <Button  style={{width: 150}} variant="info" onClick={() => this.isPatient()}> מטופל </Button>
+                    <Button style={{width: 150}} variant="info" onClick={() => this.isPatient()}> מטופל </Button>
                 </label>
                 {this.state.type === 'doctor' ?
                     <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
@@ -386,8 +409,8 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">תאריך ניתוח</label>
-                            <input className="inputs_in_add_user" name="dateOfSurgery" type="date" max={today}
-                                   value={this.state.dateOfSurgery} onChange={this.handleChange} required/>
+                            <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
+                                   value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
                         </div>
                         <div>
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
@@ -398,7 +421,7 @@ class AddUser extends Component {
                             {/*    className="inputs_in_add_user"*/}
                             {/*    classNamePrefix="select"*/}
                             {/*/>*/}
-                            <DropdownMultiselect className="dropdownquestionnairesOption" options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון" buttonClass="btn btn-outline-dark" style={{width:100}}/>
+                            <DropdownMultiselect onChange={this.onSelect} className="dropdownquestionnairesOption" options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון" buttonClass="btn btn-outline-dark" style={{width:100}}/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
