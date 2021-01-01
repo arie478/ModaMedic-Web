@@ -1,0 +1,32 @@
+th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: right;
+    width: 20%;
+    font-size: 15px;
+    font-weight:normal;
+    margin: 0;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    
+    
+}
+tr{
+    border: 1px solid black;
+    border-collapse: collapse;
+    float: "right";
+    width: 20%;
+    font-size: 15px;
+    font-weight:normal;
+    margin: 0;
+}
+
+thead{
+
+text-align: center;
+font-size: 20px;
+font-weight:bold;
+}

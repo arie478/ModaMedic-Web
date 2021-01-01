@@ -175,7 +175,7 @@ class Login extends Component{
 
     sumbit(e){
         e.preventDefault();
-        axios.post('https://icc.ise.bgu.ac.il/njsw03users/login', {
+        axios.post('http://localhost:8180/users/login', {
             UserID: this.state.ID,
             Password: this.state.password
         }).then(res => {
