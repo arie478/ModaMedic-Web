@@ -166,7 +166,7 @@ class AddUser extends Component {
             })
         }
         if(this.state.type === 'patient') {
-            var dateOfSurgery = new Date(this.state.DateOfSurgery);
+            var dateOfSurgery = new Date(this.state.dateOfSurgery);
             axios.post('http://localhost:8180/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
