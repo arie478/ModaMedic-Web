@@ -22,7 +22,6 @@ class Home extends Component{
             <Router basename={window.location.pathname || ''}>
                 <Switch>
                     <Route exact path="/">
-                    <QuestionnairesManger />
                         <HomeLogin />
                     </Route>
                     <Route exact path="/search">
@@ -31,8 +30,11 @@ class Home extends Component{
                     <Route exact path="/messages">
                         <App component='messages'/>
                     </Route>
+                    <Route exact path="/questionnaires">
+                        <App component='questionnaires'/>
+                    </Route>
                     <Route path='/userQuestionnaire/:QuestionnaireID'>
-                        <SurveyComponent />
+                        <App component='survey'/>
                     </Route>
                 </Switch>
               </Router>

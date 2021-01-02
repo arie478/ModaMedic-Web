@@ -22,10 +22,7 @@ class MessagesPage extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        console.log(`prevProps ${prevProps.patientUserId}`);
-        console.log(`props ${this.props.patientUserId}`);
         if(this.props.patientUserId && this.props.patientUserId !== prevProps.patientUserId) {
-            console.log(`inside if componentDidUpdate`);
             this.fetchMessagesDoctor();
         }
     }
