@@ -42,7 +42,7 @@ class MessagesPage extends Component {
                 }
             );
             if (response.data.data) {
-                this.setState({messages: response.data.data});
+                this.setState({messages: response.data.data.reverse()});
             }
         }
     }
@@ -60,27 +60,44 @@ class MessagesPage extends Component {
                 }
             );
             if (response.data.data) {
-                this.setState({messages: response.data.data});
+                this.setState({messages: response.data.data.reverse()});
             }
         }
     }
 
 
     async addMessage(){
-        axios.post('http://localhost:8180/auth/patients/messages',
-            {
-                content: this.state.content,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }).then(res => {
-            window.alert("ההודעה נוספה בהצלחה!");
-            this.fetchMessagesPatient();
-            this.setState({content:"כתוב את הודעתך כאן"})
-        });
+        if (sessionStorage.getItem('patient')) {
+            axios.post('http://localhost:8180/auth/patients/messages',
+                {
+                    content: this.state.content,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                this.fetchMessagesPatient();
+                this.setState({content: "כתוב את הודעתך כאן"})
+            });
+        }
+        if (sessionStorage.getItem('doctor')){
+            let patientId = encodeURIComponent(this.props.patientUserId);
+            axios.post( `http://localhost:8180/auth/doctors/messages/${patientId}`,
+                {
+                    content: this.state.content,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                this.fetchMessagesDoctor();
+                this.setState({content: "כתוב את הודעתך כאן"})
+            });
+        }
     }
 
 
