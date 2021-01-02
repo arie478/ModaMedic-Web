@@ -398,6 +398,9 @@ class PatientSearchNew extends Component {
                         חודשי
                     </label>
                 </div>
+                <form onSubmit={this.handleSubmit}>
+                    <button>הצג תוצאות</button>
+                </form>
                 <br />
                 <DisplayButton
                     dataArr={this.state.dataArr}
@@ -417,9 +420,7 @@ class PatientSearchNew extends Component {
                     user={this.state.user}
                     ready={this.state.ready}
                 />
-                <form onSubmit={this.handleSubmit}>
-                    <button>הצג תוצאות</button>
-                </form>
+
             </div>
         )
     }
