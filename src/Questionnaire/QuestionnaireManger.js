@@ -1,6 +1,6 @@
 import React, {Component} from "react"
 import axios from 'axios';
-    import "../Table.css";
+    import "../TableQuestionnaire.css";
     import { BrowserRouter, Route, Link } from "react-router-dom";
     import SurveyComponent from './SurveyComponent';
     import Table from 'react-bootstrap/Table';
