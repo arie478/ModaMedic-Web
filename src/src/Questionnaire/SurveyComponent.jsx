@@ -13,11 +13,13 @@ import "survey-react/survey.css";
 Survey1.StylesManager.applyTheme("bootstrap");
 
 class SurveyComponent extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state={
-            json:{}
+            json:{},
+            questionnaireId: this.props.match.params.QuestionnaireID
         }
+       
         window["$"] = window["jQuery"] = $;
         require("emotion-ratings/dist/emotion-ratings.js");
         this.getQuestionnaire=this.getQuestionnaire.bind(this);
@@ -28,8 +30,8 @@ class SurveyComponent extends Component {
 
     async getQuestionnaire(){
         //to do: fix questionnaireId dynamic
-        //   let id=this.props.match.params.questionnaireId;
-           let url = `http://localhost:8180/questionnaires/getQuestionnaire/6`;
+          
+           let url = `http://localhost:8180/questionnaires/getQuestionnaire/${this.state.questionnaireId}`;
            let response =await axios.get(
             url,
               { 
@@ -140,7 +142,7 @@ class SurveyComponent extends Component {
                     const result={};
                     //to do fix dynamicly
                     result.UserID=localStorage.getItem("UserId");   //not sure if needed
-                    result.QuestionnaireID=6; 
+                    result.QuestionnaireID=this.state.questionnaireId; 
                     result.ValidTime=new Date().getTime();
                     let totalAnswers=[];
                     let counter=0;
@@ -191,9 +193,11 @@ survey.onComplete.add(
 
 
         return (
+          
             <Survey1.Survey
                 model={survey}
             />
+    
         );
     }
 }

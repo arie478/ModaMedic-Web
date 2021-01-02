@@ -28,8 +28,7 @@ class Home extends Component{
                     <Route path="/search">
                         <App />
                     </Route>
-                    <Route path='/userQuestionnaire/:QuestionnaireID'>
-                        <SurveyComponent />
+                    <Route path='/userQuestionnaire/:QuestionnaireID' render={(props) => <SurveyComponent {...props}/>} >
                     </Route>
                 </Switch>
               </Router>
