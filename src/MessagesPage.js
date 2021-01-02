@@ -100,12 +100,34 @@ class MessagesPage extends Component {
 
 
     handleChange(event) {
-        this.setState({content: event.target.value});
+        // let content = event.target.value
+        // if(content.length() > 150){
+        //     window.alert("אורך ההודעה עד 150 תוים")
+        // } else {
+            this.setState({content: event.target.value});
+        // }
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        this.addMessage();
+        if(this.state.content.length > 150) {
+            window.alert("אורך הודעה עד 150 תוים!")
+        }else {
+            var count = 0;
+            var dt2 = new Date();
+            this.state.messages.forEach(message => {
+                let dt1 = new Date(message.Date);
+                if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 24) {
+                    count = count + 1;
+                }
+            });
+        }
+        if (count > 3){
+            window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
+        } else {
+            this.addMessage();
+        }
+
     }
 
     render() {
