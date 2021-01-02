@@ -10,9 +10,9 @@ import axios from "axios";
 import Card from "react-bootstrap/Card";
 import MessagesPage from "./MessagesPage";
 import PatientSearchNew from "./PatientSearchNew";
-import QuestionnairesManger from "./src/Questionnaire/QuestionnaireManger";
+import QuestionnairesManger from "./Questionnaire/QuestionnaireManger";
 import {Route} from "react-router-dom";
-import SurveyComponent from "./src/Questionnaire/SurveyComponent";
+import SurveyComponent from "./Questionnaire/SurveyComponent";
 
 
 class App extends Component {
@@ -166,7 +166,7 @@ class App extends Component {
         } else if(this.props.component === 'questionnaires'){
             return <QuestionnairesManger />
         } else if(this.props.component === 'survey'){
-            return <SurveyComponent />
+            return <SurveyComponent {...this.props}/>
         }
         return null;
     }

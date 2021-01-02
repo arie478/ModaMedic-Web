@@ -6,9 +6,9 @@ import {
 } from "react-router-dom";
 import App from './App';
 import HomeLogin from './HomeLogin';
-import Questionnaire from './src/Questionnaire/SurveyComponent';
-import QuestionnairesManger from './src/Questionnaire/QuestionnaireManger';
-import SurveyComponent from './src/Questionnaire/SurveyComponent';
+import Questionnaire from './Questionnaire/SurveyComponent';
+import QuestionnairesManger from './Questionnaire/QuestionnaireManger';
+import SurveyComponent from './Questionnaire/SurveyComponent';
 
 class Home extends Component{
     /*
@@ -33,8 +33,8 @@ class Home extends Component{
                     <Route exact path="/questionnaires">
                         <App component='questionnaires'/>
                     </Route>
-                    <Route path='/userQuestionnaire/:QuestionnaireID'>
-                        <App component='survey'/>
+                    <Route path='/userQuestionnaire/:QuestionnaireID' render={(props) => <App component='survey' {...props}/>}>
+                        {/*<App component='survey'/>*/}
                     </Route>
                 </Switch>
               </Router>
