@@ -230,3 +230,13 @@ div.App, div.App-header {
     margin-top: -5px;
     margin-right: -5px;
 }
+
+.popup_inner_info{
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 0%;
+    bottom: -20%;
+    margin: auto;
+    background: white;
+}

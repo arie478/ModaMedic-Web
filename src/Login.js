@@ -62,9 +62,9 @@ class Login extends Component{
 
     togglePopup() {
         this.setState({
-          showPopup: !this.state.showPopup,
-          wrongA: false,
-          diff: false
+            showPopup: !this.state.showPopup,
+            wrongA: false,
+            diff: false
         });
     }
 
@@ -119,7 +119,7 @@ class Login extends Component{
             {
                 UserID: this.state.id,
                 VerificationAnswer: this.state.answer,
-	            BirthDate: dateLong
+                BirthDate: dateLong
             }
         );
         var token = response.data.data;
@@ -143,32 +143,32 @@ class Login extends Component{
     async changePass(event){
         event.preventDefault();
         if(this.state.pass !== this.state.pass2){
-          this.setState({
-            diff: true
-          });
+            this.setState({
+                diff: true
+            });
         }
         else{
-          var token = this.state.token;
-          var url = 'http://localhost:8180/users/passwordChangeCheck/changePassword';
-          const response = await axios.post(
-            url,
-            {
-              "NewPassword":this.state.pass
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': token
+            var token = this.state.token;
+            var url = 'http://localhost:8180/users/passwordChangeCheck/changePassword';
+            const response = await axios.post(
+                url,
+                {
+                    "NewPassword":this.state.pass
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': token
+                    }
                 }
+            );
+            if(response.data.message){
+                window.alert("הסיסמא שונתה בהצלחה");
+                this.togglePopup();
             }
-          );
-          if(response.data.message){
-            window.alert("הסיסמא שונתה בהצלחה");
-            this.togglePopup();
-          }
         }
 
-      }
+    }
 
     register(e){
         this.setState({
@@ -233,7 +233,7 @@ class Login extends Component{
                     localStorage.setItem("doctor", this.state.doctor);
                 }
             }
-            
+
         });
 
     }
@@ -254,8 +254,8 @@ class Login extends Component{
                     <label id="forget"  onClick={(e) => this.forget(e)}>שכחת סיסמה?</label>
                     <label id="register"  onClick={(e) => this.register(e)}>הירשם</label>
                 </form>
-                
-               {this.state.showPopup ? 
+
+                {this.state.showPopup ?
                     <Popup
                         text={this.state.name}
                         closePopup={this.togglePopup.bind(this)}
@@ -285,96 +285,96 @@ class Popup extends React.Component {
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
-            {/*{ this.props.showWrongUser ?*/}
-            {/*    <div className='popup'>*/}
-            {/*        <div className='popup_innerWrong' >*/}
-            {/*            <button onClick={this.props.closePopup} id="x">x</button>*/}
-            {/*            <h3>,שלום {this.props.text}</h3>*/}
-            {/*            <p id="wrongType"> אין לך את ההרשאות המתאימות על מנת להיכנס לאתר</p>*/}
-            {/*        </div>*/}
-            {/*    </div> : null*/}
-            {/*}*/}
-            { this.props.showID ?
-                <div className='popup'>
-                    <div className='popup_innerEmail' >
-                    <button onClick={this.props.closePopup} id="x">x</button>
-                    <h3 id="h3">שכחתי סיסמא</h3>
-                    <form onSubmit={this.props.handleSubmit}>
-                        <label  id="lid">
-                            אנא הזן כתובת דוא"ל:
-                        </label>
-                        <input type="text" className="inputs" name="id" id="id" onChange={this.props.change} required/>
-                        {this.props.wrongA ? <label className="error">כתובת דוא"ל לא קיימת</label> : null}
-                        <div className="lineC">
-                            <input type="submit" value="המשך" id="con"/>
+                {/*{ this.props.showWrongUser ?*/}
+                {/*    <div className='popup'>*/}
+                {/*        <div className='popup_innerWrong' >*/}
+                {/*            <button onClick={this.props.closePopup} id="x">x</button>*/}
+                {/*            <h3>,שלום {this.props.text}</h3>*/}
+                {/*            <p id="wrongType"> אין לך את ההרשאות המתאימות על מנת להיכנס לאתר</p>*/}
+                {/*        </div>*/}
+                {/*    </div> : null*/}
+                {/*}*/}
+                { this.props.showID ?
+                    <div className='popup'>
+                        <div className='popup_innerEmail' >
+                            <button onClick={this.props.closePopup} id="x">x</button>
+                            <h3 id="h3">שכחתי סיסמא</h3>
+                            <form onSubmit={this.props.handleSubmit}>
+                                <label  id="lid">
+                                    אנא הזן כתובת דוא"ל:
+                                </label>
+                                <input type="text" className="inputs" name="id" id="id" onChange={this.props.change} required/>
+                                {this.props.wrongA ? <label className="error">כתובת דוא"ל לא קיימת</label> : null}
+                                <div className="lineC">
+                                    <input type="submit" value="המשך" id="con"/>
+                                </div>
+                            </form>
                         </div>
-                    </form>
-                    </div>
-                </div> : null
-            }
-            { this.props.showQ ?
-                <div className='popup'>
-                    <div className='popup_innerEmail' >
-                    <button onClick={this.props.closePopup} id="x">x</button>
-                    <h3 id="h3">שכחתי סיסמא</h3>
-                    <form onSubmit={this.props.handle}>
-                        <div className="lineC"> 
-                            <label  id="lq">
-                                {this.props.question}
-                            </label>
+                    </div> : null
+                }
+                { this.props.showQ ?
+                    <div className='popup'>
+                        <div className='popup_innerEmail' >
+                            <button onClick={this.props.closePopup} id="x">x</button>
+                            <h3 id="h3">שכחתי סיסמא</h3>
+                            <form onSubmit={this.props.handle}>
+                                <div className="lineC">
+                                    <label  id="lq">
+                                        {this.props.question}
+                                    </label>
+                                </div>
+                                <div className="lineC">
+                                    <input type="text"  name="answer" id="answer" onChange={this.props.change} required/>
+                                </div>
+                                <div className="lineC">
+                                    <label  id="ldate">
+                                        הכנס את תאריך יום הולדת שלך:
+                                    </label>
+                                </div>
+                                <div className="lineC">
+                                    <input type="date" name="date" id="date" max={today} onChange={this.props.change} required/>
+                                </div>
+                                <div className="lineC">
+                                    {this.props.wrongA ? <label className="error">שאלת אימות לא נכונה או תאריך לידה שגוי</label> : null}
+                                </div>
+                                <div className="lineC">
+                                    <input type="submit" value="המשך" id="con"/>
+                                </div>
+                            </form>
                         </div>
-                        <div className="lineC">
-                            <input type="text"  name="answer" id="answer" onChange={this.props.change} required/>
+                    </div> : null
+                }
+                { this.props.showChange ?
+                    <div className='popup'>
+                        <div className='popup_innerEmail' >
+                            <button onClick={this.props.closePopup} id="x">x</button>
+                            <h3 id="h3">שכחתי סיסמא</h3>
+                            <form onSubmit={this.props.changePass}>
+                                <label  id="lpass">
+                                    סיסמא חדשה:
+                                </label>
+                                <input type="password" className="inputs" name="pass" id="pass" onChange={this.props.change} required/>
+                                <label id="lpass2">
+                                    הקלד את הסיסמא מחדש:
+                                </label>
+                                <input type="password" className="inputs" name="pass2" id="pass2" onChange={this.props.change} required/>
+                                {this.props.diff ? <label className="error">הסיסמאות שונות</label> : null}
+                                <input type="submit" value="שלח" id="send"/>
+                            </form>
                         </div>
-                        <div className="lineC">
-                            <label  id="ldate">
-                                הכנס את תאריך יום הולדת שלך:
-                            </label>
+                    </div> : null
+                }
+                { this.props.register ?
+                    <div className='popup'>
+                        <div className='popup_innerAdd' >
+                            <button onClick={this.props.closePopup} id="x">x</button>
+                            <br/>
+                            <h3>הרשמה</h3>
+                            <Adduser />
                         </div>
-                        <div className="lineC">
-                            <input type="date" name="date" id="date" max={today} onChange={this.props.change} required/>
-                        </div>
-                        <div className="lineC">
-                            {this.props.wrongA ? <label className="error">שאלת אימות לא נכונה או תאריך לידה שגוי</label> : null}
-                        </div>
-                        <div className="lineC">
-                            <input type="submit" value="המשך" id="con"/>
-                        </div>
-                    </form>
-                    </div>
-                </div> : null
-            }
-            { this.props.showChange ?
-                <div className='popup'>
-                    <div className='popup_innerEmail' >
-                        <button onClick={this.props.closePopup} id="x">x</button>
-                        <h3 id="h3">שכחתי סיסמא</h3>
-                        <form onSubmit={this.props.changePass}>
-                            <label  id="lpass">
-                                סיסמא חדשה:
-                            </label>
-                            <input type="password" className="inputs" name="pass" id="pass" onChange={this.props.change} required/>
-                            <label id="lpass2">
-                                הקלד את הסיסמא מחדש:
-                            </label>
-                            <input type="password" className="inputs" name="pass2" id="pass2" onChange={this.props.change} required/>
-                            {this.props.diff ? <label className="error">הסיסמאות שונות</label> : null}
-                            <input type="submit" value="שלח" id="send"/>
-                        </form>
-                    </div>
-                </div> : null
-            }
-            { this.props.register ?
-                <div className='popup'>
-                    <div className='popup_innerAdd' >
-                        <button onClick={this.props.closePopup} id="x">x</button>
-                        <br/>
-                        <h3>הרשמה</h3>
-                        <Adduser />
-                    </div>
-                </div> : null
-            }
+                    </div> : null
+                }
             </div>
         );
     }
-  }
+}

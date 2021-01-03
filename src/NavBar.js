@@ -6,6 +6,9 @@ import axios from "axios";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { FaUser,FaUserMd } from 'react-icons/fa'
 import 'bootstrap/dist/css/bootstrap.css'
+import Card from "react-bootstrap/Card";
+import ListGroup from "react-bootstrap/ListGroup";
+import PatientData from "./PatientData";
 
 
 
@@ -14,16 +17,17 @@ class NavBar extends React.Component {
         super();
         this.state = {
             showPopup: false,
+            userInfo: false,
             pass: "",
             pass2: "",
             diff: false,
             isLogOut: false,
             isMessage: false,
             isPatientInfo: false,
-            isQuestionnaires: false
         };
         this.logout = this.logout.bind(this);
         this.change = this.change.bind(this);
+        this.privateInfoShow = this.privateInfoShow.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -57,6 +61,12 @@ class NavBar extends React.Component {
     togglePopup() {
         this.setState({
             showPopup: !this.state.showPopup
+        });
+    }
+
+    toggleUserInfo() {
+        this.setState({
+            userInfo: !this.state.userInfo
         });
     }
 
@@ -99,8 +109,27 @@ class NavBar extends React.Component {
                 this.togglePopup();
             }
         }
-
     }
+
+    componentDidMount() {
+        this.getInfo()
+    }
+
+    async getInfo(){
+        let url = 'http://localhost:8180/auth/usersAll/userInfo';
+        var token;
+        const response = await axios.get(
+            url,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                }
+            }
+        );
+        this.setState({currUser: response.data.data})
+    }
+
 
     handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -128,11 +157,13 @@ class NavBar extends React.Component {
         this.togglePopup();
     }
 
+    privateInfoShow(){
+        this.toggleUserInfo()
+    }
 
     isDoctor(){
         return sessionStorage.getItem('doctor')
     }
-
 
     render() {
         var path = window.location.pathname;
@@ -148,18 +179,17 @@ class NavBar extends React.Component {
             <div>
                 <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
                     <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
-                    <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
-                    <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
-                    <NavDropdown.Item as="button">פרטים אישיים</NavDropdown.Item>
-                </NavDropdown>
-
+                        <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
+                        <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
+                        <NavDropdown.Item as="button" onClick={() => this.privateInfoShow()}>פרטים אישיים</NavDropdown.Item>
+                    </NavDropdown>
                     {iconType}
                     <div id="buttons">
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
                         <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
                         <button id="change" class="btn btn-dark" type="button" >תרגולים רפואיים</button>
-                        <button id="change" class="btn btn-dark"type="button">הדרכות ניתוח</button>
+                        <button id="change" class="btn btn-dark" type="button">הדרכות ניתוח</button>
                         {this.state.isMessage ? <Redirect to="/messages" /> : null}
                         {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
                         {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
@@ -170,6 +200,12 @@ class NavBar extends React.Component {
                                 closePopup={this.togglePopup.bind(this)}
                                 handleSubmit={this.handleSubmit.bind(this)}
                                 diff={this.state.diff}
+                            /> : null
+                        }
+                        {this.state.userInfo ?
+                            <UserInfo
+                                user = {this.state.currUser}
+                                closePopup={this.toggleUserInfo.bind(this)}
                             /> : null
                         }
                     </div>
@@ -188,13 +224,12 @@ class NavBar extends React.Component {
                 <br/>
             </div>
         )
-    };
+    }
 }
 
 export default NavBar;
 
 class Popup extends React.Component {
-
     render() {
         // require("./App.css");
         return (
@@ -226,6 +261,46 @@ class Popup extends React.Component {
                             <input type="submit" value="שלח"/>
                         </div>
                     </form>
+                </div>
+            </div>
+        );
+    }
+}
+
+class UserInfo extends React.Component {
+    render() {
+        require("./NavBar.css");
+        let bDate = new Date(this.props.user.BirthDate).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        let sDate;
+        var today = new Date();
+        var birthday = new Date(this.props.user["BirthDate"]);
+        var age = Math.floor((today.getTime() - birthday.getTime())/ 31536000000)
+        if(this.props.user.DateOfSurgery){
+            sDate = (new Date(this.props.user["DateOfSurgery"])).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+        else{
+            sDate = "לא נקבע יום ניתוח";
+        }
+     let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
+        return (
+            <div className='popup'>
+                <div className='popup_inner_info'>
+                    <button onClick={this.props.closePopup} id="x">x</button>
+                    <Card style={{ align:'center',width: '30rem', marginLeft: '15%', marginTop:'0%' }}>
+                        <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
+                        <ListGroup variant="flush">
+                            <ListGroup.Item > תאריך לידה: {bDate} </ListGroup.Item>
+                            <ListGroup.Item > גיל: {age}</ListGroup.Item>
+                            <ListGroup.Item> מין: {this.props.user.Gender} </ListGroup.Item>
+                            <ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item>
+                            <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
+                            <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
+                            <ListGroup.Item> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
+                            <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
+                            <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
+                            <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
+                        </ListGroup>
+                    </Card>
                 </div>
             </div>
         );

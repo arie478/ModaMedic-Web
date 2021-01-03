@@ -67,17 +67,48 @@ class AddUser extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
-        this.onSelect = this.onSelect.bind(this);
+        this.onSelectQuesionChosen = this.onSelectQuesionChosen.bind(this);
+        this.onSelectGender = this.onSelectGender.bind(this);
+        this.onSelectSmoke = this.onSelectSmoke.bind(this);
+        this.onSelectSurgeryType = this.onSelectSurgeryType.bind(this);
+        this.onSelectEducation = this.onSelectEducation.bind(this);
+        this.onSelectQuestionnairesChosen = this.onSelectQuestionnairesChosen.bind(this);
     }
 
-    onSelect(event) {
+    onSelectQuesionChosen(event) {
         const selectedIndex = event.target.options.selectedIndex;
         this.setState({
-            quesionChosen: selectedIndex,
-            gender: selectedIndex,
-            smoke: selectedIndex,
-            education: selectedIndex,
-            surgeryType: selectedIndex,
+            quesionChosen: selectedIndex
+        });
+    }
+    onSelectGender(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        this.setState({
+            gender: selectedIndex
+        });
+    }
+    onSelectSmoke(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        this.setState({
+            smoke: selectedIndex
+        });
+    }
+    onSelectEducation(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        this.setState({
+            education: selectedIndex
+        });
+    }
+
+    onSelectSurgeryType(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        this.setState({
+            surgeryType: selectedIndex
+        });
+    }
+    onSelectQuestionnairesChosen(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        this.setState({
             questionnairesChosen: selectedIndex
         });
     }
@@ -167,17 +198,46 @@ class AddUser extends Component {
         }
         if(this.state.type === 'patient') {
             var dateOfSurgery = new Date(this.state.dateOfSurgery);
+            let gender;
+            if (this.state.gender == 1) {
+                gender = "נקבה"
+            } else if (this.state.gender == 2) {
+                gender = "זכר"
+            }
+            let smoke;
+            if (this.state.gender == 1) {
+                smoke = "מעשן"
+            } else if (this.state.gender == 2) {
+                smoke = "לא מעשן"
+            }
+            let sType;
+            if (this.state.surgeryType ==0) {
+                sType = "ניתוח דחוף"
+            }else if (this.state.surgeryType == 1)
+            {
+                sType = "ניתוח מתוכנן"
+
+            }else if (this.state.surgeryType == 2) {
+                sType = "ללא ניתוח"
+            }
+            let education;
+            let educationOptions = {0 :"השכלה אקדמאית", 1: "השכלה תיכונית", 2:"10-12 שנות לימוד", 3: "6-9 שנות לימוד", 4: "5 שנות לימוד או פחות", 5:"לא מעוניין לענות"};
+            for (var key in educationOptions) {
+                if(key == this.state.education){
+                    education = educationOptions[key]
+                }
+            }
             axios.post('http://localhost:8180/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
                 Phone_Number: this.state.phone,
-                Gender: this.state.gender,
-                Smoke: this.state.smoke,
+                Gender:gender,
+                Smoke: smoke,
                 DateOfSurgery: dateOfSurgery.getTime(),
-                SurgeryType: this.state.surgeryType,
-                Education: this.state.education,
+                SurgeryType: sType,
+                Education: education,
                 Height: this.state.height,
                 Weight: this.state.weight,
                 BMI:this.state.bmi,
@@ -274,9 +334,9 @@ class AddUser extends Component {
             // questionnairesOption.push({value: questionnaire, label: questionnaire})
         });
         // let questionnairesOption = questionnaires.map((questionnaire) => {value: {questionnaire}, label: {questionnaire}});
-        let genderOptions = [<option>נקבה</option>,<option>זכר</option>];
+        let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
         let surgeryOptions = [<option>ניתוח דחוף</option>,<option>ניתוח מתוכנן</option>,<option>ללא ניתוח</option>];
-        let smokeOptions = [<option>מעשן</option>,<option>לא מעשן</option>];
+        let smokeOptions = [<option/>,<option>מעשן</option>,<option>לא מעשן</option>];
         let educationOptions = [<option>השכלה אקדמאית</option>,<option>השכלה תיכונית</option>,<option>10-12 שנות לימוד</option>,<option>6-9 שנות לימוד</option>,<option>5 שנות לימוד או פחות</option>,<option>לא מעוניין לענות</option>];
         var today = (new Date()).toISOString().split("T")[0];
         return (
@@ -325,7 +385,7 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שאלת אימות </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectQuesionChosen}>
                                 {optionItems}
                             </select>
                         </div>
@@ -385,25 +445,25 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מין </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectGender}>
                                 {genderOptions}
                             </select>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מעשן </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectSmoke}>
                                 {smokeOptions}
                             </select>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">השכלה </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectEducation}>
                                 {educationOptions}
                             </select>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סוג ניתוח </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectSurgeryType}>
                                 {surgeryOptions}
                             </select>
                         </div>
@@ -421,7 +481,7 @@ class AddUser extends Component {
                             {/*    className="inputs_in_add_user"*/}
                             {/*    classNamePrefix="select"*/}
                             {/*/>*/}
-                            <DropdownMultiselect onChange={this.onSelect} className="dropdownquestionnairesOption" options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון" buttonClass="btn btn-outline-dark" style={{width:100}}/>
+                            <DropdownMultiselect onChange={this.onSelectQuestionnairesChosen} className="dropdownquestionnairesOption" options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון" buttonClass="btn btn-outline-dark" style={{width:100}}/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
@@ -430,7 +490,7 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שאלת אימות </label>
-                            <select className="select_in_add_user" onChange={this.onSelect}>
+                            <select className="select_in_add_user" onChange={this.onSelectQuesionChosen}>
                                 {optionItems}
                             </select>
                         </div>
