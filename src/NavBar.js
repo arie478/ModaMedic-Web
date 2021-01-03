@@ -282,6 +282,15 @@ class UserInfo extends React.Component {
             sDate = "לא נקבע יום ניתוח";
         }
      let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
+        let patientListItems;
+        if(sessionStorage.getItem("patient")){
+                patientListItems =  <div><ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item> <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
+            <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
+            <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
+            <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
+            <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
+                </div>
+        }
         return (
             <div className='popup'>
                 <div className='popup_inner_info'>
@@ -292,13 +301,8 @@ class UserInfo extends React.Component {
                             <ListGroup.Item > תאריך לידה: {bDate} </ListGroup.Item>
                             <ListGroup.Item > גיל: {age}</ListGroup.Item>
                             <ListGroup.Item> מין: {this.props.user.Gender} </ListGroup.Item>
-                            <ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item>
-                            <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
-                            <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
                             <ListGroup.Item> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
-                            <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
-                            <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
-                            <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
+                            {patientListItems}
                         </ListGroup>
                     </Card>
                 </div>
