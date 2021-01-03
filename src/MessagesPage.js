@@ -2,6 +2,8 @@ import React, {Component} from "react"
 import Table from "react-bootstrap/Table";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
+import { AiFillDelete, AiFillEdit } from 'react-icons/ai'
+
 
 
 class MessagesPage extends Component {
@@ -97,6 +99,44 @@ class MessagesPage extends Component {
         }
     }
 
+    async removeMessage(mId){
+        console.log(mId)
+        if (sessionStorage.getItem('patient')) {
+            axios.post('http://localhost:8180/auth/patients/messages/removeMessage',
+                {
+                    MessageId: mId,
+                },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                this.fetchMessagesPatient();
+            });
+        }
+    }
+
+    // async updateMessage(mId){
+    //     console.log(mId)
+    //     if (sessionStorage.getItem('patient')) {
+    //         axios.put('http://localhost:8180/auth/patients/messages/updateMessage',
+    //             {
+    //                 MessageId: mId,
+    //                 Content: this.state.content
+    //             },
+    //             {
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'x-auth-token': sessionStorage.getItem("token")
+    //                 }
+    //             }).then(res => {
+    //             this.fetchMessagesPatient();
+    //         });
+    //     }
+    // }
+
+
 
 
     handleChange(event) {
@@ -145,17 +185,19 @@ class MessagesPage extends Component {
                     <Table id="mdd" striped bordered hover>
                         <thead>
                         <tr>
-                            <th style={{width: 250}} >תאריך</th>
-                            <th style={{width: 250}} >מוען</th>
-                            <th style={{width: 500}}>תוכן ההודעה</th>
+                            <th style={{width: 230}} >תאריך</th>
+                            <th style={{width: 180}} >מוען</th>
+                            <th style={{width: 620}}>תוכן ההודעה</th>
+                            <th style={{width: 100}}></th>
                         </tr>
                         </thead>
                         <tbody>
                             {this.state.messages.map((message) => (
                                 <tr>
-                                    <td style={{width: 250}}>{new Date(message.Date).toLocaleString()}</td>
-                                    <td style={{width: 250}}>{`${message.FromFirstName} ${message.FromLastName}`}</td>
-                                    <td style={{width: 500, textAlign: "right"}}>{message.Content}</td>
+                                    <td style={{width: 230}}>{new Date(message.Date).toLocaleString()}</td>
+                                    <td style={{width: 180}}>{`${message.FromFirstName} ${message.FromLastName}`}</td>
+                                    <td style={{width: 620, textAlign: "right"}}>{message.Content}</td>
+                                    <td  style={{width: 100}}><AiFillDelete type="button" class="trushIcon" style={{color: 'black'}} size={20} onClick={()=>this.removeMessage(message.MessageId)}/></td>
                                 </tr>
                             ))}
                         </tbody>
