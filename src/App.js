@@ -13,6 +13,7 @@ import PatientSearchNew from "./PatientSearchNew";
 import QuestionnairesManger from "./Questionnaire/QuestionnaireManger";
 import {Route} from "react-router-dom";
 import SurveyComponent from "./Questionnaire/SurveyComponent";
+import InstructionsSurgery from "./InstructionsSurgery";
 
 
 class App extends Component {
@@ -167,6 +168,8 @@ class App extends Component {
             return <QuestionnairesManger />
         } else if(this.props.component === 'survey'){
             return <SurveyComponent {...this.props}/>
+        } else if(this.props.component === 'instructions'){
+            return <InstructionsSurgery {...this.props}/>
         }
         return null;
     }

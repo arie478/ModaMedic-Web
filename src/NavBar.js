@@ -24,6 +24,7 @@ class NavBar extends React.Component {
             isLogOut: false,
             isMessage: false,
             isPatientInfo: false,
+            isInstructions: false,
         };
         this.logout = this.logout.bind(this);
         this.change = this.change.bind(this);
@@ -36,6 +37,7 @@ class NavBar extends React.Component {
     goToMessages() {
         this.setState({
             isPatientInfo: false,
+            isInstructions: false,
             isMessage: true,
             isQuestionnaires: false
 
@@ -46,15 +48,26 @@ class NavBar extends React.Component {
         this.setState({
             isPatientInfo: true,
             isMessage:false,
-            isQuestionnaires: false
+            isQuestionnaires: false,
+            isInstructions: false
         })
     }
 
     goToQuestionnaires() {
         this.setState({
             isPatientInfo: false,
-            isMessage:false,
+            isMessage: false,
+            isInstructions: false,
             isQuestionnaires: true
+        })
+    }
+
+    goToInstructions() {
+        this.setState({
+            isPatientInfo: false,
+            isMessage: false,
+            isInstructions: true,
+            isQuestionnaires: false
         })
     }
 
@@ -189,10 +202,11 @@ class NavBar extends React.Component {
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
                         <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
                         <button id="change" class="btn btn-dark" type="button" >תרגולים רפואיים</button>
-                        <button id="change" class="btn btn-dark" type="button">הדרכות ניתוח</button>
+                        <button id="change" class="btn btn-dark" type="button" onClick={()=> this.goToInstructions()}>הדרכות ניתוח</button>
                         {this.state.isMessage ? <Redirect to="/messages" /> : null}
                         {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
                         {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
+                        {this.state.isInstructions ? <Redirect to="/instructions" /> : null}
                         {this.state.isLogOut ? <Redirect to="/" /> : null}
                         {this.state.showPopup ?
                             <Popup
