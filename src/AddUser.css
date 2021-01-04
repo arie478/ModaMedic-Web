@@ -62,12 +62,13 @@ h2{
 }
 
 .dropdown, .dropleft {
-    position: center;
+
+    /*position: center;*/
     width: 50%;
-    text-align: right;
-    margin-left: 90px;
-    border: black;
-    background: white;
+    /*text-align: right;*/
+    margin-left: 15%;
+    border-color: black;
+    background-color: white;
 }
 
 /*.input {*/
@@ -78,4 +79,6 @@ h2{
 /*    float: right;*/
 /*    margin-right: 15px;*/
 /*}*/
+
+
 

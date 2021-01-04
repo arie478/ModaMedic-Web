@@ -4,6 +4,7 @@ import {Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Select from 'react-select';
 import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
+import { Multiselect } from 'multiselect-react-dropdown';
 
 
 const initialState = {
@@ -62,6 +63,7 @@ class AddUser extends Component {
             height: "",
             weight: "",
             bmi:"",
+            surgeryDateDisplay: false
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -102,14 +104,35 @@ class AddUser extends Component {
 
     onSelectSurgeryType(event) {
         const selectedIndex = event.target.options.selectedIndex;
+        console.log(selectedIndex)
         this.setState({
             surgeryType: selectedIndex
         });
+        if( selectedIndex !== 3 && selectedIndex !==0){
+            this.setState({
+                surgeryDateDisplay: true
+            });
+        }else{
+            this.setState({
+                surgeryDateDisplay: false
+            });
+        }
+
     }
-    onSelectQuestionnairesChosen(event) {
-        const selectedIndex = event.target.options.selectedIndex;
+    onSelectQuestionnairesChosen(selected) {
+        console.log(selected)
+        // const selectedIndex = event.target.options.selectedIndex;
+        let chosen = []
+        let questionnaires = this.state.questionnaires
+        selected.forEach(selectQuestionnaire => {
+            questionnaires.forEach(questionnaire => {
+                if(selectQuestionnaire == questionnaire.QuestionnaireText){
+                    chosen.push(questionnaire)
+                }
+            })
+        });
         this.setState({
-            questionnairesChosen: selectedIndex
+            questionnairesChosen: Array.from(new Set(chosen))
         });
     }
 
@@ -127,9 +150,9 @@ class AddUser extends Component {
 
             for(var i = 0; i < initialQuestions.length; i++) {
                 var obj = initialQuestions[i];
+                    initQuestionsID.push(obj.QuestionID);
+                    initQuestionsText.push(obj.QuestionText);
 
-                initQuestionsID.push(obj.QuestionID);
-                initQuestionsText.push(obj.QuestionText);
             }
 
             this.setState({
@@ -151,9 +174,10 @@ class AddUser extends Component {
 
             for(var i = 0; i < initQuestionnaires.length; i++) {
                 var obj = initQuestionnaires[i];
-
-                initQuestionnairesID.push(obj.QuestionnaireID);
-                initQuestionnairesText.push(obj.QuestionnaireText);
+                if(obj.QuestionnaireID !== 0 && obj.QuestionnaireID !==6 && obj.QuestionnaireID !== 5) {
+                    initQuestionnairesID.push(obj.QuestionnaireID);
+                    initQuestionnairesText.push(obj.QuestionnaireText);
+                }
             }
             this.setState({
                 questionnaires: initQuestionnaires,
@@ -211,17 +235,17 @@ class AddUser extends Component {
                 smoke = "לא מעשן"
             }
             let sType;
-            if (this.state.surgeryType ==0) {
+            if (this.state.surgeryType ==1) {
                 sType = "ניתוח דחוף"
-            }else if (this.state.surgeryType == 1)
+            }else if (this.state.surgeryType == 2)
             {
                 sType = "ניתוח מתוכנן"
 
-            }else if (this.state.surgeryType == 2) {
+            }else if (this.state.surgeryType == 3) {
                 sType = "ללא ניתוח"
             }
             let education;
-            let educationOptions = {0 :"השכלה אקדמאית", 1: "השכלה תיכונית", 2:"10-12 שנות לימוד", 3: "6-9 שנות לימוד", 4: "5 שנות לימוד או פחות", 5:"לא מעוניין לענות"};
+            let educationOptions = {1 :"השכלה אקדמאית", 2: "השכלה תיכונית", 3:"10-12 שנות לימוד", 4: "6-9 שנות לימוד", 5: "5 שנות לימוד או פחות", 6:"לא מעוניין לענות"};
             for (var key in educationOptions) {
                 if(key == this.state.education){
                     education = educationOptions[key]
@@ -324,20 +348,20 @@ class AddUser extends Component {
         let optionItems = quesions.map((question) =>
             <option key={question} >{question}</option>
         );
-        let questionnaires = this.state.questionnairesText;
+        let questionnairesOption = this.state.questionnairesText;
         // let questionnairesOption = questionnaires.map((questionnaire) =>
         //     <option key={questionnaire} >{questionnaire}</option>
         // );
-        let questionnairesOption =[];
-        questionnaires.forEach(questionnaire => {
-            questionnairesOption.push(questionnaire)
-            // questionnairesOption.push({value: questionnaire, label: questionnaire})
-        });
+        // let questionnairesOption =[];
+        // questionnaires.forEach(questionnaire => {
+        //     questionnairesOption.push(questionnaire)
+        //     // questionnairesOption.push({value: questionnaire, label: questionnaire})
+        // });
         // let questionnairesOption = questionnaires.map((questionnaire) => {value: {questionnaire}, label: {questionnaire}});
         let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
-        let surgeryOptions = [<option>ניתוח דחוף</option>,<option>ניתוח מתוכנן</option>,<option>ללא ניתוח</option>];
+        let surgeryOptions = [<option/>,<option>ניתוח דחוף</option>,<option>ניתוח מתוכנן</option>,<option>ללא ניתוח</option>];
         let smokeOptions = [<option/>,<option>מעשן</option>,<option>לא מעשן</option>];
-        let educationOptions = [<option>השכלה אקדמאית</option>,<option>השכלה תיכונית</option>,<option>10-12 שנות לימוד</option>,<option>6-9 שנות לימוד</option>,<option>5 שנות לימוד או פחות</option>,<option>לא מעוניין לענות</option>];
+        let educationOptions = [<option/>,<option>השכלה אקדמאית</option>,<option>השכלה תיכונית</option>,<option>10-12 שנות לימוד</option>,<option>6-9 שנות לימוד</option>,<option>5 שנות לימוד או פחות</option>,<option>לא מעוניין לענות</option>];
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
@@ -466,22 +490,18 @@ class AddUser extends Component {
                             <select className="select_in_add_user" onChange={this.onSelectSurgeryType}>
                                 {surgeryOptions}
                             </select>
-                        </div>
+                        </div>{this.state.surgeryDateDisplay &&
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">תאריך ניתוח</label>
                             <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
                                    value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
-                        </div>
-                        <div>
+                        </div>}
+                        <div >
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            {/*<Select*/}
-                            {/*    isMulti*/}
-                            {/*    name="questionnaires"*/}
-                            {/*    options={questionnairesOption}*/}
-                            {/*    className="inputs_in_add_user"*/}
-                            {/*    classNamePrefix="select"*/}
-                            {/*/>*/}
-                            <DropdownMultiselect onChange={this.onSelectQuestionnairesChosen} className="dropdownquestionnairesOption" options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון" buttonClass="btn btn-outline-dark" style={{width:100}}/>
+
+                            <DropdownMultiselect handleOnChange={(selected) => {
+                                this.onSelectQuestionnairesChosen(selected)
+                            }} options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>

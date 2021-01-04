@@ -12,7 +12,7 @@ class InstructionsSurgery extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            instructions: {},
+            instructions: undefined,
         };
         this.getInstructions = this.getInstructions.bind(this);
 
@@ -31,39 +31,40 @@ class InstructionsSurgery extends Component {
                         'x-auth-token': sessionStorage.getItem("token")
                     }
                 });
-            this.setState({instructions: respone.data.data[0]})
+            this.setState({instructions: respone.data.data})
         }
     }
 
 
     render() {
         return (
-            <div>
-                <Accordion defaultActiveKey="0">
-                    <Card>
-                        <Card.Header>
-                            <Accordion.Toggle type="button" variant="link" eventKey="0">
-                                מרפאת טרום ניתוח - אורתופדיה - דף הסבר
-                            </Accordion.Toggle>
-                        </Card.Header>
-                        <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                                <ListGroup variant="flush">
-                                    <ListGroup.Item>{this.state.instructions.Target}</ListGroup.Item>
-                                    <ListGroup.Item> :יש להביא לביקור את תוצאות הבדיקות הבאות </ListGroup.Item>
-                                    {/*{this.state.instructions.TestsResults.map((test) => (*/}
-                                    {/*    <ListGroup.Item> {test} </ListGroup.Item>*/}
-                                    {/*))}*/}
-                                    {/*<ListGroup.Item> תהליך הבדיקה:  </ListGroup.Item>*/}
-                                    {/*{this.state.instructions.TestProcess.map((process) => (*/}
-                                    {/*    <ListGroup.Item> {process} </ListGroup.Item>*/}
-                                    {/*))}*/}
-                                </ListGroup>
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
-            </div>
+            <div>{this.state.instructions &&
+            <Accordion style={{width: 500, merginRight:100}} defaultActiveKey="1">
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle type="button" variant="link" eventKey="0">
+                           <b> מרפאת טרום ניתוח - אורתופדיה - דף הסבר</b>
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item><b>:מטרת הבדיקה</b></ListGroup.Item>
+                                <ListGroup.Item>{this.state.instructions.Target}</ListGroup.Item>
+                                <ListGroup.Item><b> :יש להביא לביקור את תוצאות הבדיקות הבאות</b> </ListGroup.Item>
+                                {this.state.instructions.TestsResults.map((test) => (
+                                    <ListGroup.Item> {test} </ListGroup.Item>
+                                ))}
+                                <ListGroup.Item><b> :תהליך הבדיקה</b> </ListGroup.Item>
+                                {this.state.instructions.TestProcess.map((process) => (
+                                    <ListGroup.Item> {process} </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
+            } </div>
         )
     }
 }
