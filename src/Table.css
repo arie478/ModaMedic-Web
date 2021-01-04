@@ -14,7 +14,7 @@
     border: 1px solid black;
     border-collapse: collapse;
     float: right;
-    width: 15%;
+    width: 25%;
     font-size: 15px;
     font-weight:normal;
     margin: 0;
@@ -28,7 +28,7 @@
     border: 1px solid black;
     border-collapse: collapse;
     float: right;
-    width: 15%;
+    width: 25%;
     font-size: 15px;
     font-weight:normal;
     margin: 0;
@@ -38,14 +38,15 @@
 }
 
 #mdd tr, #daily tr, #daily tr{
-    width: auto;
+    /*width: fit-content;*/
+
 }
 
 #per th, #per td  {
     border: 1px solid black;
     border-collapse: collapse;
     float: right;
-    width: 12%;
+    width: 14.28%;
     font-size: 15px;
     font-weight:normal;
     padding: 1%;
@@ -54,14 +55,19 @@
 
 #mdd th{
     height: 50px;
+    width: 11.1%;
 }
 
 #mdd td{
     height: 35px;
+    width: 11.1%;
 }
 
 #per th{
-    height: 80px;
+    height: 100px;
+    width: 14.28%;
+
+    /*width: fit-content;*/
 }
 
 
@@ -76,10 +82,11 @@
 #mdd, #daily, #per{
     border-collapse: collapse;
     border-spacing: 0;
+    /*width: fit-content;*/
 }
 
 .tabels{
-    width: fit-content;
+    /*width: fit-content;*/
     margin-left:auto;
     margin-right:auto;
 }
