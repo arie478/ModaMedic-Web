@@ -199,7 +199,9 @@ class NavBar extends React.Component {
                     {iconType}
                     <div id="buttons">
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
+                        <span>{'    '}            </span>
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
+                        <span>{'              '}</span>
                         <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
                         <button id="change" class="btn btn-dark" type="button" >תרגולים רפואיים</button>
                         <button id="change" class="btn btn-dark" type="button" onClick={()=> this.goToInstructions()}>הדרכות ניתוח</button>

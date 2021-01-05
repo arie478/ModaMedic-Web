@@ -15,11 +15,12 @@ div.App, div.App-header {
 }
 
 #change{
-  font-size: medium;
-  margin-top: 10px;
+  font-size: large;
+  margin-top: 1%;
   width: fit-content;
-  float: left;
+  float: right;
   margin-left: 0%;
+  margin-right: 0%;
 }
 
 #sep{
@@ -118,7 +119,7 @@ div.App, div.App-header {
   float: right;
   text-align: right;
   background-color: white;
-  font-weight: bolder; 
+  font-weight: bolder;
   width: fit-content;
   margin-top: 0;
 }
