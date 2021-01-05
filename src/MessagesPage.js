@@ -100,7 +100,6 @@ class MessagesPage extends Component {
     }
 
     async removeMessage(mId){
-        console.log(mId)
         if (sessionStorage.getItem('patient')) {
             axios.post('http://localhost:8180/auth/patients/messages/removeMessage',
                 {
@@ -157,12 +156,12 @@ class MessagesPage extends Component {
             var dt2 = new Date();
             this.state.messages.forEach(message => {
                 let dt1 = new Date(message.Date);
-                if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 24) {
+                if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 1) {
                     count = count + 1;
                 }
             });
         }
-        if (count > 3){
+        if (count > 2){
             window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
         } else {
             this.addMessage();
