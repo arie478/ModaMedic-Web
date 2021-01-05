@@ -150,8 +150,8 @@ class AddUser extends Component {
 
             for(var i = 0; i < initialQuestions.length; i++) {
                 var obj = initialQuestions[i];
-                    initQuestionsID.push(obj.QuestionID);
-                    initQuestionsText.push(obj.QuestionText);
+                initQuestionsID.push(obj.QuestionID);
+                initQuestionsText.push(obj.QuestionText);
 
             }
 
@@ -251,6 +251,8 @@ class AddUser extends Component {
                     education = educationOptions[key]
                 }
             }
+            let height_double = Number(this.state.height / 100);
+            let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
             axios.post('http://localhost:8180/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
@@ -264,7 +266,7 @@ class AddUser extends Component {
                 Education: education,
                 Height: this.state.height,
                 Weight: this.state.weight,
-                BMI:this.state.bmi,
+                BMI: bmi,
                 BirthDate: bDay.getTime(),
                 Code: this.state.code,
                 Questionnaires: this.state.questionnairesChosen,
@@ -491,11 +493,11 @@ class AddUser extends Component {
                                 {surgeryOptions}
                             </select>
                         </div>{this.state.surgeryDateDisplay &&
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">תאריך ניתוח</label>
-                            <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
-                                   value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
-                        </div>}
+                    <div className="divs_in_add">
+                        <label className="labels_in_add_user">תאריך ניתוח</label>
+                        <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
+                               value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
+                    </div>}
                         <div >
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
 
