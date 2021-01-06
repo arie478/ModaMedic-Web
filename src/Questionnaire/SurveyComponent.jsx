@@ -37,8 +37,7 @@ class SurveyComponent extends Component {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    // 'x-auth-token': sessionStorage.getItem("token")
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJ0cmo4M00zQjBPTHVTZnBVSHBuSzR6aXVqcEV1Y0N3VHZ5LzNjYjQ3MHNzPSIsIlR5cGUiOlsicGF0aWVudCJdLCJpYXQiOjE2MDg2NDgzMDUsImV4cCI6MTY0MDE4NDMwNX0.HysQVw90QVt3saFRM2ujpRXpzDoTkqEGhEl2Xr99-Uw'
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
             });
 
@@ -68,7 +67,7 @@ class SurveyComponent extends Component {
                     singleQuestion.isRequired= true;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j]);
+                        choices.push(questions[i].Answers[j].answerText);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -79,7 +78,7 @@ class SurveyComponent extends Component {
                     singleQuestion.colCount= 5;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j]);
+                        choices.push(questions[i].Answers[j].answerText);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -112,7 +111,7 @@ class SurveyComponent extends Component {
             {
                 headers: {
                     'Content-Type': 'application/json',
-                    'x-auth-token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySUQiOiJ0cmo4M00zQjBPTHVTZnBVSHBuSzR6aXVqcEV1Y0N3VHZ5LzNjYjQ3MHNzPSIsIlR5cGUiOlsicGF0aWVudCJdLCJpYXQiOjE2MDg2NDgzMDUsImV4cCI6MTY0MDE4NDMwNX0.HysQVw90QVt3saFRM2ujpRXpzDoTkqEGhEl2Xr99-Uw'
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
             }
         );
