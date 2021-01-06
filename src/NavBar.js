@@ -25,6 +25,7 @@ class NavBar extends React.Component {
             isMessage: false,
             isPatientInfo: false,
             isInstructions: false,
+            isExercises: false,
         };
         this.logout = this.logout.bind(this);
         this.change = this.change.bind(this);
@@ -39,8 +40,18 @@ class NavBar extends React.Component {
             isPatientInfo: false,
             isInstructions: false,
             isMessage: true,
-            isQuestionnaires: false
+            isQuestionnaires: false,
+            isExercises: false
+        })
+    }
 
+    goToExercises() {
+        this.setState({
+            isPatientInfo: false,
+            isInstructions: false,
+            isMessage: false,
+            isExercises: true,
+            isQuestionnaires: false
         })
     }
 
@@ -49,7 +60,8 @@ class NavBar extends React.Component {
             isPatientInfo: true,
             isMessage:false,
             isQuestionnaires: false,
-            isInstructions: false
+            isInstructions: false,
+            isExercises: false
         })
     }
 
@@ -58,7 +70,8 @@ class NavBar extends React.Component {
             isPatientInfo: false,
             isMessage: false,
             isInstructions: false,
-            isQuestionnaires: true
+            isQuestionnaires: true,
+            isExercises: false
         })
     }
 
@@ -67,7 +80,8 @@ class NavBar extends React.Component {
             isPatientInfo: false,
             isMessage: false,
             isInstructions: true,
-            isQuestionnaires: false
+            isQuestionnaires: false,
+            isExercises: false
         })
     }
 
@@ -203,12 +217,13 @@ class NavBar extends React.Component {
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
                         <span>{'              '}</span>
                         <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
-                        <button id="change" class="btn btn-dark" type="button" >תרגולים רפואיים</button>
+                        <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToExercises()}>תרגולים רפואיים</button>
                         <button id="change" class="btn btn-dark" type="button" onClick={()=> this.goToInstructions()}>הדרכות ניתוח</button>
                         {this.state.isMessage ? <Redirect to="/messages" /> : null}
                         {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
                         {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
                         {this.state.isInstructions ? <Redirect to="/instructions" /> : null}
+                        {this.state.isExercises ? <Redirect to="/exercises" /> : null}
                         {this.state.isLogOut ? <Redirect to="/" /> : null}
                         {this.state.showPopup ?
                             <Popup

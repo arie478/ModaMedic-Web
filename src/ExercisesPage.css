@@ -1,0 +1,21 @@
+.root {
+    display: flex;
+    flexWrap: wrap;
+    justifyContent: space-around;
+    overflow: hidden;
+    backgroundColor: blue;
+}
+.gridList {
+    width: 1500px;
+    height: 1450px;
+    transform: translateZ(0);
+    float: left;
+}
+
+.video {
+    position: relative;
+    width: 100%;
+    height: auto;
+    verticalAlign: top;
+    background: hsl(0, 0%, 98%);
+}
