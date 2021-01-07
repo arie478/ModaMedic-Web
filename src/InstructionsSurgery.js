@@ -5,6 +5,8 @@ import axios from "axios";
 import {Card} from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
 import ListGroup from "react-bootstrap/ListGroup";
+import ReactPlayer from 'react-player'
+import YouTube from "react-youtube";
 
 
 class InstructionsSurgery extends Component {
@@ -64,7 +66,8 @@ class InstructionsSurgery extends Component {
                     </Accordion.Collapse>
                 </Card>
             </Accordion>
-            } </div>
+            }
+            </div>
         )
     }
 }

@@ -121,6 +121,7 @@ class PatientSearchNew extends Component {
             date = new Date(date.getTime() + 86400000);
             end_time = date.getTime();
         }
+        console.log(getUrl)
         const response = await axios.get(
             getUrl,
             {

@@ -36,6 +36,9 @@ class Home extends Component{
                     <Route exact path="/instructions">
                         <App component='instructions'/>
                     </Route>
+                    <Route exact path="/exercises">
+                        <App component='exercises'/>
+                    </Route>
                     <Route path='/userQuestionnaire/:QuestionnaireID' render={(props) => <App component='survey' {...props}/>}>
                         {/*<App component='survey'/>*/}
                     </Route>

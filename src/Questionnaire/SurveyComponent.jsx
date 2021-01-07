@@ -67,7 +67,7 @@ class SurveyComponent extends Component {
                     singleQuestion.isRequired= true;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j].answerText);
+                        choices.push(questions[i].Answers[j]);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -179,6 +179,7 @@ class SurveyComponent extends Component {
     }
 
     render() {
+        require("../Survey.css");
         widgets.nouislider(Survey1);
         widgets.emotionsratings(Survey1);
 
@@ -195,6 +196,7 @@ class SurveyComponent extends Component {
 
             <Survey1.Survey
                 model={survey}
+                showQuestionNumbers={"off"}
             />
 
         );

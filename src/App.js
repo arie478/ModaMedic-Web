@@ -14,6 +14,7 @@ import QuestionnairesManger from "./Questionnaire/QuestionnaireManger";
 import {Route} from "react-router-dom";
 import SurveyComponent from "./Questionnaire/SurveyComponent";
 import InstructionsSurgery from "./InstructionsSurgery";
+import ExercisesPage from "./ExercisesPage";
 
 
 class App extends Component {
@@ -170,6 +171,8 @@ class App extends Component {
             return <SurveyComponent {...this.props}/>
         } else if(this.props.component === 'instructions'){
             return <InstructionsSurgery {...this.props}/>
+        } else if(this.props.component === 'exercises'){
+            return <ExercisesPage {...this.props}/>
         }
         return null;
     }

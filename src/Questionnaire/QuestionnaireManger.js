@@ -42,32 +42,30 @@ class QuestionnaireManger extends Component {
         }
     }
 
-   
-render(){  
-return(
-        <div>
-        <Table >
-            <thead>
-                 שם שאלון         
-            </thead>
-            <tbody>
-                {this.state.questionnairesArr.map(id => (
-              <td style={{width: "100%"}} >
-        <Link to={`/userQuestionnaire/${id[0]}`} > {id[1]}
-    
-        </Link>  
-          </td>
-          ))}
 
-          </tbody>
-      
-        </Table>
+    render(){
+        require("../Table.css");
+        return(
+            <div>
+                <div style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                    <table style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                        <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                        <h2><b>שם שאלון</b></h2>
+                        </thead>
+                        <tr style={{width: "50%" , textWeight: "large"}}>
+                            {this.state.questionnairesArr.map(id => (
+                                <th  id = "mdd" scope="row" style={{width: "100%", textWeight: "large" }} >
+                                    <Link to={`/userQuestionnaire/${id[0]}`} > {id[1]}
+                                    </Link>
+                                </th>
+                            ))}
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        );
 
-    </div>
-    
-);
-    
-}
+    }
 
 }
 

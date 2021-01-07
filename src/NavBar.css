@@ -69,6 +69,7 @@ div.App, div.App-header {
 
 
 #buttons{
+    /*margin-right: auto;*/
     margin-left: auto;
 }
 #change{
