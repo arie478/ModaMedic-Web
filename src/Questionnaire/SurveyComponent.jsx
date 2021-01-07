@@ -180,6 +180,7 @@ class SurveyComponent extends Component {
     }
 
     render() {
+        require("../Survey.css");
         widgets.nouislider(Survey1);
         widgets.emotionsratings(Survey1);
 
@@ -188,14 +189,11 @@ class SurveyComponent extends Component {
             (result)=> {
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
-
             });
-
-
         return (
-
             <Survey1.Survey
                 model={survey}
+                showQuestionNumbers={"off"}
             />
 
         );
