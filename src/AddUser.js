@@ -30,7 +30,7 @@ const initialState = {
     height: "",
     weight: "",
     bmi:"",
-    questionnaires: [],
+    // questionnaires: [],
     questionnairesChosen:0,
 };
 
@@ -122,8 +122,8 @@ class AddUser extends Component {
     onSelectQuestionnairesChosen(selected) {
         console.log(selected)
         // const selectedIndex = event.target.options.selectedIndex;
-        let chosen = []
-        let questionnaires = this.state.questionnaires
+        let chosen = [];
+        let questionnaires = this.state.questionnaires;
         selected.forEach(selectQuestionnaire => {
             questionnaires.forEach(questionnaire => {
                 if(selectQuestionnaire == questionnaire.QuestionnaireText){
@@ -350,15 +350,20 @@ class AddUser extends Component {
         let optionItems = quesions.map((question) =>
             <option key={question} >{question}</option>
         );
-        let questionnairesOption = this.state.questionnairesText;
+
+        let questionnaires = this.state.questionnairesText;
+        if (questionnaires.length == 0){
+            this.componentDidMount();
+            questionnaires = this.state.questionnairesText;
+        }
         // let questionnairesOption = questionnaires.map((questionnaire) =>
         //     <option key={questionnaire} >{questionnaire}</option>
         // );
-        // let questionnairesOption =[];
-        // questionnaires.forEach(questionnaire => {
-        //     questionnairesOption.push(questionnaire)
-        //     // questionnairesOption.push({value: questionnaire, label: questionnaire})
-        // });
+        let questionnairesOption =[];
+        questionnaires.forEach(questionnaire => {
+            questionnairesOption.push(questionnaire)
+            // questionnairesOption.push({value: questionnaire, label: questionnaire})
+        });
         // let questionnairesOption = questionnaires.map((questionnaire) => {value: {questionnaire}, label: {questionnaire}});
         let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
         let surgeryOptions = [<option/>,<option>ניתוח דחוף</option>,<option>ניתוח מתוכנן</option>,<option>ללא ניתוח</option>];
