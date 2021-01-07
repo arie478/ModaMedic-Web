@@ -222,6 +222,7 @@ class NavBar extends React.Component {
                         {this.state.isMessage ? <Redirect to="/messages" /> : null}
                         {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
                         {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
+                        {this.state.isQuestionnaires ? this.setState({isQuestionnaires: false}) : null}
                         {this.state.isInstructions ? <Redirect to="/instructions" /> : null}
                         {this.state.isExercises ? <Redirect to="/exercises" /> : null}
                         {this.state.isLogOut ? <Redirect to="/" /> : null}
@@ -312,15 +313,15 @@ class UserInfo extends React.Component {
         else{
             sDate = "לא נקבע יום ניתוח";
         }
-     let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
+        let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
         let patientListItems;
         if(sessionStorage.getItem("patient")){
-                patientListItems =  <div><ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item> <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
-            <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
-            <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
-            <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
-            <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
-                </div>
+            patientListItems =  <div><ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item> <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
+                <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
+                <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
+                <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
+                <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
+            </div>
         }
         return (
             <div className='popup'>
