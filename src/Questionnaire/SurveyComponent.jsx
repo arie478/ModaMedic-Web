@@ -67,7 +67,7 @@ class SurveyComponent extends Component {
                     singleQuestion.isRequired= true;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j]);
+                        choices.push(questions[i].Answers[j].answerText);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -136,7 +136,9 @@ class SurveyComponent extends Component {
 
     }
 
-    async sendAnswersToServer(serveryResult){
+
+
+async sendAnswersToServer(serveryResult){
         if (serveryResult!=null){
             const result={};
             //to do fix dynamicly
@@ -188,17 +190,16 @@ class SurveyComponent extends Component {
             (result)=> {
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
-
             });
 
 
         return (
-
+// <body style={{alignRight: "auto", alignLeft: "auto"}}>
             <Survey1.Survey
                 model={survey}
-                showQuestionNumbers={"off"}
+                showQuestionNumbers={"on"}
             />
-
+// </body>
         );
     }
 }

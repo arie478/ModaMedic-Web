@@ -18,6 +18,8 @@ class Home extends Component{
     */
 
     render(){
+
+        document.body.setAttribute('dir', 'rtl')
         return(
             <Router basename={window.location.pathname || ''}>
                 <Switch>

@@ -205,12 +205,7 @@ class NavBar extends React.Component {
         return (
             <div>
                 <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
-                    <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
-                        <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
-                        <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
-                        <NavDropdown.Item as="button" onClick={() => this.privateInfoShow()}>פרטים אישיים</NavDropdown.Item>
-                    </NavDropdown>
-                    {iconType}
+
                     <div id="buttons">
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
                         <span>{'    '}            </span>
@@ -241,7 +236,12 @@ class NavBar extends React.Component {
                             /> : null
                         }
                     </div>
-
+                    {iconType}
+                    <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
+                        <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
+                        <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
+                        <NavDropdown.Item as="button" onClick={() => this.privateInfoShow()}>פרטים אישיים</NavDropdown.Item>
+                    </NavDropdown>
                     <Navbar.Brand>
                         <img
                             alt=""
