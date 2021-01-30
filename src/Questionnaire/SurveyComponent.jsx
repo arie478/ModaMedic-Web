@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import $ from "jquery";
-import noUiSlider from 'nouislider';
 import "nouislider/distribute/nouislider.min.css";
 import axios from 'axios';
 import * as Survey1 from "survey-react";
@@ -190,6 +189,8 @@ async sendAnswersToServer(serveryResult){
             (result)=> {
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
+                window.location.href = "http://localhost:3000/ModaMedicWeb/questionnaires";
+
             });
 
 

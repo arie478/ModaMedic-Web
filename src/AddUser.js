@@ -380,24 +380,24 @@ class AddUser extends Component {
                 {this.state.type === 'doctor' ?
                     <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
                         <div className="divs_in_add">
-                            <label className="labels_in_add_user">כתובת דוא"ל</label>
-                            <input className="inputs_in_add_user" name="userName" type="text"
+                            <label for= "email" className="labels_in_add_user">כתובת דוא"ל</label>
+                            <input className="inputs_in_add_user" name="userName" type="email"
                                    value={this.state.userName} onChange={e => this.handleChange(e)} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם פרטי</label>
                             <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}
-                                   onChange={this.handleChange} required/>
+                                   maxLength="20" onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם משפחה </label>
                             <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}
-                                   onChange={this.handleChange} required/>
+                                   maxLength="20" onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סיסמה </label>
-                            <input className="inputs_in_add_user" name="password" type="password"
-                                   value={this.state.password} onChange={this.handleChange} required/>
+                            <input className="inputs_in_add_user" name="password" type="password" minlength="8"
+                                  maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" value={this.state.password} onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מספר טלפון</label>
@@ -435,23 +435,24 @@ class AddUser extends Component {
                 {this.state.type === 'patient' ?
                     <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
                         <div className="divs_in_add">
-                            <label className="labels_in_add_user">כתובת דוא"ל</label>
-                            <input className="inputs_in_add_user" name="userName" type="text"
+                            <label for="email" className="labels_in_add_user">כתובת דוא"ל</label>
+                            <input className="inputs_in_add_user" name="userName" type="email"
                                    value={this.state.userName} onChange={e => this.handleChange(e)} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם פרטי</label>
-                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
                                    onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם משפחה </label>
-                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
                                    onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סיסמה </label>
-                            <input className="inputs_in_add_user" name="password" type="password"
+                            <input className="inputs_in_add_user" name="password" type="password" minlength="8"
+                                   maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                                    value={this.state.password} onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
