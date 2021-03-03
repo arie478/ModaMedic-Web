@@ -101,6 +101,7 @@ class MessagesPage extends Component {
 
     async removeMessage(mId){
         if (sessionStorage.getItem('patient')) {
+            console.log("patient")
             axios.post('http://localhost:8180/auth/patients/messages/removeMessage',
                 {
                     MessageId: mId,
@@ -112,6 +113,19 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesPatient();
+                this.fetchMessagesDoctor();
+            });
+        }
+        else if(sessionStorage.getItem('doctor')) {
+            axios.delete(`http://localhost:8180/auth/doctors/messages/removeMessage/${mId}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
+                }).then(res => {
+                // this.fetchMessagesPatient();
+                this.fetchMessagesDoctor();
             });
         }
     }
@@ -149,22 +163,26 @@ class MessagesPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(this.state.content.length > 150) {
-            window.alert("אורך הודעה עד 150 תוים!")
+        if(this.props.patientUserId == undefined){
+            window.alert("אנא בחר מטופל לצורך שליחת הודעה")
         }else {
-            var count = 0;
-            var dt2 = new Date();
-            this.state.messages.forEach(message => {
-                let dt1 = new Date(message.Date);
-                if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 1) {
-                    count = count + 1;
-                }
-            });
-        }
-        if (count > 2){
-            window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
-        } else {
-            this.addMessage();
+            if (this.state.content.length > 150) {
+                window.alert("אורך הודעה עד 150 תוים!")
+            } else {
+                var count = 0;
+                var dt2 = new Date();
+                this.state.messages.forEach(message => {
+                    let dt1 = new Date(message.Date);
+                    if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 1) {
+                        count = count + 1;
+                    }
+                });
+            }
+            if (count > 2 && sessionStorage.getItem('patient')) {
+                window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
+            } else {
+                this.addMessage();
+            }
         }
 
     }
