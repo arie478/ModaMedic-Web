@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import axios from 'axios';
 import DisplayButton from './DisplayButton';
+import QuestionnaireManger from "./Questionnaire/QuestionnaireManger";
 
 class PatientSearchNew extends Component {
 
@@ -421,6 +422,8 @@ class PatientSearchNew extends Component {
                     user={this.state.user}
                     ready={this.state.ready}
                 />
+                {/*<QuestionnaireManger user={this.state.user}*/}
+                {/*/>*/}
 
             </div>
         )
