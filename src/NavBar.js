@@ -9,11 +9,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import Card from "react-bootstrap/Card";
 import ListGroup from "react-bootstrap/ListGroup";
 import PatientData from "./PatientData";
-import Button from 'react-bootstrap/Button';
-import EdiText from 'react-editext'
-
-
-
+import Button from "react-bootstrap/Button";
 
 class NavBar extends React.Component {
     constructor(){
@@ -29,14 +25,15 @@ class NavBar extends React.Component {
             isPatientInfo: false,
             isInstructions: false,
             isExercises: false,
+            isEdit: false,
         };
         this.logout = this.logout.bind(this);
         this.change = this.change.bind(this);
         this.privateInfoShow = this.privateInfoShow.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this)
-        this.changeInfoField=this.changeInfoField.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.changeToEdit = this.changeToEdit.bind(this);
     }
 
     goToMessages() {
@@ -161,22 +158,6 @@ class NavBar extends React.Component {
         this.setState({currUser: response.data.data})
     }
 
-    async changeInfoField(fieldName,val) {
-        let url = 'http://localhost:8180/users/editUser';
-        const response = await axios.put(
-            url,
-            {
-               fieldName:val,
-                UserID: this.props.user.id
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }
-        );
-    }
 
     handleChange(event) {
         const {name, value, type, checked} = event.target
@@ -212,20 +193,24 @@ class NavBar extends React.Component {
         return sessionStorage.getItem('doctor')
     }
 
+    changeToEdit(){
+        this.setState({
+            isEdit: !this.state.isEdit
+        });
+    }
+
     render() {
         var path = window.location.pathname;
         require("./NavBar.css");
         var iconType;
         if (this.isDoctor()) {
             iconType = <FaUserMd class="userIcon" style={{color: 'white'}} size={25}/>
-
         }else{
             iconType =  <FaUser class="userIcon" style={{color: 'white'}} size={25}/>
         }
         return (
             <div>
                 <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
-
                     <div id="buttons">
                         <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
                         <span>{'    '}            </span>
@@ -252,16 +237,18 @@ class NavBar extends React.Component {
                         {this.state.userInfo ?
                             <UserInfo
                                 user = {this.state.currUser}
+                                isEdit = {this.state.isEdit}
                                 closePopup={this.toggleUserInfo.bind(this)}
+                                changeToEdit = {this.changeToEdit}
                             /> : null
                         }
                     </div>
-                    {iconType}
                     <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
                         <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
                         <NavDropdown.Item as="button" onClick={() => this.logout()}>התנתק</NavDropdown.Item>
                         <NavDropdown.Item as="button" onClick={() => this.privateInfoShow()}>פרטים אישיים</NavDropdown.Item>
                     </NavDropdown>
+                    {iconType}
                     <Navbar.Brand>
                         <img
                             alt=""
@@ -320,6 +307,86 @@ class Popup extends React.Component {
 }
 
 class UserInfo extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            userName: "",
+            fName: this.props.user.First_Name,
+            lName: this.props.user.Last_Name,
+            bday: new Date(this.props.user.BirthDate),
+            phone: this.props.user.Phone_Number,
+            gender: this.props.user.Gender,
+            smoke: this.props.user.Smoke,
+            dateOfSurgery:this.props.user.DateOfSurgery,
+            surgeryType: this.props.user.SurgeryType,
+            education: this.props.user.Education,
+            height: this.props.user.Height,
+            weight: this.props.user.Weight,
+            bmi:this.props.user.BMI,
+        }
+        this.handleChangeInfo = this.handleChangeInfo.bind(this);
+        this.handleSubmitInfo = this.handleSubmitInfo.bind(this);
+    }
+    handleChangeInfo(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    handleSubmitInfo(event) {
+        event.preventDefault();
+        var bDay = new Date(this.state.bday);
+        var now = new Date();
+        if(this.state.type === 'patient') {
+            var dateOfSurgery = new Date(this.state.dateOfSurgery);
+            let gender;
+            if (this.state.gender == 1) {
+                gender = "נקבה"
+            } else if (this.state.gender == 2) {
+                gender = "זכר"
+            }
+            let smoke;
+            if (this.state.gender == 1) {
+                smoke = "מעשן"
+            } else if (this.state.gender == 2) {
+                smoke = "לא מעשן"
+            }
+            let sType;
+            if (this.state.surgeryType ==1) {
+                sType = "ניתוח דחוף"
+            }else if (this.state.surgeryType == 2)
+            {
+                sType = "ניתוח מתוכנן"
+
+            }else if (this.state.surgeryType == 3) {
+                sType = "ללא ניתוח"
+            }
+            let education;
+            let educationOptions = {1 :"השכלה אקדמאית", 2: "השכלה תיכונית", 3:"10-12 שנות לימוד", 4: "6-9 שנות לימוד", 5: "5 שנות לימוד או פחות", 6:"לא מעוניין לענות"};
+            for (var key in educationOptions) {
+                if(key == this.state.education){
+                    education = educationOptions[key]
+                }
+            }
+            let height_double = Number(this.state.height / 100);
+            let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
+            axios.put('http://localhost:8180/usersAll/patientUpdate', {
+                UserID: this.state.userName,
+                First_Name: this.state.fName,
+                Last_Name: this.state.lName,
+                Phone_Number: this.state.phone,
+                Gender:gender,
+                Smoke: smoke,
+                DateOfSurgery: dateOfSurgery.getTime(),
+                SurgeryType: sType,
+                Education: education,
+                Height: this.state.height,
+                Weight: this.state.weight,
+                BMI: bmi,
+                BirthDate: bDay.getTime(),
+                ValidTime: now.getTime()
+            })
+        }
+    }
     render() {
         require("./NavBar.css");
         let bDate = new Date(this.props.user.BirthDate).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -336,126 +403,104 @@ class UserInfo extends React.Component {
         let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
         let patientListItems;
         if(sessionStorage.getItem("patient")){
-            patientListItems =  <div><ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item> <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
+            patientListItems =  <div>
+                <ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item>
+                <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
                 <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
                 <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
                 <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
                 <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
             </div>
         }
+        let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
+        let surgeryOptions = [<option/>,<option>ניתוח דחוף</option>,<option>ניתוח מתוכנן</option>,<option>ללא ניתוח</option>];
+        let smokeOptions = [<option/>,<option>מעשן</option>,<option>לא מעשן</option>];
+        let educationOptions = [<option/>,<option>השכלה אקדמאית</option>,<option>השכלה תיכונית</option>,<option>10-12 שנות לימוד</option>,<option>6-9 שנות לימוד</option>,<option>5 שנות לימוד או פחות</option>,<option>לא מעוניין לענות</option>];
+        var today = (new Date()).toISOString().split("T")[0];
         return (
-            <div className='popup_inner_info' align={"right"} >
-                <button onClick={this.props.closePopup} id="x">x</button>
-                <h3 font={'Sans-serif'}>פרטים אישיים:</h3>
-                <div className={"cont"}>
-                    <b> שם: </b>
-                <EdiText
-                    type="textarea"
-                    saveButtonContent="Apply"
-                    cancelButtonContent={<strong>Cancel</strong>}
-                    editButtonContent="Edit"
-                    value={this.props.user.First_Name +" "+ this.props.user.Last_Name}
-                    onSave={this.onSave}
-            />
-                <b>תאריך לידה: </b>
-                <EdiText
-                    type="date"
-                    saveButtonContent="Apply"
-                    cancelButtonContent={<strong>Cancel</strong>}
-                    editButtonContent="Edit"
-                    value= {bDate}
-                    onSave={this.onSave}
-                />
-
-                    <b>גיל: </b>
-                    <EdiText
-                        type="number"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {age}
-                        onSave={this.onSave}
-                        validation={(value)=>{return value>=18 }}
-                        validationMessage={"ערכים תקינים: גיל 18 ומעלה"}
-
-                    />
-
-
-                    <b>מין: </b>
-                    <EdiText
-                        type="textarea"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {this.props.user.Gender}
-                        onSave={this.onSave}
-                        validation={(value)=>{return ((value==="זכר")|| (value ==="נקבה")) }}
-                        validationMessage={"ערכים תקינים: זכר, נקבה"}
-                    />
-
-                    <b>טלפון: </b>
-                    <EdiText
-                        type="number"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {this.props.user.Phone_Number}
-                        onSave={this.onSave}
-                    />
-                    <b>גובה: </b>
-                    <EdiText
-                        type="number"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {this.props.user.Height}
-                        onSave={this.onSave}
-                    />
-                    <b> BMI: </b>
-                    <EdiText
-                        type="number"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {bmi}
-                        onSave={this.onSave}
-                    />
-                    <b>תאריך ניתוח: </b>
-                    <EdiText
-                        type="date"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {sDate}
-                        onSave={this.onSave}
-                    />
-                    <b>סוג ניתוח: </b>
-                    <EdiText
-                        type="textarea"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {this.props.user.SurgeryType}
-                        onSave={this.onSave}
-                        validation={(value)=>{return ((value==="ניתוח דחוף")|| (value ==="ניתוח מתוכנן")|| (value==="ללא ניתוח")) }}
-                        validationMessage={"ערכים תקינים: ניתוח דחוף, ניתוח מתוכנן, ללא ניתוח"}
-                    />
-                    <b>השכלה: </b>
-                    <EdiText
-                        type="textarea"
-                        saveButtonContent="Apply"
-                        cancelButtonContent={<strong>Cancel</strong>}
-                        editButtonContent="Edit"
-                        value= {this.props.user.Education}
-                        onSave={this.onSave}
-                        validation={(value)=>{return ((value==="השכלה תיכונית")|| (value ==="השכלה אקדמאית") || (value ==="10-12 שנות לימוד") || (value ==="6-9 שנות לימוד")
-                            || (value ==="5 שנות לימוד או פחות") || (value ==="לא מעוניין לענות"))}}
-                        validationMessage={"ערכים תקינים: השכלה אקדמאית, השכלה תיכונית, 10-12 שנות לימוד, 6-9 שנות לימוד, 5 שנות לימוד או פחות, לא מעוניין לענות"}
-                    />
+            <div className='popup'>
+                <div className='popup_inner_info'>
+                    <button onClick={this.props.closePopup} id="x">x</button>
+                    {!this.props.isEdit ?
+                    <Card style={{ align:'center',width: '30rem', marginLeft: '15%', marginTop:'0%' }}>
+                        <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
+                        <ListGroup variant="flush">
+                            <ListGroup.Item > תאריך לידה: {bDate} </ListGroup.Item>
+                            <ListGroup.Item > גיל: {age}</ListGroup.Item>
+                            <ListGroup.Item> מין: {this.props.user.Gender} </ListGroup.Item>
+                            <ListGroup.Item> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
+                            {patientListItems}
+                        </ListGroup>
+                    </Card> : null }
+                    <button style={{width: 150}} variant="info" onClick={this.props.changeToEdit}> עריכת פרטים </button>
+                    <form onSubmit={this.handleSubmitInfo} onReset={this.handleReset} id="new_user_form">
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם פרטי</label>
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
+                                   onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם משפחה </label>
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
+                                   onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מספר טלפון</label>
+                            <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                   value={this.state.phone} onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">תאריך לידה</label>
+                            <input className="inputs_in_add_user" name="bday" type="date" max={today}
+                                   value={bDate} onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">משקל (ק"ג) </label>
+                            <input className="inputs_in_add_user" name="weight" type="number" value={this.state.weight}
+                                   onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">גובה (ס"מ) </label>
+                            <input className="inputs_in_add_user" name="height" type="number" value={this.state.height}
+                                   onChange={this.handleChangeInfo} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מין </label>
+                            <select className="select_in_add_user" onChange={this.onSelectGender}>
+                                {genderOptions}
+                            </select>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מעשן </label>
+                            <select className="select_in_add_user" onChange={this.onSelectSmoke}>
+                                {smokeOptions}
+                            </select>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">השכלה </label>
+                            <select className="select_in_add_user" onChange={this.onSelectEducation}>
+                                {educationOptions}
+                            </select>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">סוג ניתוח </label>
+                            <select className="select_in_add_user" onChange={this.onSelectSurgeryType}>
+                                {surgeryOptions}
+                            </select>
+                        </div>
+                    <div className="divs_in_add">
+                        <label className="labels_in_add_user">תאריך ניתוח</label>
+                        <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
+                               value={this.state.dateOfSurgery} onChange={this.handleChangeInfo} required/>
+                    </div>
+                        <div className="divs_in_add">
+                            <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
+                        </div>
+                        <br/>
+                        <br/>
+                    </form>
+                </div>
             </div>
-
-            </div>
-
         );
     }
 }
