@@ -163,7 +163,7 @@ class MessagesPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(this.props.patientUserId == undefined){
+        if(sessionStorage.getItem('docotor') && this.props.patientUserId == undefined){
             window.alert("אנא בחר מטופל לצורך שליחת הודעה")
         }else {
             if (this.state.content.length > 150) {
@@ -212,7 +212,7 @@ class MessagesPage extends Component {
                             {this.state.messages.map((message) => (
                                 <tr>
                                     <td style={{width: 230}}>{new Date(message.Date).toLocaleString()}</td>
-                                    <td style={{width: 180}}>{`${message.FromFirstName} ${message.FromLastName}`}</td>
+                                    <td style={{width: 180}}>{` ${message.FromFirstName} ${message.FromLastName}`}</td>
                                     <td style={{width: 620, textAlign: "right"}}>{message.Content}</td>
                                     <td  style={{width: 100}}><AiFillDelete type="button" class="trushIcon" style={{color: 'black'}} size={20} onClick={()=>this.removeMessage(message.MessageId)}/></td>
                                 </tr>

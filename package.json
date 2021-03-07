@@ -64,6 +64,7 @@
     "@progress/kendo-react-layout": "^4.1.0",
     "@types/react-select": "^3.1.0",
     "multiselect-react-dropdown": "^1.6.3",
+    "react-image-mapper": "0.0.15",
     "react-player": "^2.7.2"
   }
 }

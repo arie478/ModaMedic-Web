@@ -350,9 +350,8 @@ class AddUser extends Component {
         let optionItems = quesions.map((question) =>
             <option key={question} >{question}</option>
         );
-
         let questionnaires = this.state.questionnairesText;
-        if (questionnaires.length == 0){
+        if (questionnaires.length === 0){
             this.componentDidMount();
             questionnaires = this.state.questionnairesText;
         }
@@ -372,8 +371,8 @@ class AddUser extends Component {
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
-                <label class="buttonsChoose">
-                    <Button style={{width: 150}} className="docbutton" variant="info" onClick={() => this.isDoctor()}> דוקטור </Button>
+                <label className="buttonsChoose">
+                    <Button style={{width: 150, floatButtom:'auto'}} className="docbutton" variant="info" onClick={() => this.isDoctor()}> דוקטור </Button>
                     {'                                                                '}
                     <Button style={{width: 150}} className="docbutton" variant="info" onClick={() => this.isPatient()}> מטופל </Button>
                 </label>
@@ -510,9 +509,9 @@ class AddUser extends Component {
                     </div>}
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            <DropdownMultiselect handleOnChange={(selected) => {
+                            <DropdownMultiselect options={questionnairesOption} handleOnChange={(selected) => {
                                 this.onSelectQuestionnairesChosen(selected)
-                            }} options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
+                            }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
