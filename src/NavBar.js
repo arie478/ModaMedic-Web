@@ -34,6 +34,7 @@ class NavBar extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.changeToEdit = this.changeToEdit.bind(this);
+        this.updateUser = this.updateUser.bind(this);
     }
 
     goToMessages() {
@@ -199,6 +200,10 @@ class NavBar extends React.Component {
         });
     }
 
+    updateUser(user){
+        this.setState({currUser: user})
+    }
+
     render() {
         var path = window.location.pathname;
         require("./NavBar.css");
@@ -240,6 +245,7 @@ class NavBar extends React.Component {
                                 isEdit = {this.state.isEdit}
                                 closePopup={this.toggleUserInfo.bind(this)}
                                 changeToEdit = {this.changeToEdit}
+                                updateUser = {this.updateUser}
                             /> : null
                         }
                     </div>
@@ -317,7 +323,7 @@ class UserInfo extends React.Component {
             phone: this.props.user.Phone_Number,
             gender: this.props.user.Gender,
             smoke: this.props.user.Smoke,
-            dateOfSurgery:this.props.user.DateOfSurgery,
+            dateOfSurgery:new Date(this.props.user.DateOfSurgery),
             surgeryType: this.props.user.SurgeryType,
             education: this.props.user.Education,
             height: this.props.user.Height,
@@ -326,90 +332,121 @@ class UserInfo extends React.Component {
         }
         this.handleChangeInfo = this.handleChangeInfo.bind(this);
         this.handleSubmitInfo = this.handleSubmitInfo.bind(this);
+        this.onSelectGender = this.onSelectGender.bind(this);
+        this.onSelectSmoke = this.onSelectSmoke.bind(this);
+        this.onSelectSurgeryType = this.onSelectSurgeryType.bind(this);
+        this.onSelectEducation = this.onSelectEducation.bind(this);
     }
     handleChangeInfo(e) {
         this.setState({
             [e.target.name]: e.target.value
         })
     }
-    handleSubmitInfo(event) {
+    async handleSubmitInfo(event) {
         event.preventDefault();
         var bDay = new Date(this.state.bday);
         var now = new Date();
-        if(this.state.type === 'patient') {
-            var dateOfSurgery = new Date(this.state.dateOfSurgery);
-            let gender;
-            if (this.state.gender == 1) {
-                gender = "נקבה"
-            } else if (this.state.gender == 2) {
-                gender = "זכר"
-            }
-            let smoke;
-            if (this.state.gender == 1) {
-                smoke = "מעשן"
-            } else if (this.state.gender == 2) {
-                smoke = "לא מעשן"
-            }
-            let sType;
-            if (this.state.surgeryType ==1) {
-                sType = "ניתוח דחוף"
-            }else if (this.state.surgeryType == 2)
-            {
-                sType = "ניתוח מתוכנן"
-
-            }else if (this.state.surgeryType == 3) {
-                sType = "ללא ניתוח"
-            }
-            let education;
-            let educationOptions = {1 :"השכלה אקדמאית", 2: "השכלה תיכונית", 3:"10-12 שנות לימוד", 4: "6-9 שנות לימוד", 5: "5 שנות לימוד או פחות", 6:"לא מעוניין לענות"};
-            for (var key in educationOptions) {
-                if(key == this.state.education){
-                    education = educationOptions[key]
-                }
-            }
-            let height_double = Number(this.state.height / 100);
-            let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-            axios.put('http://localhost:8180/usersAll/patientUpdate', {
-                UserID: this.state.userName,
+        var dateOfSurgery = new Date(this.state.dateOfSurgery);
+        let height_double = Number(this.state.height / 100);
+        let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
+        const response = await axios.put('http://localhost:8180/auth/usersAll/patientUpdate', {
+                // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
                 Phone_Number: this.state.phone,
-                Gender:gender,
-                Smoke: smoke,
+                Gender:this.state.gender,
+                Smoke: this.state.smoke,
                 DateOfSurgery: dateOfSurgery.getTime(),
-                SurgeryType: sType,
-                Education: education,
+                SurgeryType: this.state.surgeryType,
+                Education: this.state.education,
                 Height: this.state.height,
                 Weight: this.state.weight,
                 BMI: bmi,
                 BirthDate: bDay.getTime(),
                 ValidTime: now.getTime()
-            })
+            },
+            {headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                }})
+        this.props.changeToEdit()
+        this.props.updateUser(response.data.data)
+
+    }
+    onSelectGender(event) {
+        let gender;
+        const selectedIndex = event.target.options.selectedIndex;
+        if (selectedIndex == 1) {
+            gender = "נקבה"
+        } else if (selectedIndex == 2) {
+            gender = "זכר"
+        }
+        this.setState({
+            gender: gender
+        });
+    }
+    onSelectSmoke(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        let smoke;
+        if (selectedIndex == 1) {
+            smoke = "מעשן"
+        } else if (selectedIndex == 2) {
+            smoke = "לא מעשן"
+        }
+        this.setState({
+            smoke: smoke
+        });
+    }
+    onSelectEducation(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        let educationOptions = {1 :"השכלה אקדמאית", 2: "השכלה תיכונית", 3:"10-12 שנות לימוד", 4: "6-9 שנות לימוד", 5: "5 שנות לימוד או פחות", 6:"לא מעוניין לענות"};
+        this.setState({
+            education: educationOptions[selectedIndex]
+        });
+    }
+
+    onSelectSurgeryType(event) {
+        const selectedIndex = event.target.options.selectedIndex;
+        let sType;
+        if (selectedIndex == 1) {
+            sType = "ניתוח דחוף"
+        }else if (selectedIndex == 2)
+        {
+            sType = "ניתוח מתוכנן"
+
+        }else if (selectedIndex == 3) {
+            sType = "ללא ניתוח"
+        }
+        this.setState({
+            surgeryType: sType
+        });
+        if( selectedIndex !== 3 && selectedIndex !==0){
+            this.setState({
+                surgeryDateDisplay: true
+            });
+        }else{
+            this.setState({
+                surgeryDateDisplay: false
+            });
         }
     }
     render() {
         require("./NavBar.css");
-        let bDate = new Date(this.props.user.BirthDate).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        let sDate;
+        let bDate = new Date(this.state.bday).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         var today = new Date();
         var birthday = new Date(this.props.user["BirthDate"]);
         var age = Math.floor((today.getTime() - birthday.getTime())/ 31536000000)
-        if(this.props.user.DateOfSurgery){
-            sDate = (new Date(this.props.user["DateOfSurgery"])).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
-        }
-        else{
-            sDate = "לא נקבע יום ניתוח";
-        }
+        let sDate = (new Date(this.state.dateOfSurgery)).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         let bmi = parseFloat(this.props.user["BMI"]).toFixed(1);
         let patientListItems;
         if(sessionStorage.getItem("patient")){
             patientListItems =  <div>
-                <ListGroup.Item> גובה: {this.props.user.Height}</ListGroup.Item>
-                <ListGroup.Item> משקל: {this.props.user.Weight}</ListGroup.Item>
-                <ListGroup.Item> BMI:{bmi}</ListGroup.Item>
-                <ListGroup.Item> תאריך ניתוח: {sDate} </ListGroup.Item>
-                <ListGroup.Item> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
-                <ListGroup.Item> השכלה: {this.props.user.Education} </ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> גובה: {this.props.user.Height}</ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> משקל: {this.props.user.Weight}</ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> BMI:{bmi}</ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> תאריך ניתוח: {sDate} </ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> סוג ניתוח: {this.props.user.SurgeryType} </ListGroup.Item>
+                <ListGroup.Item className={"listItem"}> השכלה: {this.props.user.Education} </ListGroup.Item>
             </div>
         }
         let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
@@ -417,88 +454,91 @@ class UserInfo extends React.Component {
         let smokeOptions = [<option/>,<option>מעשן</option>,<option>לא מעשן</option>];
         let educationOptions = [<option/>,<option>השכלה אקדמאית</option>,<option>השכלה תיכונית</option>,<option>10-12 שנות לימוד</option>,<option>6-9 שנות לימוד</option>,<option>5 שנות לימוד או פחות</option>,<option>לא מעוניין לענות</option>];
         var today = (new Date()).toISOString().split("T")[0];
+        var date = new Date(this.state.bday).toISOString().substr(0,10);
+        var surgeryDate = new Date(this.state.dateOfSurgery).toISOString().substr(0,10);
         return (
             <div className='popup'>
                 <div className='popup_inner_info'>
                     <button onClick={this.props.closePopup} id="x">x</button>
                     {!this.props.isEdit ?
-                    <Card style={{ align:'center',width: '30rem', marginLeft: '15%', marginTop:'0%' }}>
-                        <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
-                        <ListGroup variant="flush">
-                            <ListGroup.Item > תאריך לידה: {bDate} </ListGroup.Item>
-                            <ListGroup.Item > גיל: {age}</ListGroup.Item>
-                            <ListGroup.Item> מין: {this.props.user.Gender} </ListGroup.Item>
-                            <ListGroup.Item> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
-                            {patientListItems}
-                        </ListGroup>
-                    </Card> : null }
-                    <button style={{width: 150}} variant="info" onClick={this.props.changeToEdit}> עריכת פרטים </button>
-                    <form onSubmit={this.handleSubmitInfo} onReset={this.handleReset} id="new_user_form">
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">שם פרטי</label>
-                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
-                                   onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">שם משפחה </label>
-                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
-                                   onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">מספר טלפון</label>
-                            <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
-                                   value={this.state.phone} onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">תאריך לידה</label>
-                            <input className="inputs_in_add_user" name="bday" type="date" max={today}
-                                   value={bDate} onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">משקל (ק"ג) </label>
-                            <input className="inputs_in_add_user" name="weight" type="number" value={this.state.weight}
-                                   onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">גובה (ס"מ) </label>
-                            <input className="inputs_in_add_user" name="height" type="number" value={this.state.height}
-                                   onChange={this.handleChangeInfo} required/>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">מין </label>
-                            <select className="select_in_add_user" onChange={this.onSelectGender}>
-                                {genderOptions}
-                            </select>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">מעשן </label>
-                            <select className="select_in_add_user" onChange={this.onSelectSmoke}>
-                                {smokeOptions}
-                            </select>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">השכלה </label>
-                            <select className="select_in_add_user" onChange={this.onSelectEducation}>
-                                {educationOptions}
-                            </select>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">סוג ניתוח </label>
-                            <select className="select_in_add_user" onChange={this.onSelectSurgeryType}>
-                                {surgeryOptions}
-                            </select>
-                        </div>
-                    <div className="divs_in_add">
-                        <label className="labels_in_add_user">תאריך ניתוח</label>
-                        <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
-                               value={this.state.dateOfSurgery} onChange={this.handleChangeInfo} required/>
-                    </div>
-                        <div className="divs_in_add">
-                            <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
-                        </div>
-                        <br/>
-                        <br/>
-                    </form>
+                        <Card>
+                            <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> גיל: {age}</ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> מין: {this.props.user.Gender} </ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
+                                {patientListItems}
+                            </ListGroup>
+                        </Card> : null }
+                    {this.props.isEdit ?
+                        <form onSubmit={this.handleSubmitInfo} onReset={this.handleReset} id="new_user_form">
+                            <br/>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">שם פרטי</label>
+                                <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">שם משפחה </label>
+                                <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">מספר טלפון</label>
+                                <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                       value={this.state.phone} onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">תאריך לידה</label>
+                                <input className="inputs_in_add_user" name="bday" type="date" max={today}
+                                       value={date} onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">משקל (ק"ג) </label>
+                                <input className="inputs_in_add_user" name="weight" type="number" value={this.state.weight}
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">גובה (ס"מ) </label>
+                                <input className="inputs_in_add_user" name="height" type="number" value={this.state.height}
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">מין </label>
+                                <select value={this.state.gender} className="select_in_add_user" onChange={this.onSelectGender}>
+                                    {genderOptions}
+                                </select>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">מעשן </label>
+                                <select value={this.state.smoke} className="select_in_add_user" onChange={this.onSelectSmoke}>
+                                    {smokeOptions}
+                                </select>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">השכלה </label>
+                                <select value={this.state.education} className="select_in_add_user" onChange={this.onSelectEducation}>
+                                    {educationOptions}
+                                </select>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">סוג ניתוח </label>
+                                <select value={this.state.surgeryType} className="select_in_add_user" onChange={this.onSelectSurgeryType}>
+                                    {surgeryOptions}
+                                </select>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">תאריך ניתוח</label>
+                                <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
+                                       value={surgeryDate} onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <input style={{width: 150}} variant="info" type="submit" value="שמור" className="submit_and_reset_buttons"/>
+                            </div>
+                        </form> : null}
+                    {!this.props.isEdit ?
+                        <button style={{width: 150, float:'left'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
                 </div>
             </div>
         );

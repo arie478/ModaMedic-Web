@@ -234,13 +234,62 @@ div.App, div.App-header {
 
 .popup_inner_info{
     position: absolute;
-    left: 20%;
-    right: 20%;
-    top: 15%;
-    bottom: -20%;
+    left: 0%;
+    right: 0%;
+    top: 8%;
+    bottom: 0%;
     margin: auto;
-    background-color:antiquewhite;
+    background-color:lightblue;
 }
 .cont{
     background-color:#99e6ff;
+}
+
+.card{
+    width: 32rem;
+    height: 25%;
+    margin-right: 50%;
+    margin-top: 0%;
+}
+
+.list-group-item {
+    padding: 5rem 1.25rem;
+}
+
+.listItem{
+    height: 42px;
+}
+
+.labels_in_add_user {
+    text-align: left;
+    float:right;
+    margin-right: 12%;
+    /*margin-buttom: 2%;*/
+    font-size: calc(10px + 1vmin);
+    padding-top: 1%;
+    width: 25%;
+}
+
+.divs_in_add{
+    overflow: hidden;
+    text-align: center;
+}
+.inputs_in_add_user, .select_in_add_user{
+    width: 25%;
+    height: 28px;
+    float: right;
+    /*margin-buttom: 2%;*/
+}
+
+.container {
+    position: relative;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+    /*transform: translateX(-50%);*/
 }

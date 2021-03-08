@@ -229,9 +229,9 @@ class AddUser extends Component {
                 gender = "זכר"
             }
             let smoke;
-            if (this.state.gender == 1) {
+            if (this.state.smoke == 1) {
                 smoke = "מעשן"
-            } else if (this.state.gender == 2) {
+            } else if (this.state.smoke == 2) {
                 smoke = "לא מעשן"
             }
             let sType;
