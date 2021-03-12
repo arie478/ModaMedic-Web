@@ -16,6 +16,8 @@ import SurveyComponent from "./Questionnaire/SurveyComponent";
 import InstructionsSurgery from "./InstructionsSurgery";
 import ExercisesPage from "./ExercisesPage";
 
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 class App extends Component {
     constructor(props) {
@@ -40,6 +42,7 @@ class App extends Component {
                 .then(() => console.log("Fetch names successfully"));
         }
     }
+
 
     async fetchNames(){
         var list = [];

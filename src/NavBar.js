@@ -461,7 +461,7 @@ class UserInfo extends React.Component {
                 <div className='popup_inner_info'>
                     <button onClick={this.props.closePopup} id="x">x</button>
                     {!this.props.isEdit ?
-                        <Card>
+                        <Card class="cardInfo">
                             <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
                             <ListGroup variant="flush">
                                 <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
@@ -538,7 +538,7 @@ class UserInfo extends React.Component {
                             </div>
                         </form> : null}
                     {!this.props.isEdit ?
-                        <button style={{width: 150, float:'left'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
+                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
                 </div>
             </div>
         );
