@@ -14,6 +14,7 @@ import REVERSE_TSR from "./prtocols/REVERSE_TSR.pdf";
 import ROTATORCUFF from "./prtocols/ROTATORCUFF.pdf";
 import FIRST from "./prtocols/FIRST.pdf";
 import Grid from '@material-ui/core/Grid';
+import {BsDownload} from "react-icons/bs";
 
 var MAP = {
     name: "my-map",
@@ -60,6 +61,10 @@ class InstructionsSurgery extends Component {
                 "ROTATORCUFF": ROTATORCUFF,
                 "FIRST": FIRST
             },
+            headerNames: {
+                "knee": "פרוטוקולי שיקום - ברך",
+                "shoulder": "פרוטוקולי שיקום - כתף"
+            },
             instructionsByCategory: {},
             showInstructions: false,
             showPopup: false
@@ -88,7 +93,7 @@ class InstructionsSurgery extends Component {
     }
 
     load() {
-        this.setState({msg: "Interact with image !"});
+        // this.setState({msg: "Interact with image !"});
     }
 
     clicked(area) {
@@ -98,9 +103,9 @@ class InstructionsSurgery extends Component {
             });
         } else {
             this.setState({
-                msg: `You clicked on ${area.shape} at coords ${JSON.stringify(
-                    area.coords
-                )} !`,
+                // msg: `You clicked on ${area.shape} at coords ${JSON.stringify(
+                //     area.coords
+                // )} !`,
                 category: area.name,
                 showInstructions: true,
             }, this.focusOnInstructions);
@@ -229,12 +234,6 @@ class InstructionsSurgery extends Component {
                         <br/>
                         <img style={{width: 500, marginLeft:"auto"}} src={require('./ImagesOrth/instuctions info.PNG')} />
                     </Grid>
-                    {/*<h5 style={{textAlign: 'Right', marginLeft: 1000}}>מטופל יקר,*/}
-                    {/*    על מנת לצפות בפרוטוקולים, אנא לחץ על איבר הפגיעה הרצוי לשיקום ובחר את פרוטוקול השיקום המתאים עבורך.*/}
-                    {/*</h5>*/}
-                    {/*<h5 style={{textAlign: 'Right', marginLeft: 100}}> <b> שים לב - צפייה בפרוטוקולים היא לנוחיותך אך עם זאת, קביעת תהליך השיקום וביצועו מכריחה התייעצות עם צוות הפיזיותרפיה.</b></h5>*/}
-                    {/*/!*<Grid container spacing={3} >*!/*/}
-                    {/*    <Grid item xs={6}>*/}
                     <Grid item xs={6} >
                         <div>
                             <div style={{position: "relative"}}>
@@ -245,11 +244,11 @@ class InstructionsSurgery extends Component {
                                     // height={700}
                                     onLoad={() => this.load()}
                                     onClick={area => this.clicked(area)}
-                                    onMouseEnter={area => this.enterArea(area)}
-                                    onMouseLeave={area => this.leaveArea(area)}
-                                    onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
-                                    onImageClick={evt => this.clickedOutside(evt)}
-                                    onImageMouseMove={evt => this.moveOnImage(evt)}
+                                    // onMouseEnter={area => this.enterArea(area)}
+                                    // onMouseLeave={area => this.leaveArea(area)}
+                                    // onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
+                                    // onImageClick={evt => this.clickedOutside(evt)}
+                                    // onImageMouseMove={evt => this.moveOnImage(evt)}
                                     lineWidth={4}
                                     strokeColor={"white"}
                                 />
@@ -277,30 +276,44 @@ class InstructionsSurgery extends Component {
                 {/*        <PDF pdfFile={this.state.pdfNames[this.state.pdfToShow]}/>*/}
                 {/*    </div>}*/}
                 {/*</Grid>*/}
-                <Grid container spacing={2} >
-                    {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
-                    this.state.instructionsByCategory[this.state.category].map((instruction) => {
-                        return <Grid id="inst"  item xs={6}> <Card>
-                            <CardMedia
-                                component="img"
-                                alt="Contemplative Reptile"
-                                height="200"
-                                image={instruction.ImagePart}
-                                title="Contemplative Reptile"
-                                // onClick={() =>this.changePdfToShow(instruction.PdfName)}
-                            />
-                            <Card.Header>
-                                <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
-                                    <a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>
-                                        <b>{instruction.Title}</b>
-                                    </a>
-                                </button>
-                            </Card.Header>
-                        </Card>
-                        </Grid>
-                    })
-                    }                    </Grid>
+                {/*<Grid item xs={6}>*/}
 
+                {/*</Grid>*/}
+                <div id="inst">
+                    <br/>
+                    <br/>
+                    <br/>
+                    <h2 style={{width: 500, height:50}}>{this.state.headerNames[this.state.category]}</h2>
+                </div>
+                <div >
+                    <Grid container spacing={2} >
+                        {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
+                        this.state.instructionsByCategory[this.state.category].map((instruction) => {
+                            return <Grid item xs={5} style={{marginLeft:50}}>
+                                <Card>
+                                    <CardMedia
+                                        component="img"
+                                        alt="Contemplative Reptile"
+                                        height="200"
+                                        image={instruction.ImagePart}
+                                        title="Contemplative Reptile"
+                                        // onClick={() =>this.changePdfToShow(instruction.PdfName)}
+                                    />
+                                    <Card.Header>
+                                        <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
+                                                <a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>
+                                                    <b>  {instruction.Title}  </b>
+                                                    <BsDownload></BsDownload>
+                                                </a>
+                                        </button>
+
+                                    </Card.Header>
+                                </Card>
+                            </Grid>
+                        })
+                        }
+                    </Grid>
+                </div>
             </div>)
 
     }
