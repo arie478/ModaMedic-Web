@@ -45,6 +45,7 @@ class ExercisesPage extends Component {
 
 
     render() {
+        // require("./ExercisesPage.css");
         let group = undefined;
         if (this.state.exercises) {
             group = this.state.exercises.reduce((r, a) => {
@@ -64,6 +65,7 @@ class ExercisesPage extends Component {
             <div>
                 {group && Object.keys(group).map((keyName, keyIndex) => (
                         <div className="container">
+                            <br/>
                             <br/>
                             <h2><b>תרגילי {keyName}</b></h2>
                             <div className="root">

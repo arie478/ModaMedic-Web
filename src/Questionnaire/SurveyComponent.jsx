@@ -101,12 +101,11 @@ class SurveyComponent extends Component {
     }
 
     async sendParsedResultToServer(result){
+        console.log(result)
         let url = `http://localhost:8180/auth/patients/answers/sendAnswers`;
         const response = await axios.post(
             url,
-
-            result
-            ,
+            result,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,22 +147,17 @@ async sendAnswersToServer(serveryResult){
             let counter=0;
             for (var i in serveryResult) {
                 if (Object.prototype.hasOwnProperty.call(serveryResult, i)) {
-
                     let question={};
                     question.QuestionID=counter;
                     counter++;
                     let answers=[];
-
                     if (Array.isArray(serveryResult.i)){
                         for(let j=0; j<serveryResult.i.length;j++){
                             answers.push(serveryResult[i][j].answerID);
                         }
-
-
                     }else {
                         if (Object.prototype.hasOwnProperty.call(serveryResult[i], "answerID"))
                             answers.push(serveryResult[i].answerID);
-
                         else
                             answers.push(parseInt(serveryResult[i]));
                     }
@@ -190,7 +184,6 @@ async sendAnswersToServer(serveryResult){
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
                 window.location.href = "http://localhost:3000/ModaMedicWeb/questionnaires";
-
             });
 
 

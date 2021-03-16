@@ -100,6 +100,7 @@ class InstructionsSurgery extends Component {
         if(area.name === this.state.category) {
             this.setState({
                 showInstructions: !this.state.showInstructions,
+                category: ""
             });
         } else {
             this.setState({
@@ -232,11 +233,11 @@ class InstructionsSurgery extends Component {
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
-                        <img style={{width: 500, marginLeft:"auto"}} src={require('./ImagesOrth/instuctions info.PNG')} />
+                        <img style={{width: '100%', marginLeft:"auto"}} src={require('./ImagesOrth/INSTRUCTIONS.PNG')} />
                     </Grid>
                     <Grid item xs={6} >
                         <div>
-                            <div style={{position: "relative"}}>
+                            <div style={{ width: '100%', position: "relative"}}>
                                 <ImageMapper
                                     src={URL}
                                     map={MAP}
@@ -283,7 +284,7 @@ class InstructionsSurgery extends Component {
                     <br/>
                     <br/>
                     <br/>
-                    <h2 style={{width: 500, height:50}}>{this.state.headerNames[this.state.category]}</h2>
+                    <h2>{this.state.headerNames[this.state.category]}</h2>
                 </div>
                 <div >
                     <Grid container spacing={2} >
@@ -297,13 +298,14 @@ class InstructionsSurgery extends Component {
                                         height="200"
                                         image={instruction.ImagePart}
                                         title="Contemplative Reptile"
-                                        // onClick={() =>this.changePdfToShow(instruction.PdfName)}
+                                        style={{borderColor: 'black'}}
                                     />
                                     <Card.Header>
                                         <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
-                                                <a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>
-                                                    <b>  {instruction.Title}  </b>
-                                                    <BsDownload></BsDownload>
+                                                <a href={this.state.pdfNames[this.state.pdfToShow]} target="_blank">
+                                                {/*<a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>*/}
+                                                    <b>{instruction.Title}</b>
+                                                    <BsDownload style={{float:'left'}}></BsDownload>
                                                 </a>
                                         </button>
 

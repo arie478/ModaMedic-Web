@@ -184,7 +184,6 @@ class MessagesPage extends Component {
                 this.addMessage();
             }
         }
-
     }
 
     render() {
@@ -202,8 +201,8 @@ class MessagesPage extends Component {
                     <Table id="mdd" striped bordered hover>
                         <thead>
                         <tr>
-                            <th style={{width: 230}} >תאריך</th>
-                            <th style={{width: 180}} >מוען</th>
+                            <th style={{width: 230}}>תאריך</th>
+                            <th style={{width: 180}}>מוען</th>
                             <th style={{width: 620}}>תוכן ההודעה</th>
                             <th style={{width: 100}}></th>
                         </tr>

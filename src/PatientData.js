@@ -203,13 +203,13 @@ class PatientData extends Component {
                         שינוי התאריך        
                     </button>
                 </div>
-                <div className="line">
-                    <label className="label" >שאלונים:</label> 
-                    <label className="labelData" >{Questionnaires} </label> 
-                    <button className="changeDate" onClick={() => this.changeQuest()}> 
-                        שינוי השאלונים  
-                    </button>
-                </div>
+                {/*<div className="line">*/}
+                {/*    <label className="label" >שאלונים:</label> */}
+                {/*    <label className="labelData" >{Questionnaires} </label> */}
+                {/*    <button className="changeDate" onClick={() => this.changeQuest()}> */}
+                {/*        שינוי השאלונים  */}
+                {/*    </button>*/}
+                {/*</div>*/}
                 {this.state.showPopup ? 
                     <Popup
                         closePopup={this.togglePopup.bind(this)}

@@ -276,7 +276,7 @@ export default NavBar;
 
 class Popup extends React.Component {
     render() {
-        // require("./App.css");
+        // require("./NavBar.css");
         return (
             <div className='popup'>
                 <div className='popup_inner'>

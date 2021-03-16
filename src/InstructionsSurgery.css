@@ -122,15 +122,15 @@ label {
 }
 
 .card{
-    border: 1px solid rgba(151, 150, 150, 0.281);
+    /*border: 1px solid rgba(151, 150, 150, 0.281);*/
     margin-bottom: 3%;
-    font-size: medium;
+    font-size: large;
     text-align: right;
     margin-left: 2%;
     margin-right: 25%;
     margin-top: 0;
     cursor: pointer;
-    width: 80%;
+    width: 90%;
 }
 
 .MuiGrid-grid-xs-6{
@@ -142,4 +142,11 @@ label {
 .MuiGrid-spacing-xs-2 {
     width: calc(70% + 10px);
     margin: -8px;
+}
+
+
+h2 {
+    width: 500px;
+    height:50px;
+    text-shadow: 2px 2px 5px grey;
 }
