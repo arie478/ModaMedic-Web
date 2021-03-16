@@ -308,7 +308,6 @@ class InstructionsSurgery extends Component {
                                                     <BsDownload style={{float:'left'}}></BsDownload>
                                                 </a>
                                         </button>
-
                                     </Card.Header>
                                 </Card>
                             </Grid>

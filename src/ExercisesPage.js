@@ -1,16 +1,10 @@
 import React, {Component} from "react"
-import Table from "react-bootstrap/Table";
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
 import YouTube from "react-youtube";
 //
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from "@material-ui/core/GridListTileBar";
 // import makeStyles from "@material-ui/core/styles/makeStyles";
-import { makeStyles } from '@material-ui/core/styles';
+import Grid from "@material-ui/core/Grid";
 
 class ExercisesPage extends Component {
 
@@ -18,6 +12,7 @@ class ExercisesPage extends Component {
         super(props);
         this.state = {
             exercises: undefined,
+            exercisesGrid: undefined
         };
         this.getExercises = this.getExercises.bind(this);
 
@@ -38,6 +33,16 @@ class ExercisesPage extends Component {
                 });
             this.setState({exercises: respone.data.data})
 
+            let exercisesForGrid = [];
+            for (var i = 0; i < this.state.exercises.length; i = i + 2) {
+                if (this.state.exercises[i + 1]) {
+                    exercisesForGrid.push({"obj1": this.state.exercises[i], "obj2": this.state.exercises[i + 1]});
+                } else {
+                    exercisesForGrid.push({"obj1": this.state.exercises[i], "obj2": {}});
+                }
+            }
+            this.setState({exercisesGrid: exercisesForGrid})
+
         }
 
     }
@@ -45,7 +50,7 @@ class ExercisesPage extends Component {
 
 
     render() {
-        // require("./ExercisesPage.css");
+        require("./ExercisesPage.css");
         let group = undefined;
         if (this.state.exercises) {
             group = this.state.exercises.reduce((r, a) => {
@@ -64,22 +69,26 @@ class ExercisesPage extends Component {
         return (
             <div>
                 {group && Object.keys(group).map((keyName, keyIndex) => (
-                        <div className="container">
-                            <br/>
-                            <br/>
-                            <h2><b>תרגילי {keyName}</b></h2>
-                            <div className="root">
-                                {group[keyName].map(exercise =>
-                                    <div style={{borderStyle: "double" , borderColoer: "black", float: "left"}}>
-                                        {/*<GridList getColumnCount={2} spacing={1} className="gridList">*/}
+                    <div>
+                        <div>
+                            <Grid item xs={6} >
+                                <div>
+                                    <h2><b>תרגילי {keyName}</b></h2>
+                                </div>
+                            </Grid>
+                            <Grid container spacing={3} >
+                                {/*<div class="wrapper">*/}
+                                    {group[keyName].map(exercise => <Grid item xs={6} style={{width: '100%'}}>
+                                            {/*<div style={{borderStyle: "double" , borderColoer: "black", float: "left"}}>*/}
+                                            {/*<GridList getColumnCount={2} spacing={1} className="gridList">*/}
                                             {/*<GridListTile cols={2}  rows={1}>*/}
                                             <YouTube className="video" videoId={exercise.Video} opts={opts} onReady={this._onReady}/>
-                                            {/*</GridListTile>*/}
-                                        {/*</GridList>*/}
-                                    </div>
-                                )}
-                            </div>
-                        </div>))}
+                                        </Grid>
+                                    )}
+                                {/*</div>*/}
+                            </Grid>
+                        </div>
+                    </div>))}
             </div>
         )
     }
