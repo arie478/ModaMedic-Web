@@ -6,9 +6,10 @@
       <option name="myIgnoreVendorSpecificProperties" value="false" />
       <option name="myCustomPropertiesList">
         <value>
-          <list size="2">
+          <list size="3">
             <item index="0" class="java.lang.String" itemvalue="box-border" />
             <item index="1" class="java.lang.String" itemvalue="font-color" />
+            <item index="2" class="java.lang.String" itemvalue="margin-buttom" />
           </list>
         </value>
       </option>
@@ -17,10 +18,11 @@
     <inspection_tool class="HtmlUnknownAttribute" enabled="true" level="WARNING" enabled_by_default="true">
       <option name="myValues">
         <value>
-          <list size="3">
+          <list size="4">
             <item index="0" class="java.lang.String" itemvalue="class" />
             <item index="1" class="java.lang.String" itemvalue="ismulti" />
             <item index="2" class="java.lang.String" itemvalue="options" />
+            <item index="3" class="java.lang.String" itemvalue="variant" />
           </list>
         </value>
       </option>

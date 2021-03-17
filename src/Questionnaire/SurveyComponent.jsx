@@ -143,7 +143,7 @@ class SurveyComponent extends Component {
 
 
 
-    async sendAnswersToServer(serveryResult){
+async sendAnswersToServer(serveryResult){
         if (serveryResult!=null){
             const result={};
             //to do fix dynamicly

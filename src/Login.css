@@ -113,6 +113,7 @@ button:hover {
 }
 
 .popup_innerAdd {
+
     position: absolute;
     left: 25%;
     right: 25%;
@@ -120,7 +121,7 @@ button:hover {
     bottom: 35%;
     margin: auto;
     background: white;
-    height: 600px;
+    height: 100%;
     overflow: scroll;
     overflow-x: hidden;
     overflow-y: visible;

@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import axios from 'axios';
 import DisplayButton from './DisplayButton';
+import QuestionnaireManger from "./Questionnaire/QuestionnaireManger";
 
 class PatientSearchNew extends Component {
 
@@ -8,10 +9,15 @@ class PatientSearchNew extends Component {
     constructor() {
         super();
         var date = new Date();
+        var first_date = new Date();
+        first_date.setMonth(first_date.getMonth() - 3)
+        var three_month = first_date.toISOString().split("T")[0];
+        // var three_month = first_date.toLocaleDateString().replace('.', "-");
+        console.log(three_month)
         var x = date.toISOString().split("T")[0];
         this.state = {
             end_date: x,
-            start_date: "2020-01-01",
+            start_date: three_month,
             steps: true,
             distance : true,
             weather: true,
@@ -421,6 +427,8 @@ class PatientSearchNew extends Component {
                     user={this.state.user}
                     ready={this.state.ready}
                 />
+                {/*<QuestionnaireManger user={this.state.user}*/}
+                {/*/>*/}
 
             </div>
         )

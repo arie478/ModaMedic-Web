@@ -16,6 +16,8 @@ import SurveyComponent from "./Questionnaire/SurveyComponent";
 import InstructionsSurgery from "./InstructionsSurgery";
 import ExercisesPage from "./ExercisesPage";
 
+import { Document, Page, pdfjs } from "react-pdf";
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
 class App extends Component {
     constructor(props) {
@@ -26,7 +28,7 @@ class App extends Component {
             isFetchingNames: false,
             users: [],
             pName:'',
-            showPopup: false
+            showPopup: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
@@ -40,6 +42,7 @@ class App extends Component {
                 .then(() => console.log("Fetch names successfully"));
         }
     }
+
 
     async fetchNames(){
         var list = [];
@@ -105,7 +108,7 @@ class App extends Component {
             let dateC = new Date(user.BirthDate).toLocaleDateString('en-GB', {day: 'numeric', month: 'numeric', year:"numeric"});
             cards.push(
                 <Card className="card" key={user.UserID}  onClick={() => {
-                    this.setState({patientUserId: user.UserID});
+                    this.setState({patientUserId: user.UserID, user: user});
                     this.togglePopup();
                 }}>
                     <Card.Body className="cardBody">שם מלא: {this.state.pName.trim()} </Card.Body>
@@ -166,7 +169,7 @@ class App extends Component {
         } else if(this.props.component === 'messages') {
             return <MessagesPage patientUserId={this.state.patientUserId}/>
         } else if(this.props.component === 'questionnaires'){
-            return <QuestionnairesManger />
+            return <QuestionnairesManger user = {this.state.user}/>
         } else if(this.props.component === 'survey'){
             return <SurveyComponent {...this.props}/>
         } else if(this.props.component === 'instructions'){

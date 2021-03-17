@@ -195,7 +195,6 @@ class DisplayButton extends Component {
                 { (this.state.graph && arr4.length > 0 && this.props.perQ) ? <Graph data={arr4} date={this.props.date} name="Oswestry low back pain" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
                 { (this.state.graph && arr5.length > 0 && this.props.perQ) ? <Graph data={arr5} date={this.props.date} name="EQ-5D" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
                 { (this.state.graph && arr6.length > 0 && this.props.perQ) ? <Graph data={arr6} date={this.props.date} name="EQ-5D scale" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
-                
             </div>
         )
     }

@@ -229,9 +229,9 @@ class AddUser extends Component {
                 gender = "זכר"
             }
             let smoke;
-            if (this.state.gender == 1) {
+            if (this.state.smoke == 1) {
                 smoke = "מעשן"
-            } else if (this.state.gender == 2) {
+            } else if (this.state.smoke == 2) {
                 smoke = "לא מעשן"
             }
             let sType;
@@ -350,9 +350,8 @@ class AddUser extends Component {
         let optionItems = quesions.map((question) =>
             <option key={question} >{question}</option>
         );
-
         let questionnaires = this.state.questionnairesText;
-        if (questionnaires.length == 0){
+        if (questionnaires.length === 0){
             this.componentDidMount();
             questionnaires = this.state.questionnairesText;
         }
@@ -372,10 +371,10 @@ class AddUser extends Component {
         var today = (new Date()).toISOString().split("T")[0];
         return (
             <div>
-                <label class="buttonsChoose">
-                    <Button style={{width: 150}} variant="info" onClick={() => this.isDoctor()}> דוקטור </Button>
+                <label className="buttonsChoose">
+                    <Button style={{width: 150, floatButtom:'auto'}} className="docbutton" variant="info" onClick={() => this.isDoctor()}> דוקטור </Button>
                     {'                                                                '}
-                    <Button style={{width: 150}} variant="info" onClick={() => this.isPatient()}> מטופל </Button>
+                    <Button style={{width: 150}} className="docbutton" variant="info" onClick={() => this.isPatient()}> מטופל </Button>
                 </label>
                 {this.state.type === 'doctor' ?
                     <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
@@ -397,7 +396,7 @@ class AddUser extends Component {
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סיסמה </label>
                             <input className="inputs_in_add_user" name="password" type="password" minlength="8"
-                                  maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" value={this.state.password} onChange={this.handleChange} required/>
+                                   maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" value={this.state.password} onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מספר טלפון</label>
@@ -409,6 +408,10 @@ class AddUser extends Component {
                             <input className="inputs_in_add_user" name="bday" type="date" max={today}
                                    value={this.state.bday} onChange={this.handleChange} required/>
                         </div>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
                             <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
@@ -504,12 +507,16 @@ class AddUser extends Component {
                         <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
                                value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
                     </div>}
-                        <div >
+                        <div className="divs_in_add_drop">
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
-
-                            <DropdownMultiselect handleOnChange={(selected) => {
+                            <DropdownMultiselect options={questionnairesOption} handleOnChange={(selected) => {
                                 this.onSelectQuestionnairesChosen(selected)
-                            }} options={questionnairesOption} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
+                            }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
+                        </div>
+                        <div className="divs_in_add">
+                            <br/>
+                            <br/>
+                            <br/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
