@@ -163,7 +163,7 @@ class MessagesPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(sessionStorage.getItem('docotor') && this.props.patientUserId == undefined){
+        if(sessionStorage.getItem('doctor') && this.props.patientUserId == undefined){
             window.alert("אנא בחר מטופל לצורך שליחת הודעה")
         }else {
             if (this.state.content.length > 150) {

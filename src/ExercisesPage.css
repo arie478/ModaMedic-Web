@@ -39,3 +39,59 @@ h2 {
 .MuiGrid-spacing-xs-3  .MuiGrid-item {
 padding: 1px;
 }
+
+.labels_in_add_user {
+    /* Other styling... */
+    text-align: right;
+    float:right;
+    margin-right: 30%;
+    /*margin-buttom: 2%;*/
+    font-size: calc(11px + 1vmin);
+    padding-top: 10px;
+    width: 200px;
+    margin-top: 2%;
+}
+
+
+.inputs_in_add_user, .select_in_add_user{
+    width: 70%;
+    height: 28px;
+    float: unset;
+    margin-top: 2%;
+    /*margin-buttom: 2%;*/
+}
+
+.select_in_add_user{
+    direction: rtl;
+    margin-top: 2%;
+    font-size: calc(11px + 1vmin);
+
+    /*margin-buttom: 2%;*/
+}
+
+.buttonsChoose{
+    text-align: center;
+}
+
+.submit_and_reset_buttons {
+    width: 80px;
+    height: 30px;
+    margin: 8px 100px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+
+}
+
+.divs_in_add{
+    overflow: hidden;
+    text-align: center;
+    margin-top: 2%;
+}
+
+.divs_in_add_drop{
+    /*overflow: hidden;*/
+    text-align: center;
+    margin-top: 2%;
+    font-size: calc(11px + 1vmin);
+}
