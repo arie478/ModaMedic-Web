@@ -239,7 +239,7 @@ class NavBar extends React.Component {
                                 diff={this.state.diff}
                             /> : null
                         }
-                        {this.state.userInfo ?
+                        {this.state.userInfo && sessionStorage.getItem('patient') ?
                             <UserInfo
                                 user = {this.state.currUser}
                                 isEdit = {this.state.isEdit}
@@ -248,6 +248,15 @@ class NavBar extends React.Component {
                                 updateUser = {this.updateUser}
                             /> : null
                         }
+                        {this.state.userInfo && sessionStorage.getItem('doctor') ?
+                        <DoctorInfo
+                            user = {this.state.currUser}
+                            isEdit = {this.state.isEdit}
+                            closePopup={this.toggleUserInfo.bind(this)}
+                            changeToEdit = {this.changeToEdit}
+                            updateUser = {this.updateUser}
+                        /> : null
+                    }
                     </div>
                     <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
                         <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
@@ -311,6 +320,103 @@ class Popup extends React.Component {
         );
     }
 }
+class DoctorInfo extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            userName: "",
+            fName: this.props.user.First_Name,
+            lName: this.props.user.Last_Name,
+            bday: new Date(this.props.user.BirthDate),
+            phone: this.props.user.Phone_Number
+        };
+        this.handleChangeInfo = this.handleChangeInfo.bind(this);
+        this.handleSubmitInfo = this.handleSubmitInfo.bind(this);
+    }
+    handleChangeInfo(e) {
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    }
+    async handleSubmitInfo(event) {
+        event.preventDefault();
+        var bDay = new Date(this.state.bday);
+        var now = new Date();
+        var dateOfSurgery = new Date(this.state.dateOfSurgery);
+        let height_double = Number(this.state.height / 100);
+        let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
+        const response = await axios.put('http://localhost:8180/auth/usersAll/doctorUpdate', {
+                // UserID: this.state.userName,
+                First_Name: this.state.fName,
+                Last_Name: this.state.lName,
+                Phone_Number: this.state.phone,
+                BirthDate: bDay.getTime(),
+                ValidTime: now.getTime()
+            },
+            {headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
+                }})
+        this.props.changeToEdit()
+        this.props.updateUser(response.data.data)
+    }
+    render() {
+        require("./NavBar.css");
+        let bDate = new Date(this.state.bday).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        var today = new Date();
+        var birthday = new Date(this.props.user["BirthDate"]);
+        var age = Math.floor((today.getTime() - birthday.getTime())/ 31536000000)
+       var today = (new Date()).toISOString().split("T")[0];
+        var date = new Date(this.state.bday).toISOString().substr(0,10);
+        return (
+            <div className='popup'>
+                <div className='popup_inner_info'>
+                    <button onClick={this.props.closePopup} id="x">x</button>
+                    {!this.props.isEdit ?
+                        <Card class="cardInfo">
+                            <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
+                            <ListGroup variant="flush">
+                                <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> גיל: {age}</ListGroup.Item>
+                                {/*<ListGroup.Item className={"listItem"}> מין: {this.props.user.Gender} </ListGroup.Item>*/}
+                                <ListGroup.Item className={"listItem"}> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
+                            </ListGroup>
+                        </Card> : null }
+                    {this.props.isEdit ?
+                        <form onSubmit={this.handleSubmitInfo} onReset={this.handleReset} id="new_user_form">
+                            <br/>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">שם פרטי</label>
+                                <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">שם משפחה </label>
+                                <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
+                                       onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">מספר טלפון</label>
+                                <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                       value={this.state.phone} onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <label className="labels_in_add_user">תאריך לידה</label>
+                                <input className="inputs_in_add_user" name="bday" type="date" max={today}
+                                       value={date} onChange={this.handleChangeInfo} required/>
+                            </div>
+                            <div className="divs_in_add">
+                                <input style={{width: 150}} variant="info" type="submit" value="שמור" className="submit_and_reset_buttons"/>
+                            </div>
+                        </form> : null}
+                    {!this.props.isEdit ?
+                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
+                </div>
+            </div>
+        );
+    }
+}
+
 
 class UserInfo extends React.Component {
     constructor(props) {
@@ -431,7 +537,7 @@ class UserInfo extends React.Component {
         }
     }
     render() {
-        require("./NavBar.css");
+            require("./NavBar.css");
         let bDate = new Date(this.state.bday).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         var today = new Date();
         var birthday = new Date(this.props.user["BirthDate"]);

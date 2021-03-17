@@ -408,10 +408,6 @@ class AddUser extends Component {
                             <input className="inputs_in_add_user" name="bday" type="date" max={today}
                                    value={this.state.bday} onChange={this.handleChange} required/>
                         </div>
-                        <br/>
-                        <br/>
-                        <br/>
-                        <br/>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
                             <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
