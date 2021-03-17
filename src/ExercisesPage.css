@@ -12,13 +12,13 @@
 /*    float: left;*/
 /*}*/
 
-/*.video {*/
-/*    position: relative;*/
-/*    width: 100%;*/
-/*    height: auto;*/
-/*    verticalAlign: top;*/
-/*    background: hsl(0, 0%, 98%);*/
-/*}*/
+.video {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    verticalAlign: top;
+    background: hsl(0, 0%, 98%);
+}
 
 .wrapper {
     display: grid;

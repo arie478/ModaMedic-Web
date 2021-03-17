@@ -260,9 +260,10 @@ class QuestionnaireManger extends Component {
             <div>
                 {this.state.type === 'patient' ?
                     <div style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                        {/*<p style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>מטופל יקר, לפניך השאלונים המשוייכים אליך כחלק מטיפולך, אנא לחץ על השאלון המבוקש לצורך מענה.</p>*/}
                         <table style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                             <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
-                            <h2><b>שם שאלון</b></h2>
+                            <h4><b>מטופל יקר, לפניך השאלונים המשוייכים אליך כחלק מטיפולך. אנא לחץ על השאלון המבוקש לצורך מענה.</b></h4>
                             </thead>
                             <tr style={{width: "50%" , textWeight: "large"}}>
                                 {this.state.questionnairesArr.map(id => (

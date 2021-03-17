@@ -94,3 +94,9 @@
 .center{
     text-align:center;
 }
+
+h2{
+    margin-right: auto;
+    height:50px;
+    /*text-shadow: 2px 2px 5px grey;*/
+}
