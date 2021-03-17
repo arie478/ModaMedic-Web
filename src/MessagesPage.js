@@ -218,10 +218,13 @@ class MessagesPage extends Component {
                             ))}
                         </tbody>
                     </Table>
+                    <br/>
+
                 </div>}
                 {this.state.messages.length === 0 &&
                 <p> אין הודעות </p>
                 }
+                <img class="imageBox" src="https://image.freepik.com/free-photo/top-view-doctor-working-with-laptop_1232-386.jpg" style={{width: 450, borderColor: "black"}}></img>
             </div>
         )
     }

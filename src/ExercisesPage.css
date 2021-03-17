@@ -18,13 +18,15 @@
     height: 100%;
     verticalAlign: top;
     background: hsl(0, 0%, 98%);
+    padding: 8px;
+    gap: 8px;
 }
 
 .wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    grid-auto-rows: 100px;
+    gap: 8px;
+    grid-auto-rows: 200px;
 }
 
 h2 {
@@ -32,4 +34,8 @@ h2 {
     height:50px;
     text-shadow: 2px 2px 5px grey;
     margin-right: 50%;
+}
+
+.MuiGrid-spacing-xs-3  .MuiGrid-item {
+padding: 1px;
 }

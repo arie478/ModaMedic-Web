@@ -4,6 +4,7 @@ import "../TableQuestionnaire.css";
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import SurveyComponent from './SurveyComponent';
 import Table from 'react-bootstrap/Table';
+import {borderColor} from "@material-ui/system";
 //   import 'bootstrap/dist/css/bootstrap.css';
 
 
@@ -261,29 +262,38 @@ class QuestionnaireManger extends Component {
                 {this.state.type === 'patient' ?
                     <div style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                         {/*<p style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>מטופל יקר, לפניך השאלונים המשוייכים אליך כחלק מטיפולך, אנא לחץ על השאלון המבוקש לצורך מענה.</p>*/}
-                        <table style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                        <table id='customers' style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                             <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
-                            <h4><b>מטופל יקר, לפניך השאלונים המשוייכים אליך כחלק מטיפולך. אנא לחץ על השאלון המבוקש לצורך מענה.</b></h4>
+                            <h6><b>מטופל יקר,</b></h6>
+                            <h6><b>לפניך השאלונים המוגדרים כחלק מטיפולך. אנא לחץ על השאלון המבוקש לצורך מענה:</b></h6>
+                            <h6><b>תודה על שיתוף הפעולה!</b></h6>
                             </thead>
                             <tr style={{width: "50%" , textWeight: "large"}}>
                                 {this.state.questionnairesArr.map(id => (
-                                    <th  id = "mdd" scope="row" style={{width: "100%", textWeight: "large" }} >
-                                        <Link to={`/userQuestionnaire/${id[0]}`} > {id[1]}
-                                        </Link>
+                                    <th  id = "mdd" scope="row" style={{width: "100%", textWeight: "large"  }} >
+                                        <u>
+                                            <Link to={`/userQuestionnaire/${id[0]}`} > {id[1]}
+                                            </Link></u>
                                     </th>
                                 ))}
                             </tr>
                         </table>
+                        <br/>
+                        <div >
+                            <img class={'imageBox'} src={"https://image.freepik.com/free-photo/doctor-filling-up-life-insurance-form_53876-20493.jpg"} style={{width: 450, borderColor: "black"}}></img>
+                        </div>
                     </div> : this.state.type === 'doctor' && this.props.user ?
-                        <div className="line">
-                            <label className="label" >שאלונים:</label>
-                            <table style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                        <div style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                            <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
+                            <h4><b>לפניך השאלונים המותאמים למטופל הנ"ל:</b></h4>
+                            </thead>
+                            <table id='customers' style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                                 <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                                 </thead>
                                 <tr style={{width: "50%" , textWeight: "large"}}>
-                                        {this.state.questionnairesArrDoctor.map(id => (
+                                    {this.state.questionnairesArrDoctor.map(id => (
                                         <th  id = "mdd" scope="row" style={{width: "100%", textWeight: "large" }} >
-                                            {id}
+                                           <a> {id}</a>
                                         </th>
                                     ))}
                                 </tr>
@@ -292,6 +302,12 @@ class QuestionnaireManger extends Component {
                             <button className="changeDate" onClick={() => this.changeQuest()}>
                                 שינוי השאלונים
                             </button>
+                            <div>
+                                <img class={'imageBox'}
+                                     src={"https://image.freepik.com/free-photo/doctor-filling-up-life-insurance-form_53876-20493.jpg"}
+                                     style={{width: 450, borderColor: "black"}}></img>
+
+                            </div>
                         </div>: null}
                 {this.state.showPopupQ ?
                     this.PopupQ() : null

@@ -5,6 +5,7 @@ import YouTube from "react-youtube";
 //
 // import makeStyles from "@material-ui/core/styles/makeStyles";
 import Grid from "@material-ui/core/Grid";
+import {GoMute} from "react-icons/all";
 
 class ExercisesPage extends Component {
 
@@ -59,8 +60,8 @@ class ExercisesPage extends Component {
             }, {});
         }
         const opts = {
-            height: '300',
-            width: '300',
+            height: '350',
+            width: '400',
             playerVars: {
                 // https://developers.google.com/youtube/player_parameters
                 autoplay: 0,
@@ -71,22 +72,23 @@ class ExercisesPage extends Component {
                 {group && Object.keys(group).map((keyName, keyIndex) => (
                     <div>
                         <div>
-                            <Grid item xs={6} >
+                            <Grid item xs={7} >
                                 <div>
                                     <h2><b>תרגילי {keyName}</b></h2>
                                 </div>
                             </Grid>
-                            <Grid container spacing={3} >
+                            <Grid container spacing={3} style={{width: '100%', height:'100%'}} >
                                 {/*<div class="wrapper">*/}
-                                    {group[keyName].map(exercise => <Grid item xs={6} style={{width: '100%'}}>
+                                    {group[keyName].map(exercise => <Grid item xs={6} style={{width: '100%', height:'100%'}}>
                                             {/*<div style={{borderStyle: "double" , borderColoer: "black", float: "left"}}>*/}
                                             {/*<GridList getColumnCount={2} spacing={1} className="gridList">*/}
                                             {/*<GridListTile cols={2}  rows={1}>*/}
-                                            <YouTube className="video" videoId={exercise.Video} opts={opts} onReady={this._onReady}/>
+                                            <YouTube  videoId={exercise.Video} opts={opts} onReady={this._onReady}/>
                                         </Grid>
                                     )}
                                 {/*</div>*/}
                             </Grid>
+                            <hr style={{color: "darkgrey", backgroundColor: "darkgrey", height: 3}}/>
                         </div>
                     </div>))}
             </div>
