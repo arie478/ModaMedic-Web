@@ -66,7 +66,10 @@ class SurveyComponent extends Component {
                     singleQuestion.isRequired= true;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j].answerText);
+                        let answer={};
+                        answer.answerID= questions[i].Answers[j].answerID;
+                        answer.text=questions[i].Answers[j].answerText;
+                        choices.push(answer);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -77,7 +80,10 @@ class SurveyComponent extends Component {
                     singleQuestion.colCount= 5;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j].answerText);
+                        let answer={};
+                        answer.answerID= questions[i].Answers[j].answerID;
+                        answer.text=questions[i].Answers[j].answerText;
+                        choices.push(answer);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -101,11 +107,12 @@ class SurveyComponent extends Component {
     }
 
     async sendParsedResultToServer(result){
-        console.log(result)
         let url = `http://localhost:8180/auth/patients/answers/sendAnswers`;
         const response = await axios.post(
             url,
-            result,
+
+            result
+            ,
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -141,23 +148,28 @@ async sendAnswersToServer(serveryResult){
             const result={};
             //to do fix dynamicly
             result.UserID=localStorage.getItem("UserId");   //not sure if needed
-            result.QuestionnaireID=this.state.questionnaireId;
+            result.QuestionnaireID=parseInt(this.state.questionnaireId);
             result.ValidTime=new Date().getTime();
             let totalAnswers=[];
             let counter=0;
             for (var i in serveryResult) {
                 if (Object.prototype.hasOwnProperty.call(serveryResult, i)) {
+
                     let question={};
                     question.QuestionID=counter;
                     counter++;
                     let answers=[];
-                    if (Array.isArray(serveryResult.i)){
-                        for(let j=0; j<serveryResult.i.length;j++){
+
+                    if (Array.isArray(serveryResult[i])){
+                        for(let j=0; j<serveryResult[i].length;j++){
                             answers.push(serveryResult[i][j].answerID);
                         }
+
+
                     }else {
                         if (Object.prototype.hasOwnProperty.call(serveryResult[i], "answerID"))
                             answers.push(serveryResult[i].answerID);
+
                         else
                             answers.push(parseInt(serveryResult[i]));
                     }
@@ -184,6 +196,7 @@ async sendAnswersToServer(serveryResult){
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
                 window.location.href = "http://localhost:3000/ModaMedicWeb/questionnaires";
+
             });
 
 
