@@ -66,7 +66,10 @@ class SurveyComponent extends Component {
                     singleQuestion.isRequired= true;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j].answerText);
+                        let answer={};
+                        answer.answerID= questions[i].Answers[j].answerID;
+                        answer.text=questions[i].Answers[j].answerText;
+                        choices.push(answer);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -77,7 +80,10 @@ class SurveyComponent extends Component {
                     singleQuestion.colCount= 5;
                     let choices=[];
                     for (let j=0;j<questions[i].Answers.length;j++){
-                        choices.push(questions[i].Answers[j].answerText);
+                        let answer={};
+                        answer.answerID= questions[i].Answers[j].answerID;
+                        answer.text=questions[i].Answers[j].answerText;
+                        choices.push(answer);
                     }
                     singleQuestion.choices=choices;
                 }
@@ -137,12 +143,12 @@ class SurveyComponent extends Component {
 
 
 
-async sendAnswersToServer(serveryResult){
+    async sendAnswersToServer(serveryResult){
         if (serveryResult!=null){
             const result={};
             //to do fix dynamicly
             result.UserID=localStorage.getItem("UserId");   //not sure if needed
-            result.QuestionnaireID=this.state.questionnaireId;
+            result.QuestionnaireID=parseInt(this.state.questionnaireId);
             result.ValidTime=new Date().getTime();
             let totalAnswers=[];
             let counter=0;
@@ -154,8 +160,8 @@ async sendAnswersToServer(serveryResult){
                     counter++;
                     let answers=[];
 
-                    if (Array.isArray(serveryResult.i)){
-                        for(let j=0; j<serveryResult.i.length;j++){
+                    if (Array.isArray(serveryResult[i])){
+                        for(let j=0; j<serveryResult[i].length;j++){
                             answers.push(serveryResult[i][j].answerID);
                         }
 
