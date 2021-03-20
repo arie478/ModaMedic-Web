@@ -4,7 +4,9 @@ import {Redirect} from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Select from 'react-select';
 import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
-import { Multiselect } from 'multiselect-react-dropdown';
+import IconButton from "@material-ui/core/IconButton";
+import {FcInfo} from "react-icons/fc";
+import Tooltip from "@material-ui/core/Tooltip";
 
 
 const initialState = {
@@ -197,6 +199,11 @@ class AddUser extends Component {
         event.preventDefault();
         var bDay = new Date(this.state.bday);
         var now = new Date();
+        // var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+        // if(!regex.test(this.state.password)){
+        //     window.alert('הסיסמא צריכה להכיל לפחות 8 תווים,אות אנגלית קטנה, אות אנגלית גדולה ומספר')
+        //     return
+        // }
         if(this.state.type === 'doctor') {
             axios.post('http://localhost:8180/users/doctorRegister', {
                 UserID: this.state.userName,
@@ -386,22 +393,32 @@ class AddUser extends Component {
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם פרטי</label>
                             <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}
-                                   maxLength="20" onChange={this.handleChange} required/>
+                                   minLength="2" maxLength="20" onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם משפחה </label>
                             <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}
-                                   maxLength="20" onChange={this.handleChange} required/>
+                                   minLength="2" maxLength="20" onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סיסמה </label>
                             <input className="inputs_in_add_user" name="password" type="password" minlength="8"
-                                   maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" value={this.state.password} onChange={this.handleChange} required/>
+                                   maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$" value={this.state.password} onChange={this.handleChange} message={"הסיסמא צריכה להכיל לפחות 8 תווים, לפחות תו אחד באות אנגלית קטנה, תו אחד באות אנגלית אות אנגלית גדולה ותו אחד כמספר."} required/>
+                            <Tooltip title="הסיסמא צריכה להכיל לפחות 8 תווים,אות אנגלית קטנה, אות אנגלית גדולה ומספר">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מספר טלפון</label>
                             <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
                                    value={this.state.phone} onChange={this.handleChange} required/>
+                            <Tooltip title="מספר טלפון המכיל מספרים בלבד">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">תאריך לידה</label>
@@ -440,12 +457,12 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם פרטי</label>
-                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}  minLength="2" maxLength="20"
                                    onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שם משפחה </label>
-                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}  minLength="2" maxLength="20"
                                    onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
@@ -453,11 +470,21 @@ class AddUser extends Component {
                             <input className="inputs_in_add_user" name="password" type="password" minlength="8"
                                    maxLength="12" pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
                                    value={this.state.password} onChange={this.handleChange} required/>
+                            <Tooltip title="הסיסמא צריכה להכיל לפחות 8 תווים,אות אנגלית קטנה, אות אנגלית גדולה ומספר">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">מספר טלפון</label>
                             <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
                                    value={this.state.phone} onChange={this.handleChange} required/>
+                            <Tooltip title="מספר טלפון המכיל מספרים בלבד">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">תאריך לידה</label>
@@ -471,7 +498,7 @@ class AddUser extends Component {
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">גובה (ס"מ) </label>
-                            <input className="inputs_in_add_user" name="height" type="number" value={this.state.height}
+                            <input className="inputs_in_add_user" name="height" type="number" minLength="3" value={this.state.height}
                                    onChange={this.handleChange} required/>
                         </div>
                         <div className="divs_in_add">
@@ -518,6 +545,11 @@ class AddUser extends Component {
                             <label className="labels_in_add_user">קוד אימות </label>
                             <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
                                    onChange={this.handleChange} required/>
+                            <Tooltip title="קוד האימות שהוגדר מבית החולים המטפל">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
                         </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">שאלת אימות </label>

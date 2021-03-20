@@ -110,3 +110,21 @@ h2{
     background-color: #17a2b8;
 }
 
+.MuiIconButton-root{
+    width: 50px;
+}
+
+.popup_innerAdd {
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 35%;
+    bottom: 35%;
+    margin: auto;
+    background: white;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+    font-size: 10px;
+}
