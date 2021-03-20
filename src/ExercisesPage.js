@@ -15,7 +15,7 @@ class ExercisesPage extends Component {
             exercises: undefined,
             exercisesGrid: undefined,
             newExerciseUrl: '',
-            newExerciseCategory: '',
+            newExerciseCategory: 'ברך',
             categories: ['ברך','גב','כתף']
         };
         this.getExercises = this.getExercises.bind(this);
@@ -27,8 +27,6 @@ class ExercisesPage extends Component {
     componentDidMount() {
         this.getExercises();
     }
-
-
 
 
     async getExercises(){
@@ -57,17 +55,27 @@ class ExercisesPage extends Component {
     handleSubmit(e){
         e.preventDefault();
         this.addExercise();
+        this.setState({newExerciseUrl : ''})
         // if(response.data.data === null){
         //     window.alert('אנא מלא את הטופס כראוי')
         // }
     }
 
     async addExercise(){
+        const urlExe = new URL(this.state.newExerciseUrl);
+        var urlId = urlExe.searchParams.get('v');
+        for(var i=0; i<this.state.exercises.length; i++){
+            if (this.state.exercises[i].Video === urlId){
+                window.alert('הסרטון כבר קיים במאגר');
+                this.setState({newExerciseUrl : ''})
+                return;
+            }
+        }
         let url = `http://localhost:8180/auth/doctors/exercises`;
         axios.post(url,
             {
                 category: this.state.newExerciseCategory,
-                url : this.state.newExerciseUrl
+                url : urlId
             },{
                 headers: {
                     'Content-Type': 'application/json',
@@ -77,12 +85,7 @@ class ExercisesPage extends Component {
     }
     handleChange(e) {
         if (e.target.name === "newExerciseUrl") {
-            const url = new URL(e.target.value);
-            var urlId = url.searchParams.get('v');
-            this.setState({[e.target.name]: urlId})}
-        // }else {
-        //     this.setState({[e.target.name]: e.target.value})
-        // }
+            this.setState({[e.target.name]: e.target.value})}
     }
 
     onSelectCategoryChosen(event) {
@@ -93,14 +96,17 @@ class ExercisesPage extends Component {
 
     async removeExercise(eId){
         if(sessionStorage.getItem('doctor')) {
-            axios.delete(`http://localhost:8180/auth/doctors/exercises/removeExercise/${eId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem("token")
-                    }
-                });
-            this.getExercises()
+            const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הסרטון?");
+            if (r == true) {
+                axios.delete(`http://localhost:8180/auth/doctors/exercises/removeExercise/${eId}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': sessionStorage.getItem("token")
+                        }
+                    });
+                this.getExercises()
+            }
         }
     }
 
