@@ -213,8 +213,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-        //Todo: change request to all users verfication
-            let respone = await axios.get('http://localhost:8180/auth/patients/instructions/',
+            let respone = await axios.get('http://localhost:8180/auth/usersAll/instructions',
                 {
                     headers: {
                         'Content-Type': 'application/json',

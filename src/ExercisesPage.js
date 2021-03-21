@@ -27,11 +27,8 @@ class ExercisesPage extends Component {
         this.getExercises();
     }
 
-
     async getExercises(){
-        // if (sessionStorage.getItem('patient')) {
-        //Todo: change request to all users verfication
-        let respone = await axios.get('http://localhost:8180/auth/patients/exercises',
+        let respone = await axios.get('http://localhost:8180/auth/usersAll/exercises',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -61,7 +58,7 @@ class ExercisesPage extends Component {
         // }
     }
 
-    async addExercise(){
+     addExercise(){
         const urlExe = new URL(this.state.newExerciseUrl);
         var urlId = urlExe.searchParams.get('v');
         for(var i=0; i<this.state.exercises.length; i++){
@@ -81,6 +78,7 @@ class ExercisesPage extends Component {
                     'Content-Type': 'application/json',
                     'x-auth-token': sessionStorage.getItem("token")
                 }});
+        window.alert("הסרטון נוסף בהצלחה!")
         this.getExercises()
     }
     handleChange(e) {
