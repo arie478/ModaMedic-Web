@@ -28,9 +28,45 @@ var MAP = {
             lineWidth: 1
         },
         {
+            name: "neck",
+            shape: "circle",
+            coords: [350, 80, 5],
+            preFillColor: "#ff1313",
+            fillColor: "white",
+            lineWidth: 1
+        },
+        {
+            name: "back",
+            shape: "circle",
+            coords: [350, 170, 5],
+            preFillColor: "#ff1313",
+            fillColor: "white",
+            lineWidth: 1
+        },   {
             name: "shoulder",
             shape: "circle",
             coords: [310, 95, 5],
+            preFillColor: "#ff1313",
+            fillColor: "white",
+            lineWidth: 1
+        }, {
+            name: "elbow",
+            shape: "circle",
+            coords: [255, 105, 5],
+            preFillColor: "#ff1313",
+            fillColor: "white",
+            lineWidth: 1
+        },{
+            name: "ankle",
+            shape: "circle",
+            coords: [333, 382, 5],
+            preFillColor: "#ff1313",
+            fillColor: "white",
+            lineWidth: 1
+        },{
+            name: "hip",
+            shape: "circle",
+            coords: [325, 200, 5],
             preFillColor: "#ff1313",
             fillColor: "white",
             lineWidth: 1
@@ -63,7 +99,12 @@ class InstructionsSurgery extends Component {
             },
             headerNames: {
                 "knee": "פרוטוקולי שיקום - ברך",
-                "shoulder": "פרוטוקולי שיקום - כתף"
+                "shoulder": "פרוטוקולי שיקום - כתף",
+                "hip" : "פרוטוקולי שיקום - ירך",
+                "ankle" : "פרוטוקולי שיקום - קרסול",
+                "elbow" : "פרוטוקולי שיקום - מרפק",
+                "back" : "פרוטוקולי שיקום - גב",
+                "neck" : "פרוטוקולי שיקום - צוואר"
             },
             instructionsByCategory: {},
             showInstructions: false,
@@ -172,7 +213,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-        if (sessionStorage.getItem('patient')) {
+        //Todo: change request to all users verfication
             let respone = await axios.get('http://localhost:8180/auth/patients/instructions/',
                 {
                     headers: {
@@ -199,7 +240,7 @@ class InstructionsSurgery extends Component {
                     instructionsByCategory: this.groupArrayOfObjects(instructionsArr, "Category")
                 });
             }
-        }
+
     }
 
     groupArrayOfObjects(list, key) {
@@ -287,6 +328,7 @@ class InstructionsSurgery extends Component {
                     <h2>{this.state.headerNames[this.state.category]}</h2>
                 </div>
                 <div >
+                    {!this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
                     <Grid container spacing={2} >
                         {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
                         this.state.instructionsByCategory[this.state.category].map((instruction) => {

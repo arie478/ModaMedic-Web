@@ -265,7 +265,7 @@ class QuestionnaireManger extends Component {
                         <table id='customers' style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                             <thead style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
                             <h6><b>מטופל יקר,</b></h6>
-                            <h6><b>לפניך השאלונים המוגדרים כחלק מטיפולך. אנא לחץ על השאלון המבוקש לצורך מענה:</b></h6>
+                            <h6><b>לפניך השאלונים המוגדרים כחלק מטיפולך. אנא לחץ על השאלון המבוקש לצורך מענה</b></h6>
                             <h6><b>תודה על שיתוף הפעולה!</b></h6>
                             </thead>
                             <tr style={{width: "50%" , textWeight: "large"}}>
@@ -280,7 +280,6 @@ class QuestionnaireManger extends Component {
                         </table>
                         <br/>
                         <div >
-                            <img class={'imageBox'} src={"https://image.freepik.com/free-photo/doctor-filling-up-life-insurance-form_53876-20493.jpg"} style={{width: 450, borderColor: "black"}}></img>
                         </div>
                     </div> : this.state.type === 'doctor' && this.props.user ?
                         <div style={{alignRight: "auto", alignLeft: "auto", textWeight: "large"}}>
@@ -302,13 +301,14 @@ class QuestionnaireManger extends Component {
                             <button className="changeDate" onClick={() => this.changeQuest()}>
                                 שינוי השאלונים
                             </button>
-                            <div>
-                                <img class={'imageBox'}
-                                     src={"https://image.freepik.com/free-photo/doctor-filling-up-life-insurance-form_53876-20493.jpg"}
-                                     style={{width: 450, borderColor: "black"}}></img>
 
-                            </div>
                         </div>: null}
+                <div>
+                    <img className={'imageBox'}
+                         src={"https://image.freepik.com/free-photo/doctor-filling-up-life-insurance-form_53876-20493.jpg"}
+                         style={{width: 450, borderColor: "black"}}></img>
+
+                </div>
                 {this.state.showPopupQ ?
                     this.PopupQ() : null
                 }

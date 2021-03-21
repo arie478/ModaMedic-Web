@@ -16,8 +16,7 @@ class ExercisesPage extends Component {
             exercisesGrid: undefined,
             newExerciseUrl: '',
             newExerciseCategory: 'ברך',
-            categories: ['ברך','גב','כתף']
-        };
+            categories: ['ברך','גב','כתף','קרסול','ירך','מרפק','גב']};
         this.getExercises = this.getExercises.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,6 +30,7 @@ class ExercisesPage extends Component {
 
     async getExercises(){
         // if (sessionStorage.getItem('patient')) {
+        //Todo: change request to all users verfication
         let respone = await axios.get('http://localhost:8180/auth/patients/exercises',
             {
                 headers: {
@@ -113,6 +113,7 @@ class ExercisesPage extends Component {
     render(){
         require("./ExercisesPage.css");
         let group = undefined;
+        var forPatient = "מטופל/ת יקר/ה!\nלפניך מאגר תרגולי פיזיותרפיה המחולקים לקטגוריות.\nשים לב! יש להתייעץ עם הרופא המטפל לפני ביצוע התרגולים הביתיים.\n החלמה מהירה ובריאות שלמה!"
         if (this.state.exercises) {
             group = this.state.exercises.reduce((r, a) => {
                 r[a.Category] = [...r[a.Category] || [], a];
@@ -135,8 +136,11 @@ class ExercisesPage extends Component {
                 {sessionStorage.getItem('doctor') && <div>
                     <form onSubmit={this.handleSubmit}>
                         <div className="divs_in_add">
-                            <label htmlFor="email" className="labels_in_add_user">כתובת סרטון:</label>
-                            <input className="inputs_in_add_user" name="newExerciseUrl" type="text"
+                            <h5>מטפל/ת יקר/ה,</h5>
+                            <h5>על מנת להוסיף סרטון למאגר, אנא העתק את קישור ה-Youtube לחלון הנכון ובחר את האיבר השייך לטיפול בסרטון זה.</h5>
+                            <h5>על מנת למחוק סרטון, יש ללחוץ על כפתור המחיקה תחת הסרטון הרלוונטי.</h5>
+                            <label className="labels_in_add_user">כתובת הסרטון:</label>
+                            <input className="inputs_in_add_user" name="newExerciseUrl" type="url"
                                    value={this.state.newExerciseUrl} onChange={e => this.handleChange(e)} required/>
                         </div>
                         <div className="divs_in_add">
@@ -150,6 +154,14 @@ class ExercisesPage extends Component {
                         </div>
                     </form>
                 </div>}
+                {sessionStorage.getItem('patient') && <div>
+                    <a><b>מטופל/ת יקר/ה!</b></a><br/>
+                    <a><b>לפניך מאגר תרגולי פיזיותרפיה המחולקים לקטגוריות.</b></a><br/>
+                    <a><b>שים לב! יש להתייעץ עם הרופא המטפל לפני ביצוע התרגולים הביתיים.</b></a><br/>
+                    <a><b>החלמה מהירה ובריאות שלמה!</b></a>
+                </div>}
+
+                <hr style={{color: "darkgrey", backgroundColor: "darkgrey", height: 3}}/>
                 {group && Object.keys(group).map((keyName, keyIndex) => (
                     <div>
                         <div>

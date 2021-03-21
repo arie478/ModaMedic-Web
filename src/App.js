@@ -43,6 +43,7 @@ class App extends Component {
         }
     }
 
+
     async fetchNames(){
         var list = [];
         var users = [];
@@ -179,6 +180,12 @@ class App extends Component {
         return null;
     }
 
+    checkIfNotSearchNeeded(){
+        if(this.props.component === 'instructions' || this.props.component === 'exercises'){
+            return false;
+        }
+        return true
+    }
 
     render() {
         require("./App.css");
@@ -188,7 +195,7 @@ class App extends Component {
                 <div className="App">
                     <header className="App-header">
                         <Logo />
-                        {this.isDoctor() && this.searchPatient()}
+                        {this.isDoctor() && this.checkIfNotSearchNeeded() && this.searchPatient()}
                         {this.getActiveComponent()}
                         <br />
                     </header>
@@ -197,6 +204,7 @@ class App extends Component {
         )
     }
 }
+
 
 export default App;
 
