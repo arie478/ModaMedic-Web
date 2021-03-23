@@ -69,7 +69,7 @@ class SleepGraph extends Component {
                         }
                         var time = data[i]["Data"][k]["EndTime"] - data[i]["Data"][k]["StartTime"];
                         time = time / 3600000;
-                        if(data[i]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                        if(data[i]["Data"][k]["State"] === "Light sleep"){
                             light = light + time;
                         }
                         else{

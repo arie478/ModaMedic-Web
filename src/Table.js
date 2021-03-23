@@ -86,10 +86,10 @@ class Table extends Component {
                                     }
                                     var time = this.props.dataArr[i].values[j]["Data"][k]["EndTime"] - this.props.dataArr[i].values[j]["Data"][k]["StartTime"];
                                     time = time / 3600000;
-                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Light sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
                                         light = light + time;
                                     }
-                                    else{
+                                    else if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Deep sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_DEEP"){
                                         deep = deep + time;
                                     }
                                     total = total + time;
@@ -122,10 +122,10 @@ class Table extends Component {
                                         }
                                         time = this.props.dataArr[i].values[j]["Data"][k]["EndTime"] - this.props.dataArr[i].values[j]["Data"][k]["StartTime"];
                                         time = time / 3600000;
-                                        if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                                        if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Light sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
                                             light = light + time;
                                         }
-                                        else{
+                                        else if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Deep sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_DEEP"){
                                             deep = deep + time;
                                         }
                                         total = total + time;
@@ -192,10 +192,10 @@ class Table extends Component {
                                     }
                                     time = this.props.dataArr[i].values[j]["Data"][k]["EndTime"] - this.props.dataArr[i].values[j]["Data"][k]["StartTime"];
                                     time = time / 3600000;
-                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Light sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
                                         light = light + time;
                                     }
-                                    else{
+                                    else if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Deep sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_DEEP"){
                                         deep = deep + time;
                                     }
                                     total = total + time;
@@ -240,10 +240,10 @@ class Table extends Component {
                                         }
                                         time = this.props.dataArr[i].values[j]["Data"][k]["EndTime"] - this.props.dataArr[i].values[j]["Data"][k]["StartTime"];
                                         time = time / 3600000;
-                                        if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                                        if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Light sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
                                             light = light + time;
                                         }
-                                        else{
+                                        else  if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Deep sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_DEEP"){
                                             deep = deep + time;
                                         }
                                         total = total + time;
@@ -310,10 +310,10 @@ class Table extends Component {
                                     }
                                     time = this.props.dataArr[i].values[j]["Data"][k]["EndTime"] - this.props.dataArr[i].values[j]["Data"][k]["StartTime"];
                                     time = time / 3600000;
-                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
+                                    if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Light sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_LIGHT"){
                                         light = light + time;
                                     }
-                                    else{
+                                    else if(this.props.dataArr[i].values[j]["Data"][k]["State"] === "Deep sleep" || this.props.dataArr[i].values[j]["Data"][k]["State"] === "SLEEP_DEEP"){
                                         deep = deep + time;
                                     }
                                     total = total + time;
