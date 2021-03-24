@@ -78,8 +78,7 @@ div.App, div.App-header {
   color: #61dafb;
 }
 
-.popup {
-
+.popupApp {
   float: right;
   text-align: right;
   position: fixed;
