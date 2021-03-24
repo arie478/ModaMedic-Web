@@ -165,7 +165,7 @@ class ExercisesPage extends Component {
                         <div>
                             <Grid item xs={7} >
                                 <div>
-                                    <h2><b>תרגילי {keyName}</b></h2>
+                                    <h2 className="exh2"><b>תרגילי {keyName}</b></h2>
                                 </div>
                             </Grid>
                             <Grid container spacing={3} style={{width: '100%', height:'100%'}} >

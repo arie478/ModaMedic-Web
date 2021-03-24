@@ -77,14 +77,6 @@ pre.message {
     text-align: center;
 }
 
-label {
-    color: #999;
-    display: inline-block;
-    font-size: 0.85em;
-    font-weight: bold;
-    margin: 1em 0;
-    text-transform: uppercase;
-}
 
 .hint {
     margin: 15px 0;
@@ -145,7 +137,7 @@ label {
 }
 
 
-h2 {
+.insth2 {
     width: 500px;
     height:50px;
     text-shadow: 2px 2px 5px grey;

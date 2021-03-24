@@ -324,7 +324,7 @@ class InstructionsSurgery extends Component {
                     <br/>
                     <br/>
                     <br/>
-                    <h2>{this.state.headerNames[this.state.category]}</h2>
+                    <h2 className="insth2">{this.state.headerNames[this.state.category]}</h2>
                 </div>
                 <div >
                     {!this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
