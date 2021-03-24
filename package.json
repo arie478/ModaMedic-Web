@@ -2,7 +2,7 @@
   "name": "final_project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://dafnucha.github.io/ModaMedicWeb/",
+  "homepage": "https://noyharar.github.io/projectWeb/",
   "dependencies": {
     "@phuocng/react-pdf-viewer": "^1.7.0",
     "@testing-library/jest-dom": "^4.2.4",
