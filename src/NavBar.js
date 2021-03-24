@@ -217,13 +217,13 @@ class NavBar extends React.Component {
             <div>
                 <Navbar class="navbar navbar-fixed-top" bg="dark" variant="dark" fixed="top">
                     <div id="buttons">
-                        <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
+                        <button id="change" type="button" onClick={() => this.goToSearch()}>מדדים אישיים</button>
                         <span>{'    '}            </span>
-                        <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
+                        <button id="change"  type="button" onClick={() => this.goToQuestionnaires()}>שאלונים</button>
                         <span>{'              '}</span>
-                        <button id="change" class="btn btn-dark" type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
-                        <button id="change" class="btn btn-dark" type="button" onClick={() => this.goToExercises()}>תרגולים רפואיים</button>
-                        <button id="change" class="btn btn-dark" type="button" onClick={()=> this.goToInstructions()}>הדרכות ניתוח</button>
+                        <button id="change"  type="button"  onClick={() => this.goToMessages()}>לוח הודעות</button>
+                        <button id="change"  type="button" onClick={() => this.goToExercises()}>תרגולים רפואיים</button>
+                        <button id="change"  type="button" onClick={()=> this.goToInstructions()}>הדרכות ניתוח</button>
                         {this.state.isMessage ? <Redirect to="/messages" /> : null}
                         {this.state.isPatientInfo ? <Redirect to="/search" /> : null}
                         {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
