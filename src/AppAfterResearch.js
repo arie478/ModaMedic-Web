@@ -19,7 +19,7 @@ import ExercisesPage from "./ExercisesPage";
 import { Document, Page, pdfjs } from "react-pdf";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`
 
-class App extends Component {
+class AppAfterResearch extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -28,57 +28,21 @@ class App extends Component {
             isFetchingNames: false,
             users: [],
             pName:'',
-            encrypName:'',
             showPopup: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
-        this.fetchNamesForResearch = this.fetchNamesForResearch.bind(this);
+        this.fetchNames = this.fetchNames.bind(this);
         this.handlePName = this.handlePName.bind(this)
     }
 
     componentDidMount() {
         if(this.isDoctor()) {
-            this.fetchNamesForResearch()
+            this.fetchNames()
                 .then(() => console.log("Fetch names successfully"));
         }
     }
 
-    async fetchNamesForResearch(){
-        var list = [];
-        var users = [];
-        var namesDiv = [];
-        this.setState({isFetchingNames: true});
-        var response = await axios.get(
-            "http://localhost:8180/auth/doctors/metrics/getUsers",
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }
-        );
-        if(response.data.data){
-            var names = [];
-            for(var i = 0; i < response.data.data.length; i++){
-                let user = response.data.data[i];
-                namesDiv.push({UserID: user.UserID});
-                users.push(user);
-                // names.push(user.UserID)
-            }
-            // names = names.sort();
-            // var uniqueNames = Array.from(new Set(names));
-            // for(i = 0; i < uniqueNames.length; i++){
-            //     list.push(<option key={uniqueNames[i]}>{uniqueNames[i]}</option>);
-            // }
-        }
-        this.setState({
-            isFetchingNames: false,
-            // optionsPName: list,
-            namesDiv: namesDiv,
-            users: users
-        });
-    }
     async fetchNames(){
         var list = [];
         var users = [];
@@ -129,21 +93,9 @@ class App extends Component {
         if(event){
             event.preventDefault()
         }
-         await axios.post( `http://localhost:8180/auth/doctors/metrics/userId`,
-            {
-                UserID: this.state.pName,
-            },
-            {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'x-auth-token': sessionStorage.getItem("token")
-                }
-            }).then(res => {
-            this.setState({encrypName: res.data.data})
-        });
         let usersByName = [];
         this.state.users.forEach(user => {
-            if(this.state.encrypName === user.UserID) {
+            if(this.state.pName.toLocaleLowerCase() === `${user.First_Name.trim()} ${user.Last_Name.trim()}`.toLocaleLowerCase()) {
                 console.log(`found user ${user}`);
                 usersByName.push(user);
             }
@@ -157,9 +109,8 @@ class App extends Component {
                     this.setState({patientUserId: user.UserID, user: user});
                     this.togglePopup();
                 }}>
-                    <Card.Body className="cardBody">מזהה מטופל: {this.state.pName.trim()} </Card.Body>
-                    {/*<Card.Body className="cardBody">שם מלא: {this.state.pName.trim()} </Card.Body>*/}
-                    {/*<Card.Body className="cardBody">תאריך לידה: {dateC}</Card.Body>*/}
+                    <Card.Body className="cardBody">שם מלא: {this.state.pName.trim()} </Card.Body>
+                    <Card.Body className="cardBody">תאריך לידה: {dateC}</Card.Body>
                 </Card>
             );
         }
@@ -178,7 +129,7 @@ class App extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    {/*<datalist id="first-list">{this.state.optionsPName}</datalist>*/}
+                    <datalist id="first-list">{this.state.optionsPName}</datalist>
                     <div className="search">
                         <label className="lSearch">
                             חפש מטופל:
@@ -188,12 +139,12 @@ class App extends Component {
                                type="text"
                                name="pName"
                                value={this.state.pName}
-                               placeholder="מספר מטופל"
+                               placeholder="שם פרטי ומשפחה"
                                onChange={this.handlePName}
                                list="first-list"
                                required
                         />
-                        <button type="submit" className="bSearch">
+                        <button className="bSearch">
                             חפש
                         </button>
                     </div>
@@ -253,7 +204,7 @@ class App extends Component {
 }
 
 
-export default App;
+export default AppAfterResearch;
 
 class Popup extends React.Component {
     render() {
@@ -261,7 +212,7 @@ class Popup extends React.Component {
             <div className='popup'>
                 <div className='popup_inner' >
                     <button onClick={this.props.closePopup} id="x">x</button>
-                    <h4>אנא בחר מבין הרשומות הבאות:</h4>
+                    <h4>:אנא בחר מבין הרשומות הבאות</h4>
                     {this.props.text}
                 </div>
             </div>

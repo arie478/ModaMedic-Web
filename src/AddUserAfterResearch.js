@@ -36,7 +36,7 @@ const initialState = {
     questionnairesChosen:0,
 };
 
-class AddUser extends Component {
+class AddUserAfterResearch extends Component {
 
     constructor(props) {
         super(props);
@@ -263,9 +263,9 @@ class AddUser extends Component {
             axios.post('http://localhost:8180/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
-                First_Name: "מטופל",
-                Last_Name: this.state.userName,
-                Phone_Number: "",
+                First_Name: this.state.fName,
+                Last_Name: this.state.lName,
+                Phone_Number: this.state.phone,
                 Gender:gender,
                 Smoke: smoke,
                 DateOfSurgery: dateOfSurgery.getTime(),
@@ -451,20 +451,20 @@ class AddUser extends Component {
                 {this.state.type === 'patient' ?
                     <form onSubmit={this.handleSubmit} onReset={this.handleReset} id="new_user_form">
                         <div className="divs_in_add">
-                            <label for="email" className="labels_in_add_user">מזהה מטופל: </label>
-                            <input className="inputs_in_add_user" name="userName" type="text"
+                            <label for="email" className="labels_in_add_user">כתובת דוא"ל</label>
+                            <input className="inputs_in_add_user" name="userName" type="email"
                                    value={this.state.userName} onChange={e => this.handleChange(e)} required/>
                         </div>
-                        {/*<div className="divs_in_add">*/}
-                        {/*    <label className="labels_in_add_user">שם פרטי</label>*/}
-                        {/*    <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}  minLength="2" maxLength="20"*/}
-                        {/*           onChange={this.handleChange} required/>*/}
-                        {/*</div>*/}
-                        {/*<div className="divs_in_add">*/}
-                        {/*    <label className="labels_in_add_user">שם משפחה </label>*/}
-                        {/*    <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}  minLength="2" maxLength="20"*/}
-                        {/*           onChange={this.handleChange} required/>*/}
-                        {/*</div>*/}
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם פרטי</label>
+                            <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName}  minLength="2" maxLength="20"
+                                   onChange={this.handleChange} required/>
+                        </div>
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">שם משפחה </label>
+                            <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName}  minLength="2" maxLength="20"
+                                   onChange={this.handleChange} required/>
+                        </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">סיסמה </label>
                             <input className="inputs_in_add_user" name="password" type="password" minlength="8"
@@ -476,16 +476,16 @@ class AddUser extends Component {
                                 </IconButton>
                             </Tooltip>
                         </div>
-                        {/*<div className="divs_in_add">*/}
-                        {/*    <label className="labels_in_add_user">מספר טלפון</label>*/}
-                        {/*    <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"*/}
-                        {/*           value={this.state.phone} onChange={this.handleChange} required/>*/}
-                        {/*    <Tooltip title="מספר טלפון המכיל מספרים בלבד">*/}
-                        {/*        <IconButton >*/}
-                        {/*            <FcInfo></FcInfo>*/}
-                        {/*        </IconButton>*/}
-                        {/*    </Tooltip>*/}
-                        {/*</div>*/}
+                        <div className="divs_in_add">
+                            <label className="labels_in_add_user">מספר טלפון</label>
+                            <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                   value={this.state.phone} onChange={this.handleChange} required/>
+                            <Tooltip title="מספר טלפון המכיל מספרים בלבד">
+                                <IconButton >
+                                    <FcInfo></FcInfo>
+                                </IconButton>
+                            </Tooltip>
+                        </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">תאריך לידה</label>
                             <input className="inputs_in_add_user" name="bday" type="date" max={today}
@@ -532,7 +532,7 @@ class AddUser extends Component {
                     </div>}
                         <div className="divs_in_add_drop">
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {
+                            <DropdownMultiselect options={questionnairesOption} handleOnChange={(selected) => {
                                 this.onSelectQuestionnairesChosen(selected)
                             }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
                         </div>
@@ -574,4 +574,4 @@ class AddUser extends Component {
     }
 }
 
-export default AddUser;
+export default AddUserAfterResearch;
