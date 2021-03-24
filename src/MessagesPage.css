@@ -9,7 +9,7 @@
     text-align: center;
     align-items: center;
 }
-#mdd table {
+#mdd_message table {
     /*border-collapse: collapse;*/
 }
 
@@ -56,20 +56,20 @@
 /*    color: #212529;*/
 /*}*/
 
-#mdd th{
+#mdd_message th{
     height: 35px;
     width: 80%;
     position: sticky;
 }
 
-#mdd td{
+#mdd_message td{
     height: 35px;
     width: 80%;
     position: sticky;
 }
 
 
-#mdd tr {
+#mdd_message tr {
     display: table-row;
     vertical-align: inherit;
     border-color: inherit;

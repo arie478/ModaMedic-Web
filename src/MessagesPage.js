@@ -198,7 +198,7 @@ class MessagesPage extends Component {
                 <br/>
                 {this.state.messages.length > 0 &&
                 <div class="tableMessages">
-                    <Table id="mdd" striped bordered hover>
+                    <Table id="mdd_message" striped bordered hover>
                         <thead>
                         <tr>
                             <th style={{width: 230}}>תאריך</th>
