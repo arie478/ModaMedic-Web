@@ -97,15 +97,14 @@ h2{
 /*    margin-top: 2%;*/
 /*    margin-bottom: 2%;*/
 }
-.btn {
-    border-color: gray;
-    background-color: white;
-    border: 0.5px solid;
-    border-radius: 2px;
-    height: 30px;
-    font-size: calc(8px + 1vmin);
-
-}
+/*.btn {*/
+/*    border-color: gray;*/
+/*    !*background-color: white;*!*/
+/*    border: 0.5px solid;*/
+/*    border-radius: 2px;*/
+/*    height: 30px;*/
+/*    font-size: calc(8px + 1vmin);*/
+/*}*/
 .docbutton{
     background-color: #17a2b8;
 }
