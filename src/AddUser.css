@@ -42,7 +42,7 @@
 }
 
 .divs_in_add{
-    overflow: hidden;
+    /*overflow: hidden;*/
     text-align: center;
     margin-top: 2%;
 }

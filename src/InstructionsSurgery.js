@@ -332,7 +332,7 @@ class InstructionsSurgery extends Component {
                         {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
                         this.state.instructionsByCategory[this.state.category].map((instruction) => {
                             return <Grid item xs={5} style={{marginLeft:50}}>
-                                <Card>
+                                <Card id="cardInstruction">
                                     <CardMedia
                                         component="img"
                                         alt="Contemplative Reptile"
