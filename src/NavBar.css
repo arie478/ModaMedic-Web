@@ -184,11 +184,10 @@ div.App, div.App-header {
 
 
 .popup_inner {
-
     position: absolute;
     left: 35%;
     right: 35%;
-    top: 25%;
+    top: 40%;
     bottom: 35%;
     margin: auto;
     background-color:#8FBC8F;

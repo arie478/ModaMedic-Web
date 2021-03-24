@@ -33,7 +33,7 @@ h2 {
     width: 500px;
     height:50px;
     text-shadow: 2px 2px 5px grey;
-    margin-right: 50%;
+    margin-right: auto;
 }
 
 .MuiGrid-spacing-xs-3  .MuiGrid-item {
