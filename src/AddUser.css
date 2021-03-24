@@ -32,12 +32,13 @@
 }
 
 .submit_and_reset_buttons {
-    width: 80px;
+    width: 200px;
     height: 30px;
-    margin: 8px 100px;
+    margin: 8px 300px;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    /*margin: 40%;*/
 
 }
 

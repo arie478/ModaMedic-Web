@@ -249,14 +249,14 @@ class NavBar extends React.Component {
                             /> : null
                         }
                         {this.state.userInfo && sessionStorage.getItem('doctor') ?
-                        <DoctorInfo
-                            user = {this.state.currUser}
-                            isEdit = {this.state.isEdit}
-                            closePopup={this.toggleUserInfo.bind(this)}
-                            changeToEdit = {this.changeToEdit}
-                            updateUser = {this.updateUser}
-                        /> : null
-                    }
+                            <DoctorInfo
+                                user = {this.state.currUser}
+                                isEdit = {this.state.isEdit}
+                                closePopup={this.toggleUserInfo.bind(this)}
+                                changeToEdit = {this.changeToEdit}
+                                updateUser = {this.updateUser}
+                            /> : null
+                        }
                     </div>
                     <NavDropdown  id="dropdown-item-button" style={{color : 'white'}} title = {sessionStorage.getItem("name")}>
                         <NavDropdown.Item as="button" onClick={() => this.change()}>שנה סיסמא</NavDropdown.Item>
@@ -366,7 +366,7 @@ class DoctorInfo extends React.Component{
         var today = new Date();
         var birthday = new Date(this.props.user["BirthDate"]);
         var age = Math.floor((today.getTime() - birthday.getTime())/ 31536000000)
-       var today = (new Date()).toISOString().split("T")[0];
+        var today = (new Date()).toISOString().split("T")[0];
         var date = new Date(this.state.bday).toISOString().substr(0,10);
         return (
             <div className='popup'>
@@ -537,7 +537,7 @@ class UserInfo extends React.Component {
         }
     }
     render() {
-            require("./NavBar.css");
+        require("./NavBar.css");
         let bDate = new Date(this.state.bday).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
         var today = new Date();
         var birthday = new Date(this.props.user["BirthDate"]);
@@ -573,28 +573,31 @@ class UserInfo extends React.Component {
                                 <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> גיל: {age}</ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> מין: {this.props.user.Gender} </ListGroup.Item>
-                                <ListGroup.Item className={"listItem"}> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>
+                                {sessionStorage.getItem('doctor') &&
+                                <ListGroup.Item className={"listItem"}> טלפון: {this.props.user.Phone_Number} </ListGroup.Item>}
                                 {patientListItems}
                             </ListGroup>
                         </Card> : null }
                     {this.props.isEdit ?
                         <form onSubmit={this.handleSubmitInfo} onReset={this.handleReset} id="new_user_form">
                             <br/>
-                            <div className="divs_in_add">
-                                <label className="labels_in_add_user">שם פרטי</label>
-                                <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
-                                       onChange={this.handleChangeInfo} required/>
-                            </div>
-                            <div className="divs_in_add">
-                                <label className="labels_in_add_user">שם משפחה </label>
-                                <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
-                                       onChange={this.handleChangeInfo} required/>
-                            </div>
-                            <div className="divs_in_add">
-                                <label className="labels_in_add_user">מספר טלפון</label>
-                                <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
-                                       value={this.state.phone} onChange={this.handleChangeInfo} required/>
-                            </div>
+                            {sessionStorage.getItem('doctor') && <div>
+                                <div className="divs_in_add">
+                                    <label className="labels_in_add_user">שם פרטי</label>
+                                    <input className="inputs_in_add_user" name="fName" type="text" value={this.state.fName} maxLength="20"
+                                           onChange={this.handleChangeInfo} required/>
+                                </div>
+                                <div className="divs_in_add">
+                                    <label className="labels_in_add_user">שם משפחה </label>
+                                    <input className="inputs_in_add_user" name="lName" type="text" value={this.state.lName} maxLength="20"
+                                           onChange={this.handleChangeInfo} required/>
+                                </div>
+                                <div className="divs_in_add">
+                                    <label className="labels_in_add_user">מספר טלפון</label>
+                                    <input className="inputs_in_add_user" name="phone" type="tel" id="phone" pattern="[0-9]{10}"
+                                           value={this.state.phone} onChange={this.handleChangeInfo} required/>
+                                </div>
+                            </div>}
                             <div className="divs_in_add">
                                 <label className="labels_in_add_user">תאריך לידה</label>
                                 <input className="inputs_in_add_user" name="bday" type="date" max={today}

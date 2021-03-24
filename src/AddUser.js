@@ -530,17 +530,6 @@ class AddUser extends Component {
                         <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
                                value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
                     </div>}
-                        <div className="divs_in_add_drop">
-                            <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {
-                                this.onSelectQuestionnairesChosen(selected)
-                            }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
-                        </div>
-                        <div className="divs_in_add">
-                            <br/>
-                            <br/>
-                            <br/>
-                        </div>
                         <div className="divs_in_add">
                             <label className="labels_in_add_user">קוד אימות </label>
                             <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
@@ -562,7 +551,13 @@ class AddUser extends Component {
                             <input className="inputs_in_add_user" name="answerUserQuestion" type="text"
                                    value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
                         </div>
-                        <div className="divs_in_add">
+                        <div className="divs_in_add_drop">
+                            <label className="labels_in_add_user">שאלונים רפואיים </label>
+                            <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {
+                                this.onSelectQuestionnairesChosen(selected)
+                            }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
+                        </div>
+                        <div style={{width:50, height:300}}>
                             <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
                         </div>
                         <br/>
