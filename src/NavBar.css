@@ -73,6 +73,14 @@ div.App, div.App-header {
     margin-left: auto;
 }
 
+.card {
+    font-size: large;
+    text-align: right;
+    margin: 0 25% 3% 2%;
+    cursor: pointer;
+    width: 90%;
+}
+
 #change{
   font-size: large;
   margin-top: 1%;
@@ -281,7 +289,7 @@ div.App, div.App-header {
 }
 
 .listItem{
-    height: 42px;
+    height: fit-content;
 }
 
 .labels_in_add_user {
