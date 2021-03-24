@@ -74,11 +74,11 @@ div.App, div.App-header {
 }
 
 .card {
-    font-size: large;
+    font-size: small;
     text-align: right;
     margin: 0 25% 3% 2%;
     cursor: pointer;
-    width: 90%;
+    width: 80%;
 }
 
 #change{
@@ -285,7 +285,7 @@ div.App, div.App-header {
 }
 
 .list-group-item {
-    padding: 1rem 1.25rem;
+    padding: 0.5rem 1.25rem;
 }
 
 .listItem{
