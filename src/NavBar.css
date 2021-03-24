@@ -79,6 +79,7 @@ div.App, div.App-header {
     margin: 0 25% 3% 2%;
     cursor: pointer;
     width: 80%;
+
 }
 
 #change{
@@ -265,15 +266,28 @@ div.App, div.App-header {
 }
 
 .popup_inner_info{
-    position: revert;
-    width: 750px;
-    height: 600px;
-    left: 25%;
-    right: 25%;
-    top: 8%;
-    bottom: 10%;
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    top: 35%;
+    bottom: 35%;
     margin: auto;
-    background-color:lightblue;
+    background: white;
+    height: 100%;
+    overflow: scroll;
+    overflow-x: hidden;
+    overflow-y: visible;
+    font-size: 12px;
+
+    /*position: revert;*/
+    /*!*width: 750px;*!*/
+    /*!*height: 600px;*!*/
+    /*left: 25%;*/
+    /*right: 25%;*/
+    /*top: 8%;*/
+    /*bottom: 10%;*/
+    /*margin: auto;*/
+    /*background-color:lightblue;*/
 }
 .cont{
     background-color:#99e6ff;
@@ -284,6 +298,7 @@ div.App, div.App-header {
     height: 25%;
     margin-right: 0%;
     margin-top: 0%;
+    background-color: black;
 }
 
 .list-group-item {
@@ -330,4 +345,10 @@ div.App, div.App-header {
 
 .cardInfo{
     position: sticky;
+}
+
+.card-header {
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0;
+    background-color: black;
 }
