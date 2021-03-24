@@ -7,7 +7,7 @@
     font-size: calc(11px + 1vmin);
     padding-top: 10px;
     width: 25%;
-    margin-top: 2%;
+    margin-top: 1.5%;
 }
 
 
@@ -15,13 +15,13 @@
     width: 35%;
     height: 28px;
     float: right;
-    margin-top: 2%;
+    margin-top: 1.5%;
     /*margin-buttom: 2%;*/
 }
 
 .select_in_add_user{
     direction: rtl;
-    margin-top: 2%;
+    margin-top: 1.5%;
     font-size: calc(11px + 1vmin);
 
     /*margin-buttom: 2%;*/
@@ -44,13 +44,13 @@
 .divs_in_add{
     /*overflow: hidden;*/
     text-align: center;
-    margin-top: 2%;
+    margin-top: 1.5%;
 }
 
 .divs_in_add_drop{
     /*overflow: hidden;*/
     text-align: center;
-    margin-top: 2%;
+    margin-top: 1.5%;
     font-size: calc(11px + 1vmin);
 }
 
