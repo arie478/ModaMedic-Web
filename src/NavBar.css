@@ -72,17 +72,35 @@ div.App, div.App-header {
     /*margin-right: auto;*/
     margin-left: auto;
 }
-#change{
-    font-size: medium;
-    margin-top: 10px;
-    margin-right: 90px;
-    width: fit-content;
-    float: right;
-    margin-left: 100px;
-    background: #343a40;
-    color: white;
 
+#change{
+  font-size: large;
+  margin-top: 1%;
+  width: fit-content;
+  float: right;
+  margin-left: 0%;
+  margin-right: 0%;
 }
+
+#sep{
+  font-size: medium;
+  margin-top: 10px;
+  width: fit-content;
+  float: left;
+  margin-right: 8px;
+  margin-left: 8px;
+}
+
+/*#change{*/
+/*    font-size: medium;*/
+/*    margin-top: 10px;*/
+/*    margin-right: 90px;*/
+/*    width: fit-content;*/
+/*    float: right;*/
+/*    margin-left: 100px;*/
+/*    background: #343a40;*/
+/*    color: white;*/
+/*}*/
 
 /*#sep{*/
 /*    font-size: medium;*/
