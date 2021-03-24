@@ -532,7 +532,7 @@ class AddUser extends Component {
                     </div>}
                         <div className="divs_in_add_drop">
                             <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            <DropdownMultiselect options={questionnairesOption} handleOnChange={(selected) => {
+                            <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {
                                 this.onSelectQuestionnairesChosen(selected)
                             }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
                         </div>
