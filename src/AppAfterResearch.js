@@ -49,7 +49,7 @@ class AppAfterResearch extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "http://localhost:8180/auth/doctors/metrics/getUsers",
+            "https://moda-medic.herokuapp.com/auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
