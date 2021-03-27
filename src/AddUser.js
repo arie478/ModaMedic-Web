@@ -274,6 +274,7 @@ class AddUser extends Component {
                 Height: this.state.height,
                 Weight: this.state.weight,
                 BMI: bmi,
+                BMI_NUMBER: parseFloat(bmi),
                 BirthDate: bDay.getTime(),
                 Code: this.state.code,
                 Questionnaires: this.state.questionnairesChosen,
