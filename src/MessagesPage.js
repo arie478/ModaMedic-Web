@@ -12,7 +12,7 @@ class MessagesPage extends Component {
         super(props);
         this.state = {
             messages:[],
-            content:'כתוב את הודעתך כאן'
+            content:''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +32,7 @@ class MessagesPage extends Component {
     async fetchMessagesPatient(){
         if(sessionStorage.getItem('patient')) {
             var response = await axios.get(
-                "https://moda-medic.herokuapp.com/auth/patients/messages",
+                "http://localhost:8180/auth/patients/messages",
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ class MessagesPage extends Component {
         if(sessionStorage.getItem('doctor') && this.props.patientUserId) {
             let patientId = encodeURIComponent(this.props.patientUserId);
             var response = await axios.get(
-                `https://moda-medic.herokuapp.com/auth/doctors/messages/${patientId}`,
+                `http://localhost:8180/auth/doctors/messages/${patientId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ class MessagesPage extends Component {
 
     async addMessage(){
         if (sessionStorage.getItem('patient')) {
-            axios.post('https://moda-medic.herokuapp.com/auth/patients/messages',
+            axios.post('http://localhost:8180/auth/patients/messages',
                 {
                     content: this.state.content,
                 },
@@ -78,12 +78,12 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesPatient();
-                this.setState({content: "כתוב את הודעתך כאן"})
+                this.setState({content:''})
             });
         }
         if (sessionStorage.getItem('doctor')){
             let patientId = encodeURIComponent(this.props.patientUserId);
-            axios.post( `https://moda-medic.herokuapp.com/auth/doctors/messages/${patientId}`,
+            axios.post( `http://localhost:8180/auth/doctors/messages/${patientId}`,
                 {
                     content: this.state.content,
                 },
@@ -94,7 +94,7 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesDoctor();
-                this.setState({content: "כתוב את הודעתך כאן"})
+                this.setState({content:''})
             });
         }
     }
@@ -102,7 +102,7 @@ class MessagesPage extends Component {
     async removeMessage(mId){
         if (sessionStorage.getItem('patient')) {
             console.log("patient")
-            axios.post('https://moda-medic.herokuapp.com/auth/patients/messages/removeMessage',
+            axios.post('http://localhost:8180/auth/patients/messages/removeMessage',
                 {
                     MessageId: mId,
                 },
@@ -117,7 +117,7 @@ class MessagesPage extends Component {
             });
         }
         else if(sessionStorage.getItem('doctor')) {
-            axios.delete(`https://moda-medic.herokuapp.com/auth/doctors/messages/removeMessage/${mId}`,
+            axios.delete(`http://localhost:8180/auth/doctors/messages/removeMessage/${mId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class MessagesPage extends Component {
     // async updateMessage(mId){
     //     console.log(mId)
     //     if (sessionStorage.getItem('patient')) {
-    //         axios.put('https://moda-medic.herokuapp.com/auth/patients/messages/updateMessage',
+    //         axios.put('http://localhost:8180/auth/patients/messages/updateMessage',
     //             {
     //                 MessageId: mId,
     //                 Content: this.state.content
@@ -153,12 +153,7 @@ class MessagesPage extends Component {
 
 
     handleChange(event) {
-        // let content = event.target.value
-        // if(content.length() > 150){
-        //     window.alert("אורך ההודעה עד 150 תוים")
-        // } else {
-            this.setState({content: event.target.value});
-        // }
+        this.setState({content: event.target.value});
     }
 
     handleSubmit(event) {
@@ -191,7 +186,7 @@ class MessagesPage extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <textarea class="textarea" value={this.state.content} onChange={this.handleChange} />
+                    <textarea class="textarea" placeholder="כתוב את הודעתך כאן"  onChange={this.handleChange} />
                     <br/>
                     <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
                 </form>

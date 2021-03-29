@@ -82,7 +82,7 @@ class Login extends Component{
 
     async handleSubmit(e){
         e.preventDefault();
-        let url = 'https://moda-medic.herokuapp.com/users/forgotPassword';
+        let url = 'http://localhost:8180/users/forgotPassword';
         const response = await axios.post(
             url,
             {
@@ -96,7 +96,7 @@ class Login extends Component{
         }
         else{
             var qID = response.data.data;
-            const response1 = await axios.get("https://moda-medic.herokuapp.com/users/getVerificationQuestion?QuestionID=" + qID);
+            const response1 = await axios.get("http://localhost:8180/users/getVerificationQuestion?QuestionID=" + qID);
             this.setState({
                 showID: false,
                 showWrongUser: false,
@@ -113,7 +113,7 @@ class Login extends Component{
         e.preventDefault();
         var date = new Date(this.state.date);
         var dateLong = date.getTime();
-        let url = 'https://moda-medic.herokuapp.com/users/checkVerification';
+        let url = 'http://localhost:8180/users/checkVerification';
         const response = await axios.post(
             url,
             {
@@ -149,7 +149,7 @@ class Login extends Component{
         }
         else{
             var token = this.state.token;
-            var url = 'https://moda-medic.herokuapp.com/users/passwordChangeCheck/changePassword';
+            var url = 'http://localhost:8180/users/passwordChangeCheck/changePassword';
             const response = await axios.post(
                 url,
                 {
@@ -183,7 +183,7 @@ class Login extends Component{
 
     sumbit(e){
         e.preventDefault();
-        axios.post('https://moda-medic.herokuapp.com/users/login', {
+        axios.post('http://localhost:8180/users/login', {
             UserID: this.state.ID,
             Password: this.state.password
         }).then(res => {
