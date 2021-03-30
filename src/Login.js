@@ -243,11 +243,12 @@ class Login extends Component{
         return(
             <div>
                 <form onSubmit={e => this.sumbit(e)}>
-                    <label>כתובת דוא"ל:</label>
+                    {/*<label>כתובת דוא"ל:</label>*/}
+                    <label>שם משתמש:</label>
                     <input type="text" className="inputs" name="ID" onChange={e => this.change(e)} value={this.state.ID} required/>
                     <label>סיסמה:</label>
                     <input type="password"  className="inputs" name="password"  onChange={e => this.change(e)} value={this.state.password} required/>
-                    {this.state.wrong ? <label id="wrong">כתובת הדוא"ל או הסיסמה לא נכונים</label> :  <label></label> }
+                    {this.state.wrong ? <label id="wrong">שם המשתמש או הסיסמה לא נכונים</label> :  <label></label> }
                     <input type="checkbox" id="remember" name="remember" onChange={e => this.change(e)} value={this.state.remember}/>
                     <label>זכור אותי</label>
                     <button type="submit">התחבר</button>
@@ -301,10 +302,10 @@ class Popup extends React.Component {
                             <h3 id="h3">שכחתי סיסמא</h3>
                             <form onSubmit={this.props.handleSubmit}>
                                 <label  id="lid">
-                                    אנא הזן כתובת דוא"ל:
+                                    אנא הזן שם משתמש:
                                 </label>
                                 <input type="text" className="inputs" name="id" id="id" onChange={this.props.change} required/>
-                                {this.props.wrongA ? <label className="error">כתובת דוא"ל לא קיימת</label> : null}
+                                {this.props.wrongA ? <label className="error">שם המשתמש לא קיימת</label> : null}
                                 <div className="lineC">
                                     <input type="submit" value="המשך" id="con"/>
                                 </div>
