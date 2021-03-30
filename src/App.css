@@ -78,6 +78,16 @@ div.App, div.App-header {
   color: #61dafb;
 }
 
+
+.cardApp{
+  font-size: small;
+  text-align: right;
+  /*margin: 0 25% 3% 2%;*/
+  cursor: pointer;
+  width: 80%;
+  margin: auto
+}
+
 .popupApp {
   float: right;
   text-align: right;

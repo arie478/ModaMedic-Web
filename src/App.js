@@ -153,7 +153,7 @@ class App extends Component {
             let user = usersByName[i];
             let dateC = new Date(user.BirthDate).toLocaleDateString('en-GB', {day: 'numeric', month: 'numeric', year:"numeric"});
             cards.push(
-                <Card className="card" key={user.UserID}  onClick={() => {
+                <Card className="cardApp" key={user.UserID}  onClick={() => {
                     this.setState({patientUserId: user.UserID, user: user});
                     this.togglePopup();
                 }}>
