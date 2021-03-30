@@ -67,6 +67,7 @@
     "@types/react-select": "^3.1.0",
     "multiselect-react-dropdown": "^1.6.3",
     "react-image-mapper": "0.0.15",
+    "react-native-fs": "^2.16.6",
     "react-player": "^2.7.2"
   }
 }

@@ -108,9 +108,9 @@ class InstructionsSurgery extends Component {
             },
             instructionsByCategory: {},
             showInstructions: false,
-            showPopup: false
-        }
-        ;
+            showPopup: false,
+            selectedFile: null
+        };
 
         this.getInstructions = this.getInstructions.bind(this);
         this.changePdfToShow = this.changePdfToShow.bind(this);
@@ -213,32 +213,32 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-            let respone = await axios.get('http://localhost:8180/auth/usersAll/instructions',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem("token")
-                    }
-                });
-            if (respone.data.data) {
-                let instructionsArr = [];
-                for (var i = 0; i < respone.data.data.length; i++) {
-                    instructionsArr.push(respone.data.data[i]);
+        let respone = await axios.get('http://localhost:8180/auth/usersAll/instructions',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
-                let instructionsForGrid = [];
-                for (var i = 0; i < instructionsArr.length; i = i + 2) {
-                    if (instructionsArr[i + 1]) {
-                        instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": instructionsArr[i + 1]});
-                    } else {
-                        instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": {}});
-                    }
-                }
-                this.setState({
-                    instructions: instructionsArr,
-                    instructionsForGrid: instructionsForGrid,
-                    instructionsByCategory: this.groupArrayOfObjects(instructionsArr, "Category")
-                });
+            });
+        if (respone.data.data) {
+            let instructionsArr = [];
+            for (var i = 0; i < respone.data.data.length; i++) {
+                instructionsArr.push(respone.data.data[i]);
             }
+            let instructionsForGrid = [];
+            for (var i = 0; i < instructionsArr.length; i = i + 2) {
+                if (instructionsArr[i + 1]) {
+                    instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": instructionsArr[i + 1]});
+                } else {
+                    instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": {}});
+                }
+            }
+            this.setState({
+                instructions: instructionsArr,
+                instructionsForGrid: instructionsForGrid,
+                instructionsByCategory: this.groupArrayOfObjects(instructionsArr, "Category")
+            });
+        }
 
     }
 
@@ -264,12 +264,91 @@ class InstructionsSurgery extends Component {
         });
     }
 
+    add_instruction(){
+    }
+
+
+    // On file select (from the pop up)
+    onFileChange = event => {
+
+        // Update the state
+        this.setState({ selectedFile: event.target.files[0] });
+
+    };
+
+    downloadFile = () => {
+        axios({
+                url: 'http://localhost:8180/pdf/6063868cb5688342d03d117b',
+            method: 'GET',
+            responseType: 'blob', // important
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'roiHamalka.pdf'); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
+    // On file upload (click the upload button)
+    onFileUpload = () => {
+        // Create an object of formData
+        const formData = new FormData();
+        // Update the formData object
+        formData.append(
+            "myFile",
+            this.state.selectedFile,
+            this.state.selectedFile.name
+        );
+
+        // Details of the uploaded file
+        console.log(this.state.selectedFile);
+        // Request made to the backend api
+        // Send formData object
+        // axios.post("api/uploadfile", formData);
+    };
+
+    // File content to be displayed after
+    // file upload is complete
+    fileData = () => {
+        if (this.state.selectedFile) {
+            return (
+                <div>
+                    <h2>File Details:</h2>
+                    <p>File Name: {this.state.selectedFile.name}</p>
+                    <p>File Type: {this.state.selectedFile.type}</p>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <br />
+                    <h4>Choose before Pressing the Upload button</h4>
+                </div>
+            );
+        }
+    };
+
     render() {
         // const { pageNumber, numPages } = this.state;
         // require("./MessagesPage.css");
         require("./InstructionsSurgery.css");
         return (
             <div className="presenter">
+                <div>
+                    <div>
+                        <input type="file" onChange={this.onFileChange} />
+                        <button onClick={this.onFileUpload}>
+                            Upload!
+                        </button>
+                        <br/>
+                        <button onClick={this.downloadFile}>
+                            Download!
+                        </button>
+                    </div>
+                    {this.fileData()}
+                </div>
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
@@ -343,11 +422,11 @@ class InstructionsSurgery extends Component {
                                     />
                                     <Card.Header>
                                         <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
-                                                <a href={this.state.pdfNames[this.state.pdfToShow]} target="_blank">
+                                            <a href={this.state.pdfNames[this.state.pdfToShow]} target="_blank">
                                                 {/*<a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>*/}
-                                                    <b>{instruction.Title}</b>
-                                                    <BsDownload style={{float:'left'}}></BsDownload>
-                                                </a>
+                                                <b>{instruction.Title}</b>
+                                                <BsDownload style={{float:'left'}}></BsDownload>
+                                            </a>
                                         </button>
                                     </Card.Header>
                                 </Card>
