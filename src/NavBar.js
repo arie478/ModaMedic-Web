@@ -566,7 +566,7 @@ class UserInfo extends React.Component {
         var date = new Date(this.state.bday).toISOString().substr(0,10);
         var surgeryDate = new Date(this.state.dateOfSurgery).toISOString().substr(0,10);
         return (
-            <div className='popup'>
+            <div className='popup_info'>
                 <div className='popup_inner_info'>
                     <button onClick={this.props.closePopup} id="x">x</button>
                     {!this.props.isEdit ?

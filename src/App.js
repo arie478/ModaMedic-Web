@@ -259,7 +259,7 @@ class Popup extends React.Component {
     render() {
         return (
             <div className='popupApp'>
-                <div className='popup_inner' >
+                <div className='popup_inner_App' >
                     <button onClick={this.props.closePopup} id="x">x</button>
                     <h4>אנא בחר מבין הרשומות הבאות:</h4>
                     {this.props.text}

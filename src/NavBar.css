@@ -166,7 +166,7 @@ div.App, div.App-header {
     color: #61dafb;
 }
 
-.popup {
+.popup_info {
 
     float: right;
     text-align: right;
@@ -183,15 +183,15 @@ div.App, div.App-header {
 }
 
 
-.popup_inner {
-    position: absolute;
-    left: 35%;
-    right: 35%;
-    top: 40%;
-    bottom: 35%;
-    margin: auto;
-    background-color:#8FBC8F;
-}
+/*.popup_inner_navbar {*/
+/*    position: absolute;*/
+/*    left: 35%;*/
+/*    right: 35%;*/
+/*    top: 40%;*/
+/*    bottom: 35%;*/
+/*    margin: auto;*/
+/*    background-color:#8FBC8F;*/
+/*}*/
 
 #pass, #pass2{
     width: 40%;

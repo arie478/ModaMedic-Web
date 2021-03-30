@@ -92,7 +92,7 @@ div.App, div.App-header {
   background-color: rgba(0,0,0, 0.5);
 }
 
-.popup_inner {
+.popup_inner_App {
 
   position: absolute;
   left: 35%;
