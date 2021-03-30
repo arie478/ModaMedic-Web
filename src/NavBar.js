@@ -573,7 +573,7 @@ class UserInfo extends React.Component {
                         <Card class="cardInfo">
                             <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
                             <ListGroup variant="flush">
-                                <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> תאריך לידה:{bDate} </ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> גיל: {age}</ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> מין: {this.props.user.Gender} </ListGroup.Item>
                                 {sessionStorage.getItem('doctor') &&

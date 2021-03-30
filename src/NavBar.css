@@ -298,6 +298,7 @@ div.App, div.App-header {
     margin-right: 0%;
     margin-top: 0%;
     border-color: black;
+    margin: inherit;
 }
 
 .list-group-item {
