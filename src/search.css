@@ -1,13 +1,13 @@
-.card{
-    border: 1px solid rgba(151, 150, 150, 0.281);
-    margin-bottom: 3%;
-    font-size: medium;
-    text-align: right;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-top: 0;
-    cursor: pointer;
-}
+/*.card{*/
+/*    border: 1px solid rgba(151, 150, 150, 0.281);*/
+/*    margin-bottom: 3%;*/
+/*    font-size: medium;*/
+/*    text-align: right;*/
+/*    margin-left: 2%;*/
+/*    margin-right: 2%;*/
+/*    margin-top: 0;*/
+/*    cursor: pointer;*/
+/*}*/
 
 .card:hover{
     border: 1px solid black;
