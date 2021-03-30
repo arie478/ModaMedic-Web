@@ -53,6 +53,7 @@ class ExercisesPage extends Component {
         e.preventDefault();
         this.addExercise();
         this.setState({newExerciseUrl : ''})
+        this.getExercises()
         // if(response.data.data === null){
         //     window.alert('אנא מלא את הטופס כראוי')
         // }
@@ -79,8 +80,8 @@ class ExercisesPage extends Component {
                     'x-auth-token': sessionStorage.getItem("token")
                 }});
         window.alert("הסרטון נוסף בהצלחה!")
-        this.getExercises()
-    }
+         this.getExercises()
+     }
     handleChange(e) {
         if (e.target.name === "newExerciseUrl") {
             this.setState({[e.target.name]: e.target.value})}
