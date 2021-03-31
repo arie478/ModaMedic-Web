@@ -1,29 +1,34 @@
 {
   "files": {
-    "main.css": "/projectWeb/static/css/main.425faf29.chunk.css",
-    "main.js": "/projectWeb/static/js/main.b1281f31.chunk.js",
-    "main.js.map": "/projectWeb/static/js/main.b1281f31.chunk.js.map",
+    "main.css": "/projectWeb/static/css/main.45b99c42.chunk.css",
+    "main.js": "/projectWeb/static/js/main.58c0cdd2.chunk.js",
+    "main.js.map": "/projectWeb/static/js/main.58c0cdd2.chunk.js.map",
     "runtime-main.js": "/projectWeb/static/js/runtime-main.cc12c273.js",
     "runtime-main.js.map": "/projectWeb/static/js/runtime-main.cc12c273.js.map",
     "static/css/2.b0392f34.chunk.css": "/projectWeb/static/css/2.b0392f34.chunk.css",
-    "static/js/2.593fc46c.chunk.js": "/projectWeb/static/js/2.593fc46c.chunk.js",
-    "static/js/2.593fc46c.chunk.js.map": "/projectWeb/static/js/2.593fc46c.chunk.js.map",
+    "static/js/2.ff201ec6.chunk.js": "/projectWeb/static/js/2.ff201ec6.chunk.js",
+    "static/js/2.ff201ec6.chunk.js.map": "/projectWeb/static/js/2.ff201ec6.chunk.js.map",
     "index.html": "/projectWeb/index.html",
-    "precache-manifest.caaa28fef990f1e53db23c590fd5c65a.js": "/projectWeb/precache-manifest.caaa28fef990f1e53db23c590fd5c65a.js",
+    "precache-manifest.3e77d8d910761aa1538527ac330c4180.js": "/projectWeb/precache-manifest.3e77d8d910761aa1538527ac330c4180.js",
     "service-worker.js": "/projectWeb/service-worker.js",
     "static/css/2.b0392f34.chunk.css.map": "/projectWeb/static/css/2.b0392f34.chunk.css.map",
-    "static/css/main.425faf29.chunk.css.map": "/projectWeb/static/css/main.425faf29.chunk.css.map",
-    "static/js/2.593fc46c.chunk.js.LICENSE.txt": "/projectWeb/static/js/2.593fc46c.chunk.js.LICENSE.txt",
+    "static/css/main.45b99c42.chunk.css.map": "/projectWeb/static/css/main.45b99c42.chunk.css.map",
+    "static/js/2.ff201ec6.chunk.js.LICENSE.txt": "/projectWeb/static/js/2.ff201ec6.chunk.js.LICENSE.txt",
     "static/media/ACL.jpg": "/projectWeb/static/media/ACL.b8e24ffb.jpg",
-    "static/media/ASD.jpg": "/projectWeb/static/media/ASD.728f975b.jpg",
+    "static/media/Ankle.jpg": "/projectWeb/static/media/Ankle.717456b8.jpg",
+    "static/media/Back.jpg": "/projectWeb/static/media/Back.b7b8521b.jpg",
+    "static/media/Elbow.jpg": "/projectWeb/static/media/Elbow.986fd0d7.jpg",
+    "static/media/Hip.png": "/projectWeb/static/media/Hip.b1fa9622.png",
     "static/media/INSTRUCTIONS.PNG": "/projectWeb/static/media/INSTRUCTIONS.a467ee60.PNG",
+    "static/media/Neck.jpg": "/projectWeb/static/media/Neck.363fa28f.jpg",
+    "static/media/REVERSETSR.jpg": "/projectWeb/static/media/REVERSETSR.fd7b932b.jpg",
     "static/media/first_logo.png": "/projectWeb/static/media/first_logo.4c4417d4.png"
   },
   "entrypoints": [
     "static/js/runtime-main.cc12c273.js",
     "static/css/2.b0392f34.chunk.css",
-    "static/js/2.593fc46c.chunk.js",
-    "static/css/main.425faf29.chunk.css",
-    "static/js/main.b1281f31.chunk.js"
+    "static/js/2.ff201ec6.chunk.js",
+    "static/css/main.45b99c42.chunk.css",
+    "static/js/main.58c0cdd2.chunk.js"
   ]
 }
