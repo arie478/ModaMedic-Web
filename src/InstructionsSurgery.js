@@ -5,16 +5,9 @@ import {Card} from "react-bootstrap";
 // ES5 require
 import ImageMapper from "react-image-mapper";
 import CardMedia from "@material-ui/core/CardMedia";
-import {Document, Page, pdfjs} from 'react-pdf';
-import ACL from "./prtocols/ACL.pdf";
-import ASD from "./prtocols/ASD.pdf";
-import BANKART from "./prtocols/BANKART.pdf";
-import KNEE from "./prtocols/KNEE.pdf";
-import REVERSE_TSR from "./prtocols/REVERSE_TSR.pdf";
-import ROTATORCUFF from "./prtocols/ROTATORCUFF.pdf";
-import FIRST from "./prtocols/FIRST.pdf";
 import Grid from '@material-ui/core/Grid';
 import {BsDownload} from "react-icons/bs";
+import {AiFillDelete} from "react-icons/ai";
 
 var MAP = {
     name: "my-map",
@@ -78,7 +71,6 @@ var MAP = {
 var URL = "https://modernorthonj.com/wp-content/uploads/2020/03/body-schematic-transparent-2048x1257.jpg"
 
 class InstructionsSurgery extends Component {
-
     constructor(props) {
         super(props);
         // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -87,16 +79,7 @@ class InstructionsSurgery extends Component {
             instructionsForGrid: [],
             // numPages: null,
             // pageNumber: 1,
-            // pdfNames:{"ACL": ACL,ASD,BANKART,KNEE,REVERSE_TSR,ROTATORCUFF]}
-            pdfNames: {
-                "ACL": ACL,
-                "KNEE": KNEE,
-                "ASD": ASD,
-                "BANKART": BANKART,
-                "REVERSE_TSR": REVERSE_TSR,
-                "ROTATORCUFF": ROTATORCUFF,
-                "FIRST": FIRST
-            },
+
             headerNames: {
                 "knee": "פרוטוקולי שיקום - ברך",
                 "shoulder": "פרוטוקולי שיקום - כתף",
@@ -106,10 +89,31 @@ class InstructionsSurgery extends Component {
                 "back" : "פרוטוקולי שיקום - גב",
                 "neck" : "פרוטוקולי שיקום - צוואר"
             },
+            categoryToImage: {
+                "knee": require('./ImagesOrth/ACL.jpg'),
+                "shoulder": require('./ImagesOrth/ASD.jpg'),
+                "hip" : require('./ImagesOrth/ASD.jpg'),
+                "ankle" : require('./ImagesOrth/ASD.jpg'),
+                "elbow" : require('./ImagesOrth/ASD.jpg'),
+                "back" : require('./ImagesOrth/ASD.jpg'),
+                "neck" : require('./ImagesOrth/ASD.jpg'),
+            },
+
             instructionsByCategory: {},
             showInstructions: false,
             showPopup: false,
-            selectedFile: null
+            selectedFile: null,
+            newInstructionCategory: "knee",
+            newInstructionTitle: "",
+            categories: {
+                "ברך": "knee",
+                "גב": "back",
+                "כתף": "shoulder",
+                "קרסול": "hip",
+                "ירך" :  "ankle",
+                "מרפק":"elbow",
+                "צוואר": "neck"
+            },
         };
 
         this.getInstructions = this.getInstructions.bind(this);
@@ -126,6 +130,12 @@ class InstructionsSurgery extends Component {
         this.moveOnArea = this.moveOnArea.bind(this);
         this.getTipPosition = this.getTipPosition.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
+        this.selectFile = this.selectFile.bind(this);
+        this.upload = this.upload.bind(this);
+        this.uploadFile = this.uploadFile.bind(this);
+        this.onSelectCategoryChosen =  this.onSelectCategoryChosen.bind(this)
+        this.handleChange =  this.handleChange.bind(this)
+        this.handleSubmit =  this.handleSubmit.bind(this)
 
     }
 
@@ -264,10 +274,13 @@ class InstructionsSurgery extends Component {
         });
     }
 
-    add_instruction(){
+    onSelectCategoryChosen(event) {
+        let value = this.state.categories[event.target.options[event.target.options.selectedIndex].label];
+        this.setState({
+            newInstructionCategory: value
+        });
+        // console.log(this.state.categories[event.target.options.selectedIndex])
     }
-
-
     // On file select (from the pop up)
     onFileChange = event => {
 
@@ -276,20 +289,77 @@ class InstructionsSurgery extends Component {
 
     };
 
-    downloadFile = () => {
+    downloadFile = (instruction) => {
         axios({
-                url: ' http://localhost:8180/pdf/6063868cb5688342d03d117b',
+            url: `http://localhost:8180/auth/usersAll/instructions/${instruction.InstructionId}`,
             method: 'GET',
             responseType: 'blob', // important
+            headers: {
+                'x-auth-token': sessionStorage.getItem("token")
+            }
         }).then((response) => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
-            link.setAttribute('download', 'roiHamalka.pdf'); //or any other extension
+            link.setAttribute('download', `${instruction.Title}.pdf`); //or any other extension
             document.body.appendChild(link);
             link.click();
         });
     };
+
+    uploadFile(category, title, file, onUploadProgress) {
+        let formData = new FormData();
+        formData.append("Category", category);
+        formData.append("Title", title);
+        formData.append("pdf", file);
+        return axios.post("http://localhost:8180/auth/doctors/instructions", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                'x-auth-token': sessionStorage.getItem("token")
+            },
+            onUploadProgress,
+        });
+    }
+
+    selectFile(event) {
+        this.setState({
+            selectedFiles: event.target.files,
+        });
+    }
+
+    upload() {
+        let currentFile = this.state.selectedFiles[0];
+        this.setState({
+            progress: 0,
+            currentFile: currentFile,
+        });
+
+        this.uploadFile(this.state.newInstructionCategory, this.state.newInstructionTitle, currentFile, (event) => {
+            this.setState({
+                progress: Math.round((100 * event.loaded) / event.total),
+            });
+        })
+            .then((response) => {
+                this.setState({
+                    message: response.data.message,
+                });
+                window.alert("פרוטוקול הועלה בהצלחה!");
+                this.setState({newInstructionTitle : '',  progress: 0, currentFile: undefined, selectedFiles:undefined});
+                this.getInstructions();
+
+            })
+            .catch(() => {
+                this.setState({
+                    progress: 0,
+                    message: "Could not upload the file!",
+                    currentFile: undefined,
+                });
+            });
+
+        this.setState({
+            selectedFiles: undefined,
+        });
+    }
 
     // On file upload (click the upload button)
     onFileUpload = () => {
@@ -330,29 +400,103 @@ class InstructionsSurgery extends Component {
         }
     };
 
+    async removeInstruction(eId){
+        if(sessionStorage.getItem('doctor')) {
+            const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הפרוטוקול?");
+            if (r) {
+                await axios.delete(` http://localhost:8180/auth/doctors/instructions/${eId}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': sessionStorage.getItem("token")
+                        }
+                    });
+                this.getInstructions()
+            }
+        }
+    }
+    handleChange(e) {
+        if (e.target.name === "newInstructionTitle") {
+            this.setState({[e.target.name]: e.target.value})}
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.upload();
+    }
+
+    renderUploadFile() {
+        const {
+            selectedFiles,
+            currentFile,
+            progress,
+            message,
+        } = this.state;
+        let optionItems = Object.keys(this.state.categories).map((category) =>
+            <option key={category} >{category}</option>
+        );
+        return <div>
+            <form onSubmit={this.handleSubmit}>
+            <div className="divs_in_add_pdf">
+                <label className="labels_in_add_instructions">כותרת הפרוטוקול: </label>
+                <input className="inputs_in_add_instructions" name="newInstructionTitle" type="text"
+                       value={this.state.newInstructionTitle} onChange={e => this.handleChange(e)} required/>
+            </div>
+            <div className="divs_in_add_pdf">
+                <label className="labels_in_add_instructions">קטגוריית הפרוטוקול:    </label>
+                <select  className="select_in_add_instructions" onChange={this.onSelectCategoryChosen} required>
+                    {optionItems}
+                </select>
+            </div>
+            <br/>
+            <br/>
+            {currentFile && (
+                <div className="progress">
+                    <div
+                        className="progress-bar progress-bar-info progress-bar-striped"
+                        role="progressbar"
+                        aria-valuenow={progress}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style={{ width: progress + "%" }}
+                    >
+                        {progress}%
+                    </div>
+                </div>
+            )}
+                <br/>
+                <br/>
+            <label className="btn btn-default">
+                <input type="file" onChange={this.selectFile} />
+            </label>
+
+            <button className="btn btn-primary"
+                    disabled={!selectedFiles}
+                   type={"submit"}
+            >
+                העלאת הפרוטוקל
+            </button>
+            <div className="alert alert-light" role="alert">
+                {message}
+            </div>
+            </form>
+        </div>
+    }
+
     render() {
         // const { pageNumber, numPages } = this.state;
         // require("./MessagesPage.css");
+
         require("./InstructionsSurgery.css");
         return (
             <div className="presenter">
-                {/*<div>*/}
-                {/*    <div>*/}
-                {/*        <input type="file" onChange={this.onFileChange} />*/}
-                {/*        <button onClick={this.onFileUpload}>*/}
-                {/*            Upload!*/}
-                {/*        </button>*/}
-                {/*        <br/>*/}
-                {/*        <button onClick={this.downloadFile}>*/}
-                {/*            Download!*/}
-                {/*        </button>*/}
-                {/*    </div>*/}
-                {/*    {this.fileData()}*/}
-                {/*</div>*/}
+
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
-                        <img style={{width: '100%', marginLeft:"auto"}} src={require('./ImagesOrth/INSTRUCTIONS.PNG')} />
+                        {sessionStorage.getItem('patient') &&
+                        <img style={{width: '100%', marginLeft:"auto"}} src={require('./ImagesOrth/INSTRUCTIONS.PNG')} />}
+                        {sessionStorage.getItem('doctor') && this.renderUploadFile()}
                     </Grid>
                     <Grid item xs={6} >
                         <div>
@@ -386,19 +530,6 @@ class InstructionsSurgery extends Component {
                         </div>
                     </Grid>
                 </Grid>
-                {/*{this.state.pdfToShow &&*/}
-                {/*<div>*/}
-                {/*    <PDF pdfFile={this.state.pdfNames[this.state.pdfToShow]}/>*/}
-                {/*</div>*/}
-                {/*<Grid item xs={6}>*/}
-                {/*    {this.state.pdfToShow &&*/}
-                {/*    <div>*/}
-                {/*        <PDF pdfFile={this.state.pdfNames[this.state.pdfToShow]}/>*/}
-                {/*    </div>}*/}
-                {/*</Grid>*/}
-                {/*<Grid item xs={6}>*/}
-
-                {/*</Grid>*/}
                 <div id="inst">
                     <br/>
                     <br/>
@@ -406,7 +537,7 @@ class InstructionsSurgery extends Component {
                     <h2 className="insth2">{this.state.headerNames[this.state.category]}</h2>
                 </div>
                 <div >
-                    {!this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
+                    {this.state.category && !this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
                     <Grid container spacing={2} >
                         {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
                         this.state.instructionsByCategory[this.state.category].map((instruction) => {
@@ -416,20 +547,21 @@ class InstructionsSurgery extends Component {
                                         component="img"
                                         alt="Contemplative Reptile"
                                         height="200"
-                                        image={instruction.ImagePart}
+                                        image={this.state.categoryToImage[instruction.Category]}
                                         title="Contemplative Reptile"
                                         style={{borderColor: 'black'}}
                                     />
                                     <Card.Header>
-                                        <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
-                                            <a href={this.state.pdfNames[this.state.pdfToShow]} target="_blank">
-                                                {/*<a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>*/}
-                                                <b>{instruction.Title}</b>
-                                                <BsDownload style={{float:'left'}}></BsDownload>
-                                            </a>
+                                        <button onClick={() => this.downloadFile(instruction)}>
+                                            <b>{instruction.Title}</b>
+                                            <BsDownload style={{float:'left'}}/>
                                         </button>
                                     </Card.Header>
                                 </Card>
+                                {sessionStorage.getItem('doctor') &&
+                                <AiFillDelete type="button" class="trushIcon" style={{color: 'black'}} size={20}
+                                              onClick={() => this.removeInstruction(instruction.InstructionId)}/>
+                                }
                             </Grid>
                         })
                         }
@@ -441,53 +573,4 @@ class InstructionsSurgery extends Component {
 }
 
 export default InstructionsSurgery;
-
-class PDF extends Component {
-
-    constructor(props) {
-        super(props);
-        pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-        this.state = {
-            numPages: null,
-            pageNumber: 1,
-        };
-
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-
-    }
-
-    onDocumentLoad = ({ numPages }) => {
-        this.setState({ numPages });
-    };
-
-    previousPage() {
-        this.setState({pageNumber: this.state.pageNumber - 1});
-    }
-
-    nextPage() {
-        this.setState({pageNumber: this.state.pageNumber + 1});
-    }
-
-    render() {
-        require("./Pdf.css");
-
-        return <div>
-            <Document file={this.props.pdfFile} onLoadSuccess={this.onDocumentLoad} options={{ workerSrc: "/pdf.worker.js" }}>
-                <Page pageNumber={this.state.pageNumber} />
-            </Document>
-            <p>Page {this.state.pageNumber} of {this.state.numPages}</p>
-            <button class="nextprv" type="button" disabled={this.state.pageNumber <= 1} onClick={this.previousPage}>
-                Previous
-            </button>
-            <button class="nextprv"
-                    type="button"
-                    disabled={this.state.pageNumber >= this.state.numPages}
-                    onClick={this.nextPage}
-            >
-                Next
-            </button>
-        </div>
-    }
-}
 

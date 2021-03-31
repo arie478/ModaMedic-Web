@@ -97,7 +97,7 @@ class ExercisesPage extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הסרטון?");
             if (r == true) {
-                axios.delete(` http://localhost:8180/auth/doctors/exercises/removeExercise/${eId}`,
+                await axios.delete(` http://localhost:8180/auth/doctors/exercises/removeExercise/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
