@@ -336,19 +336,19 @@ class InstructionsSurgery extends Component {
         require("./InstructionsSurgery.css");
         return (
             <div className="presenter">
-                <div>
-                    <div>
-                        <input type="file" onChange={this.onFileChange} />
-                        <button onClick={this.onFileUpload}>
-                            Upload!
-                        </button>
-                        <br/>
-                        <button onClick={this.downloadFile}>
-                            Download!
-                        </button>
-                    </div>
-                    {this.fileData()}
-                </div>
+                {/*<div>*/}
+                {/*    <div>*/}
+                {/*        <input type="file" onChange={this.onFileChange} />*/}
+                {/*        <button onClick={this.onFileUpload}>*/}
+                {/*            Upload!*/}
+                {/*        </button>*/}
+                {/*        <br/>*/}
+                {/*        <button onClick={this.downloadFile}>*/}
+                {/*            Download!*/}
+                {/*        </button>*/}
+                {/*    </div>*/}
+                {/*    {this.fileData()}*/}
+                {/*</div>*/}
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
