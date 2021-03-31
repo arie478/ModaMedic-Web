@@ -91,12 +91,12 @@ class InstructionsSurgery extends Component {
             },
             categoryToImage: {
                 "knee": require('./ImagesOrth/ACL.jpg'),
-                "shoulder": require('./ImagesOrth/ASD.jpg'),
-                "hip" : require('./ImagesOrth/ASD.jpg'),
-                "ankle" : require('./ImagesOrth/ASD.jpg'),
-                "elbow" : require('./ImagesOrth/ASD.jpg'),
-                "back" : require('./ImagesOrth/ASD.jpg'),
-                "neck" : require('./ImagesOrth/ASD.jpg'),
+                "shoulder": require('./ImagesOrth/REVERSETSR.jpg'),
+                "hip" : require('./ImagesOrth/Hip.jpg'),
+                "ankle" : require('./ImagesOrth/Ankle.jpg'),
+                "elbow" : require('./ImagesOrth/Elbow..jpg'),
+                "back" : require('./ImagesOrth/Back.jpg'),
+                "neck" : require('./ImagesOrth/Neck.jpg'),
             },
 
             instructionsByCategory: {},
