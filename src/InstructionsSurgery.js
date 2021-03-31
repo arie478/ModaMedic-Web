@@ -223,7 +223,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-        let respone = await axios.get(' http://localhost:8180/auth/usersAll/instructions',
+        let respone = await axios.get(' https://moda-medic.herokuapp.com/auth/usersAll/instructions',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -291,7 +291,7 @@ class InstructionsSurgery extends Component {
 
     downloadFile = (instruction) => {
         axios({
-            url: `http://localhost:8180/auth/usersAll/instructions/${instruction.InstructionId}`,
+            url: `https://moda-medic.herokuapp.com/auth/usersAll/instructions/${instruction.InstructionId}`,
             method: 'GET',
             responseType: 'blob', // important
             headers: {
@@ -312,7 +312,7 @@ class InstructionsSurgery extends Component {
         formData.append("Category", category);
         formData.append("Title", title);
         formData.append("pdf", file);
-        return axios.post("http://localhost:8180/auth/doctors/instructions", formData, {
+        return axios.post("https://moda-medic.herokuapp.com/auth/doctors/instructions", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 'x-auth-token': sessionStorage.getItem("token")
@@ -404,7 +404,7 @@ class InstructionsSurgery extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הפרוטוקול?");
             if (r) {
-                await axios.delete(` http://localhost:8180/auth/doctors/instructions/${eId}`,
+                await axios.delete(` https://moda-medic.herokuapp.com/auth/doctors/instructions/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

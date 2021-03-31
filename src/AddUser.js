@@ -143,7 +143,7 @@ class AddUser extends Component {
         let initQuestionsID = [];
         let initQuestionsText = [];
 
-        fetch(' http://localhost:8180/users/getVerifications')
+        fetch(' https://moda-medic.herokuapp.com/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -167,7 +167,7 @@ class AddUser extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch(' http://localhost:8180/questionnaires/all')
+        fetch(' https://moda-medic.herokuapp.com/questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -205,7 +205,7 @@ class AddUser extends Component {
         //     return
         // }
         if(this.state.type === 'doctor') {
-            axios.post(' http://localhost:8180/users/doctorRegister', {
+            axios.post(' https://moda-medic.herokuapp.com/users/doctorRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: this.state.fName,
@@ -260,7 +260,7 @@ class AddUser extends Component {
             }
             let height_double = Number(this.state.height / 100);
             let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-            axios.post(' http://localhost:8180/users/patientRegister', {
+            axios.post(' https://moda-medic.herokuapp.com/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: "מטופל",
@@ -299,7 +299,7 @@ class AddUser extends Component {
         let initialQuestions = [];
         let initQuestionsID = [];
         let initQuestionsText = [];
-        fetch(' http://localhost:8180/users/getVerifications')
+        fetch(' https://moda-medic.herokuapp.com/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -324,7 +324,7 @@ class AddUser extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch(' http://localhost:8180/questionnaires/all')
+        fetch(' https://moda-medic.herokuapp.com/questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {

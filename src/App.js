@@ -50,7 +50,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            " http://localhost:8180/auth/doctors/metrics/getUsers",
+            " https://moda-medic.herokuapp.com/auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            " http://localhost:8180/auth/doctors/metrics/getUsers",
+            " https://moda-medic.herokuapp.com/auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ class App extends Component {
         if(event){
             event.preventDefault()
         }
-         await axios.post( ` http://localhost:8180/auth/doctors/metrics/userId`,
+         await axios.post( ` https://moda-medic.herokuapp.com/auth/doctors/metrics/userId`,
             {
                 UserID: this.state.pName,
             },
