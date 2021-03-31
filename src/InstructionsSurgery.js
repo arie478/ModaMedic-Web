@@ -213,7 +213,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-        let respone = await axios.get(' https://moda-medic.herokuapp.com/auth/usersAll/instructions',
+        let respone = await axios.get(' http://localhost:8180/auth/usersAll/instructions',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -278,7 +278,7 @@ class InstructionsSurgery extends Component {
 
     downloadFile = () => {
         axios({
-                url: ' https://moda-medic.herokuapp.com/pdf/6063868cb5688342d03d117b',
+                url: ' http://localhost:8180/pdf/6063868cb5688342d03d117b',
             method: 'GET',
             responseType: 'blob', // important
         }).then((response) => {

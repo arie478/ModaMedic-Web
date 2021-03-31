@@ -107,7 +107,7 @@ class NavBar extends React.Component {
             });
         }
         else{
-            let url = ' https://moda-medic.herokuapp.com/auth/usersAll/askChangePassword';
+            let url = ' http://localhost:8180/auth/usersAll/askChangePassword';
             var token;
             const response = await axios.post(
                 url,
@@ -120,7 +120,7 @@ class NavBar extends React.Component {
                 }
             );
             token = response.data.data;
-            url = ' https://moda-medic.herokuapp.com/users/passwordChangeCheck/changePassword';
+            url = ' http://localhost:8180/users/passwordChangeCheck/changePassword';
             const responsec = await axios.post(
                 url,
                 {
@@ -145,7 +145,7 @@ class NavBar extends React.Component {
     }
 
     async getInfo(){
-        let url = ' https://moda-medic.herokuapp.com/auth/usersAll/userInfo';
+        let url = ' http://localhost:8180/auth/usersAll/userInfo';
         var token;
         const response = await axios.get(
             url,
@@ -345,7 +345,7 @@ class DoctorInfo extends React.Component{
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put(' https://moda-medic.herokuapp.com/auth/usersAll/doctorUpdate', {
+        const response = await axios.put(' http://localhost:8180/auth/usersAll/doctorUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
@@ -455,7 +455,7 @@ class UserInfo extends React.Component {
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put(' https://moda-medic.herokuapp.com/auth/usersAll/patientUpdate', {
+        const response = await axios.put(' http://localhost:8180/auth/usersAll/patientUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,

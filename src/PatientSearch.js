@@ -61,7 +61,7 @@ class PatientSearch extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            " https://moda-medic.herokuapp.com/auth/usersAll/getNames",
+            " http://localhost:8180/auth/usersAll/getNames",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ class PatientSearch extends Component {
 
     async getDoctorRequest(name, url){
         var nameSplit = this.findUser(this.state.pName);
-        let getUrl = ' https://moda-medic.herokuapp.com/auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
+        let getUrl = ' http://localhost:8180/auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date)
             let start_time = date.getTime();
@@ -174,7 +174,7 @@ class PatientSearch extends Component {
     }
 
     async getPatientRequest(name, url){
-        let getUrl = ` https://moda-medic.herokuapp.com/auth/patients/${url}`;
+        let getUrl = ` http://localhost:8180/auth/patients/${url}`;
         let start_time;
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date);
