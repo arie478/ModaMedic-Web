@@ -92,7 +92,7 @@ class InstructionsSurgery extends Component {
             categoryToImage: {
                 "knee": require('./ImagesOrth/ACL.jpg'),
                 "shoulder": require('./ImagesOrth/REVERSETSR.jpg'),
-                "hip" : require('./ImagesOrth/Hip.jpg'),
+                "hip" : require('./ImagesOrth/Hip.png'),
                 "ankle" : require('./ImagesOrth/Ankle.jpg'),
                 "elbow" : require('./ImagesOrth/Elbow.jpg'),
                 "back" : require('./ImagesOrth/Back.jpg'),
