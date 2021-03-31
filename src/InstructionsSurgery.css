@@ -127,9 +127,8 @@ pre.message {
 .labels_in_add_instructions{
     /* Other styling... */
     text-align: right;
-    float:right;
     margin-right: 1%;
-    /*margin-buttom: 2%;*/
+    margin-buttom: 2%;
     font-size: calc(11px + 1vmin);
     width: 35%;
 }
