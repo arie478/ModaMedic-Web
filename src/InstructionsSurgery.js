@@ -94,7 +94,7 @@ class InstructionsSurgery extends Component {
                 "shoulder": require('./ImagesOrth/REVERSETSR.jpg'),
                 "hip" : require('./ImagesOrth/Hip.jpg'),
                 "ankle" : require('./ImagesOrth/Ankle.jpg'),
-                "elbow" : require('./ImagesOrth/Elbow..jpg'),
+                "elbow" : require('./ImagesOrth/Elbow.jpg'),
                 "back" : require('./ImagesOrth/Back.jpg'),
                 "neck" : require('./ImagesOrth/Neck.jpg'),
             },
