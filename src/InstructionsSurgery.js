@@ -8,6 +8,9 @@ import CardMedia from "@material-ui/core/CardMedia";
 import Grid from '@material-ui/core/Grid';
 import {BsDownload} from "react-icons/bs";
 import {AiFillDelete} from "react-icons/ai";
+import Tooltip from "@material-ui/core/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Button from "react-bootstrap/Button";
 
 var MAP = {
     name: "my-map",
@@ -109,11 +112,12 @@ class InstructionsSurgery extends Component {
                 "ברך": "knee",
                 "גב": "back",
                 "כתף": "shoulder",
-                "קרסול": "hip",
-                "ירך" :  "ankle",
+                "ירך": "hip",
+                "קרסול":  "ankle",
                 "מרפק":"elbow",
                 "צוואר": "neck"
             },
+            area:undefined
         };
 
         this.getInstructions = this.getInstructions.bind(this);
@@ -181,7 +185,7 @@ class InstructionsSurgery extends Component {
     moveOnImage(evt) {
         const coords = {x: evt.nativeEvent.layerX, y: evt.nativeEvent.layerY};
         this.setState({
-            moveMsg: `You moved on the image at coords ${JSON.stringify(coords)} !`
+            moveMsg: ` `
         });
     }
 
@@ -197,18 +201,17 @@ class InstructionsSurgery extends Component {
     leaveArea(area) {
         this.setState({
             hoveredArea: null,
-            msg: `You leaved ${area.shape} ${area.name} at coords ${JSON.stringify(
-                area.coords
-            )} !`
+            // msg: '',
+            // moveMsg: ''
         });
     }
 
     moveOnArea(area, evt) {
         const coords = {x: evt.nativeEvent.layerX, y: evt.nativeEvent.layerY};
         this.setState({
-            moveMsg: `You moved on ${area.shape} ${
-                area.name
-            } at coords ${JSON.stringify(coords)} !`
+            moveMsg: ' לחץ להצגת ' + this.state.headerNames[`${area.name}`],
+            currArea: area,
+            hoveredArea: area
         });
     }
 
@@ -341,18 +344,19 @@ class InstructionsSurgery extends Component {
         })
             .then((response) => {
                 this.setState({
-                    message: response.data.message,
-                });
-                window.alert("פרוטוקול הועלה בהצלחה!");
+                        message: response.data.message,
+                    }
+                );
+                window.alert("פרוטוקול הועלה בהצלחה!")
                 this.setState({newInstructionTitle : '',  progress: 0, currentFile: undefined, selectedFiles:undefined});
                 this.getInstructions();
-
             })
             .catch(() => {
                 this.setState({
                     progress: 0,
                     message: "Could not upload the file!",
                     currentFile: undefined,
+                    selectedFiles: undefined
                 });
             });
 
@@ -437,48 +441,47 @@ class InstructionsSurgery extends Component {
         );
         return <div>
             <form onSubmit={this.handleSubmit}>
-            <div className="divs_in_add_pdf">
-                <label className="labels_in_add_instructions">כותרת הפרוטוקול: </label>
-                <input className="inputs_in_add_instructions" name="newInstructionTitle" type="text"
-                       value={this.state.newInstructionTitle} onChange={e => this.handleChange(e)} required/>
-            </div>
-            <div className="divs_in_add_pdf">
-                <label className="labels_in_add_instructions">קטגוריית הפרוטוקול:    </label>
-                <select  className="select_in_add_instructions" onChange={this.onSelectCategoryChosen} required>
-                    {optionItems}
-                </select>
-            </div>
-            <br/>
-            <br/>
-            {currentFile && (
-                <div className="progress">
-                    <div
-                        className="progress-bar progress-bar-info progress-bar-striped"
-                        role="progressbar"
-                        aria-valuenow={progress}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                        style={{ width: progress + "%" }}
-                    >
-                        {progress}%
-                    </div>
+                <div className="divs_in_add_pdf">
+                    <label className="labels_in_add_instructions">כותרת הפרוטוקול: </label>
+                    <input className="inputs_in_add_instructions" name="newInstructionTitle" type="text"
+                           value={this.state.newInstructionTitle} onChange={e => this.handleChange(e)} required/>
                 </div>
-            )}
+                <div className="divs_in_add_pdf">
+                    <label className="labels_in_add_instructions">קטגוריית הפרוטוקול:    </label>
+                    <select  className="select_in_add_instructions" onChange={this.onSelectCategoryChosen} required>
+                        {optionItems}
+                    </select>
+                </div>
                 <br/>
                 <br/>
-            <label className="btn btn-default">
-                <input type="file" onChange={this.selectFile} />
-            </label>
-
-            <button className="btn btn-primary"
-                    disabled={!selectedFiles}
-                   type={"submit"}
-            >
-                העלאת הפרוטוקל
-            </button>
-            <div className="alert alert-light" role="alert">
-                {message}
-            </div>
+                {currentFile && (
+                    <div className="progress">
+                        <div
+                            className="progress-bar progress-bar-info progress-bar-striped"
+                            role="progressbar"
+                            aria-valuenow={progress}
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style={{ width: progress + "%" }}
+                        >
+                            {progress}%
+                        </div>
+                    </div>
+                )}
+                <br/>
+                <br/>
+                <label className="btn btn-default">
+                    <input type="file" onChange={this.selectFile} />
+                </label>
+                <button className="btn btn-primary"
+                        disabled={!selectedFiles}
+                        type={"submit"}
+                >
+                    העלאת הפרוטוקל
+                </button>
+                <div className="alert alert-light" role="alert">
+                    {message}
+                </div>
             </form>
         </div>
     }
@@ -490,7 +493,6 @@ class InstructionsSurgery extends Component {
         require("./InstructionsSurgery.css");
         return (
             <div className="presenter">
-
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
@@ -500,6 +502,8 @@ class InstructionsSurgery extends Component {
                     </Grid>
                     <Grid item xs={6} >
                         <div>
+                            <pre className="message">{this.state.msg ? this.state.msg : null}</pre>
+                            <pre>{this.state.moveMsg ? this.state.moveMsg : null}</pre>
                             <div style={{ width: '100%', position: "relative"}}>
                                 <ImageMapper
                                     src={URL}
@@ -510,9 +514,9 @@ class InstructionsSurgery extends Component {
                                     onClick={area => this.clicked(area)}
                                     // onMouseEnter={area => this.enterArea(area)}
                                     // onMouseLeave={area => this.leaveArea(area)}
-                                    // onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
+                                    onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
                                     // onImageClick={evt => this.clickedOutside(evt)}
-                                    // onImageMouseMove={evt => this.moveOnImage(evt)}
+                                    onImageMouseMove={evt => this.moveOnImage(evt)}
                                     lineWidth={4}
                                     strokeColor={"white"}
                                 />
@@ -525,8 +529,7 @@ class InstructionsSurgery extends Component {
 							</span>
                                 )}
                             </div>
-                            <pre className="message">{this.state.msg ? this.state.msg : null}</pre>
-                            <pre>{this.state.moveMsg ? this.state.moveMsg : null}</pre>
+
                         </div>
                     </Grid>
                 </Grid>
