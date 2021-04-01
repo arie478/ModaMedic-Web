@@ -158,8 +158,13 @@ class MessagesPage extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(sessionStorage.getItem('doctor') && this.props.patientUserId == undefined){
-            window.alert("אנא בחר מטופל לצורך שליחת הודעה")
+        if(sessionStorage.getItem('doctor')){
+            if(this.props.patientUserId == undefined) {
+                window.alert("אנא בחר מטופל לצורך שליחת הודעה")
+            }
+            if (this.state.content.length > 150) {
+                window.alert("אורך הודעה עד 150 תוים!")
+            }
         }else {
             if (this.state.content.length > 150) {
                 window.alert("אורך הודעה עד 150 תוים!")
@@ -168,6 +173,8 @@ class MessagesPage extends Component {
                 var dt2 = new Date();
                 this.state.messages.forEach(message => {
                     let dt1 = new Date(message.Date);
+                    let full_name = `${message.FromFirstName} ${message.FromLastName}`
+                    if(full_name === sessionStorage.getItem('name'))
                     if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 1) {
                         count = count + 1;
                     }
