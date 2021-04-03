@@ -7,6 +7,7 @@ import DropdownMultiselect from "react-multiselect-dropdown-bootstrap";
 import IconButton from "@material-ui/core/IconButton";
 import {FcInfo} from "react-icons/fc";
 import Tooltip from "@material-ui/core/Tooltip";
+import MultiSelect from "react-multi-select-component";
 
 
 const initialState = {
@@ -65,7 +66,8 @@ class AddUser extends Component {
             height: "",
             weight: "",
             bmi:"",
-            surgeryDateDisplay: false
+            surgeryDateDisplay: false,
+            selected: []
         };
 
         this.handleChange = this.handleChange.bind(this);
@@ -77,6 +79,7 @@ class AddUser extends Component {
         this.onSelectSurgeryType = this.onSelectSurgeryType.bind(this);
         this.onSelectEducation = this.onSelectEducation.bind(this);
         this.onSelectQuestionnairesChosen = this.onSelectQuestionnairesChosen.bind(this);
+        this.setSelected = this.setSelected.bind(this);
     }
 
     onSelectQuesionChosen(event) {
@@ -128,12 +131,13 @@ class AddUser extends Component {
         let questionnaires = this.state.questionnaires;
         selected.forEach(selectQuestionnaire => {
             questionnaires.forEach(questionnaire => {
-                if(selectQuestionnaire == questionnaire.QuestionnaireText){
+                if(selectQuestionnaire.value === questionnaire.QuestionnaireText){
                     chosen.push(questionnaire)
                 }
             })
         });
         this.setState({
+            selected: selected,
             questionnairesChosen: Array.from(new Set(chosen))
         });
     }
@@ -352,6 +356,10 @@ class AddUser extends Component {
     isPatient(){
         this.setState({type: 'patient'})
     }
+
+    setSelected(selected) {
+        this.onSelectQuestionnairesChosen(selected)
+    }
     render() {
         require("./AddUser.css");
         let quesions = this.state.questionsText;
@@ -370,6 +378,10 @@ class AddUser extends Component {
         questionnaires.forEach(questionnaire => {
             questionnairesOption.push(questionnaire)
             // questionnairesOption.push({value: questionnaire, label: questionnaire})
+        });
+        let options = [];
+        questionnaires.forEach(q => {
+            options.push({ label: q, value: q });
         });
         // let questionnairesOption = questionnaires.map((questionnaire) => {value: {questionnaire}, label: {questionnaire}});
         let genderOptions = [<option></option>,<option>נקבה</option>,<option>זכר</option>];
@@ -514,24 +526,54 @@ class AddUser extends Component {
                                 {smokeOptions}
                             </select>
                         </div>
-                        <div className="divs_in_add">
+                        <div className="divs_in_add_user">
                             <label className="labels_in_add_user">השכלה </label>
                             <select className="select_in_add_user" onChange={this.onSelectEducation}>
                                 {educationOptions}
                             </select>
                         </div>
-                        <div className="divs_in_add">
+                        <div className="divs_in_add_user">
                             <label className="labels_in_add_user">סוג ניתוח </label>
                             <select className="select_in_add_user" onChange={this.onSelectSurgeryType}>
                                 {surgeryOptions}
                             </select>
                         </div>{this.state.surgeryDateDisplay &&
-                    <div className="divs_in_add">
+                    <div className="divs_in_add_user">
                         <label className="labels_in_add_user">תאריך ניתוח</label>
                         <input className="inputs_in_add_user" name="dateOfSurgery" type="date"
                                value={this.state.DateOfSurgery} onChange={this.handleChange} required/>
                     </div>}
-                        <div className="divs_in_add">
+
+                        <div className="divs_in_add_user">
+                            <label className="labels_in_add_user">שאלת אימות </label>
+                            <select className="select_in_add_user" onChange={this.onSelectQuesionChosen}>
+                                {optionItems}
+                            </select>
+                        </div>
+                        <div className="divs_in_add_user">
+                            <label className="labels_in_add_user">תשובה </label>
+                            <input className="inputs_in_add_user" name="answerUserQuestion" type="text"
+                                   value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
+                        </div>
+                        {/*<div className="divs_in_add_try">*/}
+                        {/*    <label className="labels_in_add_user">שאלונים רפואיים </label>*/}
+                        {/*    <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {*/}
+                        {/*        this.onSelectQuestionnairesChosen(selected)*/}
+                        {/*    }} selectDeselectLabel={undefined} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>*/}
+                        {/*</div>*/}
+
+                        <div className="divs_in_add_try">
+                            <label className="labels_in_add_user">שאלונים רפואיים </label>
+                            <MultiSelect
+                                className="inputs_in_add_user"
+                                options={options}
+                                value={this.state.selected}
+                                onChange={this.setSelected}
+                                labelledBy="Select"
+                            />
+                        </div>
+                        <br/>
+                        <div className="divs_in_add_code">
                             <label className="labels_in_add_user">קוד אימות </label>
                             <input className="inputs_in_add_user" name="code" type="text" value={this.state.code}
                                    onChange={this.handleChange} required/>
@@ -541,25 +583,8 @@ class AddUser extends Component {
                                 </IconButton>
                             </Tooltip>
                         </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">שאלת אימות </label>
-                            <select className="select_in_add_user" onChange={this.onSelectQuesionChosen}>
-                                {optionItems}
-                            </select>
-                        </div>
-                        <div className="divs_in_add">
-                            <label className="labels_in_add_user">תשובה </label>
-                            <input className="inputs_in_add_user" name="answerUserQuestion" type="text"
-                                   value={this.state.answerUserQuestion} onChange={this.handleChange} required/>
-                        </div>
-                        <div className="divs_in_add_drop">
-                            <label className="labels_in_add_user">שאלונים רפואיים </label>
-                            <DropdownMultiselect id="add_user_dropdown" options={questionnairesOption} handleOnChange={(selected) => {
-                                this.onSelectQuestionnairesChosen(selected)
-                            }} name="questionnaires" placeholder="לא נבחר שאלון"  style={{borderColor: 'black', width:80}}/>
-                        </div>
                         <div style={{width:50, height:300}}>
-                            <input type="submit" value="הירשם" className="submit_and_reset_buttons"/>
+                            <input type="submit" value="הירשם" className="submit_and_reset_buttons" required/>
                         </div>
                         <br/>
                         <br/>

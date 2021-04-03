@@ -186,6 +186,7 @@ class MessagesPage extends Component {
                 this.addMessage();
             }
         }
+
     }
 
     render() {
