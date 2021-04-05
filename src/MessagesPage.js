@@ -180,13 +180,12 @@ class MessagesPage extends Component {
                     }
                 });
             }
-            if (count > 2 && sessionStorage.getItem('patient')) {
-                window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
-            } else {
-                this.addMessage();
-            }
         }
-
+        if (count > 2 && sessionStorage.getItem('patient')) {
+            window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
+        } else {
+            this.addMessage();
+        }
     }
 
     render() {
@@ -194,7 +193,7 @@ class MessagesPage extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <textarea class="textarea" placeholder="כתוב את הודעתך כאן"  onChange={this.handleChange} />
+                    <textarea class="textarea" placeholder="כתוב את הודעתך כאן" onChange={this.handleChange} />
                     <br/>
                     <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
                 </form>
