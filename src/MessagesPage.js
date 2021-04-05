@@ -83,7 +83,7 @@ class MessagesPage extends Component {
         }
         if (sessionStorage.getItem('doctor')){
             let patientId = encodeURIComponent(this.props.patientUserId);
-            axios.post( ` https://moda-medic.herokuapp.com/auth/doctors/messages/${patientId}`,
+            axios.post( `https://moda-medic.herokuapp.com/auth/doctors/messages/${patientId}`,
                 {
                     content: this.state.content,
                 },
