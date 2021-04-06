@@ -81,7 +81,8 @@ class PatientSearchNew extends Component {
 
     async getDoctorRequest(name, url) {
         if (this.props.patientUserId) {
-            let getUrl = ' https://icc.ise.bgu.ac.il/njsw18auth/doctors/' + url + '?UserID=' + this.props.patientUserId;
+            var userId = encodeURIComponent(this.props.patientUserId);
+            let getUrl = ' https://icc.ise.bgu.ac.il/njsw18auth/doctors/' + url + '?UserID=' + userId;
             if (this.state.start_date !== "") {
                 var date = new Date(this.state.start_date)
                 let start_time = date.getTime();
