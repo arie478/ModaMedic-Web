@@ -56,10 +56,10 @@ class GraphAns extends Component {
                     if(this.props.showDaily){
                         var date = new Date(data[i].ValidTime)
                         var dateStr = date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year:"numeric"}).replace(/ /g, '-')
-                        if(date <= oDay){
+                        if(date <= oDay || oDay == 0 ||oDay == null){
                             points[dateStr] = data[i]["Answers"][0]["AnswerID"][0].toFixed(2);
                         }
-                        if(date >= oDay){
+                        if(date >= oDay && oDay != 0){
                             line[dateStr] = data[i]["Answers"][0]["AnswerID"][0].toFixed(2);
                         }
                     }
