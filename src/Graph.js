@@ -141,7 +141,7 @@ class Graph extends Component {
                             line[dateStr] = (avgO["after"]["sum"] /  avgO["after"]["counter"]).toFixed(2);
                             continue;
                         }
-                        if(date <= oDay){
+                        if(date <= oDay || date ===0){
                             points[dateStr] = (table[dateStr]["sum"] /  table[dateStr]["counter"]).toFixed(2);
                         }
                         if(date >= oDay){
