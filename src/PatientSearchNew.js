@@ -3,6 +3,25 @@ import axios from 'axios';
 import DisplayButton from './DisplayButton';
 import QuestionnaireManger from "./Questionnaire/QuestionnaireManger";
 
+function findBMIGroup(bmi) {
+    if (bmi>=0 && bmi<18.5) return "BMI 0-18.5";
+    else if (bmi>=18.5 && bmi<25) return "BMI 18.5-25";
+    else if (bmi>=25 && bmi<29.9) return "BMI 25-29.9";
+    else if (bmi>=29.9 && bmi<40) return "BMI 29.9-40";
+    else return "BMI 40+";
+}
+
+function findGenderGroup(gender) {
+    if (gender=="נקבה") return "FemaleOnly";
+    else return "MaleOnly";
+}
+
+function findSmokeGroup(smoke) {
+    if (smoke=="מעשן") return "SmokeOnly";
+    else return "NoSmokeOnly";
+}
+
+
 class PatientSearchNew extends Component {
 
 
@@ -13,7 +32,7 @@ class PatientSearchNew extends Component {
         first_date.setMonth(first_date.getMonth() - 3)
         var three_month = first_date.toISOString().split("T")[0];
         // var three_month = first_date.toLocaleDateString().replace('.', "-");
-        console.log(three_month)
+        console.log(three_month);
         var x = date.toISOString().split("T")[0];
         this.state = {
             end_date: x,
@@ -36,16 +55,19 @@ class PatientSearchNew extends Component {
             ready: false,
             todayDate: x,
             className: "normal",
+            comp:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.getRequest = this.getRequest.bind(this);
         this.selectUser = this.selectUser.bind(this);
+        this.getCompereRequest = this.getCompereRequest.bind(this);
     }
 
     handleChange(event) {
         const {name, value, type, checked} = event.target
         type === "checkbox" ? this.setState({ [name]: checked }) : this.setState({ [name]: value })
+       if (name === "comp")  this.setState({ comp: value });
         if(name === "showDaily"){
             this.setState({
                 showDaily: true,
@@ -113,6 +135,58 @@ class PatientSearchNew extends Component {
         }
     }
 
+    async getCompereRequest(name, url,gender,smoke,bmi,beforeOrAfter) {
+
+            let getUrl = 'https://moda-medic.herokuapp.com/auth/doctors' + url + '?' ;
+            if (this.state.start_date !== "") {
+                var date = new Date(this.state.start_date)
+                let start_time = date.getTime();
+                getUrl += ("&start_time=" + start_time);
+            }
+            if (this.state.end_date !== "") {
+                date = new Date(this.state.end_date)
+                date = new Date(date.getTime() + 86400000);
+                let end_time = date.getTime();
+                getUrl += ("&end_time=" + end_time);
+            }
+            if (this.state.comp == "Gender") {
+                getUrl += ("&filter=Gender" );
+                let genderGroup=findGenderGroup(gender);
+                getUrl += ("&groupId="+genderGroup+beforeOrAfter );
+
+            }
+            else if (this.state.comp == "Smoke") {
+                getUrl += ("&filter=Smoke" );
+                let smokeGroup=findSmokeGroup(gender);
+                getUrl += ("&groupId="+smokeGroup+beforeOrAfter);
+
+            }
+            else if (this.state.comp == "BMI") {
+                getUrl += ("&filter=BMI" );
+                let bmiGroup=findBMIGroup(bmi);
+                getUrl += ("&groupId="+ bmiGroup+" "+beforeOrAfter);
+
+            }
+            const response = await axios.get(
+                getUrl,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem("token")
+                    }
+                }
+            );
+            if (response.data.message === "Not Found") {
+                return null;
+            }
+            return ({
+                values: response.data.data,
+                name: name,
+                numOfUsers: response.data.data.length
+            });
+
+    }
+
     async getPatientRequest(name, url){
         let getUrl = `https://moda-medic.herokuapp.com/auth/patients/${url}`;
         let start_time;
@@ -170,6 +244,7 @@ class PatientSearchNew extends Component {
             }
         }
         for(i = 0; i < arr.length; i++){
+            if(arr[i].name.startsWith("השוואת")) continue;
             let values = [];
             if(arr[i]){
                 for(var j = 0; j < arr[i].values.length; j++){
@@ -223,6 +298,40 @@ class PatientSearchNew extends Component {
         if(response.numOfUsers > numOfUsers){
             numOfUsers = response.numOfUsers;
         }
+
+        let gender=response.values[0].UserID.Gender;
+        let bmi=parseFloat(response.values[0].UserID.BMI);
+        let smoke=response.values[0].UserID.Smoke;
+        response = await this.getCompereRequest("השוואת קלוריות לפני", "/comperePatients/getCaloriesCompere",gender,smoke,bmi,"Before");
+        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת מרחק לפני", "/comperePatients/getDistanceCompere",gender,smoke,bmi,"Before");
+        if(response.values[0]!=undefined &&response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת צעדים לפני", "/comperePatients/getStepsCompere",gender,smoke,bmi,"Before");
+        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת קלוריות אחרי", "/comperePatients/getCaloriesCompere",gender,smoke,bmi,"After");
+        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת מרחק אחרי", "/comperePatients/getDistanceCompere",gender,smoke,bmi,"After");
+        if(response.values[0]!=undefined &&response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת צעדים אחרי", "/comperePatients/getStepsCompere",gender,smoke,bmi,"After");
+        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+            arr.push(response);
+        }
+
         response = await this.getRequest("קלוריות", "metrics/getCalories");
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
@@ -241,6 +350,7 @@ class PatientSearchNew extends Component {
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
         }
+
         if(response.numOfUsers > numOfUsers){
             numOfUsers = response.numOfUsers;
         }
@@ -248,6 +358,8 @@ class PatientSearchNew extends Component {
         if(response.numOfUsers > numOfUsers){
             numOfUsers = response.numOfUsers;
         }
+
+
         let responseQ = await this.getRequest("שאלון תקופתי", "answers/getPeriodicAnswers");
 
         this.setState({
@@ -405,6 +517,50 @@ class PatientSearchNew extends Component {
                         חודשי
                     </label>
                 </div>
+                <div className="mddShow">
+                    <label className="mLabel">
+                        השוואת מטופלים לפי:
+                    </label>
+                    <input className="cInput"
+                           type="radio"
+                           name="comp"
+                           value="Gender"
+                           id="gender_comp"
+                           onChange={this.handleChange}
+                    />
+                    <label htmlFor="gender_comp">מין</label>
+                    <p className="space"></p>
+                    <input className="cInput"
+                           type="radio"
+                           name="comp"
+                           value="Smoke"
+                           id="smoke_comp"
+                           onChange={this.handleChange}
+                    />
+                    <label htmlFor="smoke_comp">מעשן/ לא מעשן</label>
+                    <p className="space"></p>
+                    <input className="cInput"
+                           type="radio"
+                           name="comp"
+                           value="BMI"
+                           id="BMI_comp"
+                           onChange={this.handleChange}
+                    />
+                    <label htmlFor="BMI_comp">BMI</label>
+
+                    <p className="space"></p>
+                    <input className="cInput"
+                           type="radio"
+                           name="comp"
+                           value=""
+                           id="No_comp"
+                           onChange={this.handleChange}
+                           checked={true}
+                    />
+                    <label htmlFor="No_comp">ללא השוואה</label>
+
+                </div>
+
                 <form onSubmit={this.handleSubmit}>
                     <button>הצג תוצאות</button>
                 </form>

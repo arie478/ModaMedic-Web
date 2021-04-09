@@ -7,6 +7,8 @@ import TablePer from "./TablePer"
 import SleepGraph from "./SleepGraph"
 import GraphAns from "./GraphAns"
 import PatientData from "./PatientData"
+import CompGraph from "./CompGraph"
+
 
 
 class DisplayButton extends Component {
@@ -48,7 +50,7 @@ class DisplayButton extends Component {
 
 
     render() {
-        var arrSteps, arrDis, arrCal, arrWeat, arrSleep;
+        var arrSteps, arrDis, arrCal, arrWeat, arrSleep,arrCompSteps=[],arrCompDis=[],arrCompCal=[];
         var  arr1 = [], arr2 = [], arr3 = [], arr4 = [], arr5 = [], arr6 = [];
         for(var i = 0; i < this.props.dataArr.length; i++){
             if(this.props.dataArr[i].name === "צעדים"){
@@ -71,6 +73,18 @@ class DisplayButton extends Component {
             else if(this.props.dataArr[i].name === "שעות שינה"){
                 arrSleep = this.props.dataArr[i].values;
             }
+            else if (this.props.dataArr[i].name === "השוואת צעדים לפני")
+                arrCompSteps["Before"]=this.props.dataArr[i].values;
+            else if (this.props.dataArr[i].name === "השוואת צעדים אחרי")
+                arrCompSteps["After"]=this.props.dataArr[i].values;
+            else if (this.props.dataArr[i].name === "השוואת קלוריות לפני")
+                arrCompCal["Before"]=this.props.dataArr[i].values;
+            else if (this.props.dataArr[i].name === "השוואת קלוריות אחרי")
+                arrCompCal["After"]=this.props.dataArr[i].values;
+            else if (this.props.dataArr[i].name === "השוואת מרחק לפני")
+                arrCompDis["Before"]=this.props.dataArr[i].values;
+            else if (this.props.dataArr[i].name === "השוואת מרחק אחרי")
+                arrCompDis["After"]=this.props.dataArr[i].values;
 
         }
         
@@ -112,6 +126,14 @@ class DisplayButton extends Component {
                 }
             }
         }
+        let CaloriesIncludeCompere=[],StepsIncludeCompere=[],DistanceIncludeCompere=[];
+        CaloriesIncludeCompere.push(arrCompCal);
+        CaloriesIncludeCompere.push(arrCal);
+        StepsIncludeCompere.push(arrCompSteps);
+        StepsIncludeCompere.push(arrSteps);
+        DistanceIncludeCompere.push(arrCompDis);
+        DistanceIncludeCompere.push(arrDis);
+
         return(
             <div>
                 <div className="display">
@@ -183,9 +205,12 @@ class DisplayButton extends Component {
                     monthly={this.props.monthly}
                     ready={this.props.ready}
                     name={this.props.name} />: null }
-                { (this.state.graph && this.props.steps) ? <Graph data={arrSteps} date={this.props.date} name="צעדים" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
-                { (this.state.graph && this.props.distance) ? <Graph data={arrDis} date={this.props.date} name="מרחק" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
-                { (this.state.graph && this.props.calories) ? <Graph data={arrCal} date={this.props.date} name="קלוריות" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.steps && this.props.comp=="") ? <Graph data={arrSteps} date={this.props.date} name="צעדים" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.steps && this.props.comp!="") ? <CompGraph data={StepsIncludeCompere} date={this.props.date} name="צעדים" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.distance && this.props.comp=="") ? <Graph data={arrDis} date={this.props.date} name="מרחק" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.distance && this.props.comp!="") ? <CompGraph data={DistanceIncludeCompere} date={this.props.date} name="מרחק" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.calories && this.props.comp=="") ? <Graph data={arrCal} date={this.props.date} name="קלוריות" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
+                { (this.state.graph && this.props.calories && this.props.comp!="") ? <CompGraph data={CaloriesIncludeCompere} date={this.props.date} name="קלוריות" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
                 { (this.state.graph && this.props.weather) ? <Graph data={arrWeat} date={this.props.date} name="מזג האוויר" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
                 { (this.state.graph && this.props.sleep) ? <SleepGraph data={arrSleep} date={this.props.date} name="שעות שינה" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
                 { (this.state.graph && this.props.dailyQ) ? <GraphAns data={this.props.dailyA} date={this.props.date} name="שאלון יומי" showDaily={this.props.showDaily} weekly={this.props.weekly} monthly={this.props.monthly} ready={this.props.ready}/> : null }
