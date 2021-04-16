@@ -415,6 +415,7 @@ class InstructionsSurgery extends Component {
                             'x-auth-token': sessionStorage.getItem("token")
                         }
                     });
+                window.alert("הפרוטוקול נמחק!")
                 this.getInstructions()
             }
         }
