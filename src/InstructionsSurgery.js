@@ -213,7 +213,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-            let respone = await axios.get('https://moda-medic.herokuapp.com/auth/usersAll/instructions',
+            let respone = await axios.get('https://icc.ise.bgu.ac.il/njsw18auth/usersAll/instructions',
                 {
                     headers: {
                         'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ class ExercisesPage extends Component {
     }
 
     async getExercises(){
-        let respone = await axios.get('https://moda-medic.herokuapp.com/auth/usersAll/exercises',
+        let respone = await axios.get('https://icc.ise.bgu.ac.il/njsw18auth/usersAll/exercises',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ class ExercisesPage extends Component {
                 return;
             }
         }
-        let url = `https://moda-medic.herokuapp.com/auth/doctors/exercises`;
+        let url = `https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises`;
         axios.post(url,
             {
                 category: this.state.newExerciseCategory,
@@ -96,7 +96,7 @@ class ExercisesPage extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הסרטון?");
             if (r == true) {
-                axios.delete(`https://moda-medic.herokuapp.com/auth/doctors/exercises/removeExercise/${eId}`,
+                axios.delete(`https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises/removeExercise/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

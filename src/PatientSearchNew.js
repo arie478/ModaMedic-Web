@@ -81,7 +81,7 @@ class PatientSearchNew extends Component {
 
     async getDoctorRequest(name, url) {
         if (this.props.patientUserId) {
-            let getUrl = 'https://moda-medic.herokuapp.com/auth/doctors/' + url + '?UserID=' + this.props.patientUserId;
+            let getUrl = 'https://icc.ise.bgu.ac.il/njsw18auth/doctors/' + url + '?UserID=' + this.props.patientUserId;
             if (this.state.start_date !== "") {
                 var date = new Date(this.state.start_date)
                 let start_time = date.getTime();
@@ -114,7 +114,7 @@ class PatientSearchNew extends Component {
     }
 
     async getPatientRequest(name, url){
-        let getUrl = `https://moda-medic.herokuapp.com/auth/patients/${url}`;
+        let getUrl = `https://icc.ise.bgu.ac.il/njsw18auth/patients/${url}`;
         let start_time;
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date);
