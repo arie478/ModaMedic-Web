@@ -12,7 +12,7 @@ class MessagesPage extends Component {
         super(props);
         this.state = {
             messages:[],
-            content:'כתוב את הודעתך כאן'
+            content:''
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +32,7 @@ class MessagesPage extends Component {
     async fetchMessagesPatient(){
         if(sessionStorage.getItem('patient')) {
             var response = await axios.get(
-                "https://icc.ise.bgu.ac.il/njsw18auth/patients/messages",
+                " https://icc.ise.bgu.ac.il/njsw18auth/patients/messages",
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -50,7 +50,7 @@ class MessagesPage extends Component {
         if(sessionStorage.getItem('doctor') && this.props.patientUserId) {
             let patientId = encodeURIComponent(this.props.patientUserId);
             var response = await axios.get(
-                `https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
+                ` https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ class MessagesPage extends Component {
 
     async addMessage(){
         if (sessionStorage.getItem('patient')) {
-            axios.post('https://icc.ise.bgu.ac.il/njsw18auth/patients/messages',
+            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages',
                 {
                     content: this.state.content,
                 },
@@ -78,7 +78,7 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesPatient();
-                this.setState({content: "כתוב את הודעתך כאן"})
+                this.setState({content:''})
             });
         }
         if (sessionStorage.getItem('doctor')){
@@ -94,7 +94,7 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesDoctor();
-                this.setState({content: "כתוב את הודעתך כאן"})
+                this.setState({content:''})
             });
         }
     }
@@ -102,7 +102,7 @@ class MessagesPage extends Component {
     async removeMessage(mId){
         if (sessionStorage.getItem('patient')) {
             console.log("patient")
-            axios.post('https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/removeMessage',
+            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/removeMessage',
                 {
                     MessageId: mId,
                 },
@@ -117,7 +117,7 @@ class MessagesPage extends Component {
             });
         }
         else if(sessionStorage.getItem('doctor')) {
-            axios.delete(`https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/removeMessage/${mId}`,
+            axios.delete(` https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/removeMessage/${mId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -133,7 +133,7 @@ class MessagesPage extends Component {
     // async updateMessage(mId){
     //     console.log(mId)
     //     if (sessionStorage.getItem('patient')) {
-    //         axios.put('https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/updateMessage',
+    //         axios.put(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/updateMessage',
     //             {
     //                 MessageId: mId,
     //                 Content: this.state.content
@@ -153,18 +153,18 @@ class MessagesPage extends Component {
 
 
     handleChange(event) {
-        // let content = event.target.value
-        // if(content.length() > 150){
-        //     window.alert("אורך ההודעה עד 150 תוים")
-        // } else {
-            this.setState({content: event.target.value});
-        // }
+        this.setState({content: event.target.value});
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        if(sessionStorage.getItem('doctor') && this.props.patientUserId == undefined){
-            window.alert("אנא בחר מטופל לצורך שליחת הודעה")
+        if(sessionStorage.getItem('doctor')){
+            if(this.props.patientUserId == undefined) {
+                window.alert("אנא בחר מטופל לצורך שליחת הודעה")
+            }
+            if (this.state.content.length > 150) {
+                window.alert("אורך הודעה עד 150 תוים!")
+            }
         }else {
             if (this.state.content.length > 150) {
                 window.alert("אורך הודעה עד 150 תוים!")
@@ -173,16 +173,18 @@ class MessagesPage extends Component {
                 var dt2 = new Date();
                 this.state.messages.forEach(message => {
                     let dt1 = new Date(message.Date);
+                    let full_name = `${message.FromFirstName} ${message.FromLastName}`
+                    if(full_name === sessionStorage.getItem('name'))
                     if (Math.floor((Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) - Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) / (1000 * 60 * 60 * 24)) <= 1) {
                         count = count + 1;
                     }
                 });
             }
-            if (count > 2 && sessionStorage.getItem('patient')) {
-                window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
-            } else {
-                this.addMessage();
-            }
+        }
+        if (count > 2 && sessionStorage.getItem('patient')) {
+            window.alert("כמות ההודעות מוגבלת ל3 הודעות ביום")
+        } else {
+            this.addMessage();
         }
     }
 
@@ -191,7 +193,7 @@ class MessagesPage extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <textarea class="textarea" value={this.state.content} onChange={this.handleChange} />
+                    <textarea class="textarea" placeholder="כתוב את הודעתך כאן" onChange={this.handleChange} />
                     <br/>
                     <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
                 </form>

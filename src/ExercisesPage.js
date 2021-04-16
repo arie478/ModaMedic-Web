@@ -28,7 +28,7 @@ class ExercisesPage extends Component {
     }
 
     async getExercises(){
-        let respone = await axios.get('https://icc.ise.bgu.ac.il/njsw18auth/usersAll/exercises',
+        let respone = await axios.get(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/exercises',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -53,6 +53,7 @@ class ExercisesPage extends Component {
         e.preventDefault();
         this.addExercise();
         this.setState({newExerciseUrl : ''})
+        this.getExercises()
         // if(response.data.data === null){
         //     window.alert('אנא מלא את הטופס כראוי')
         // }
@@ -68,7 +69,7 @@ class ExercisesPage extends Component {
                 return;
             }
         }
-        let url = `https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises`;
+        let url = ` https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises`;
         axios.post(url,
             {
                 category: this.state.newExerciseCategory,
@@ -79,8 +80,8 @@ class ExercisesPage extends Component {
                     'x-auth-token': sessionStorage.getItem("token")
                 }});
         window.alert("הסרטון נוסף בהצלחה!")
-        this.getExercises()
-    }
+         this.getExercises()
+     }
     handleChange(e) {
         if (e.target.name === "newExerciseUrl") {
             this.setState({[e.target.name]: e.target.value})}
@@ -96,13 +97,14 @@ class ExercisesPage extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הסרטון?");
             if (r == true) {
-                axios.delete(`https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises/removeExercise/${eId}`,
+                await axios.delete(` https://icc.ise.bgu.ac.il/njsw18auth/doctors/exercises/removeExercise/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
                             'x-auth-token': sessionStorage.getItem("token")
                         }
                     });
+                window.alert("הסרטון נמחק!")
                 this.getExercises()
             }
         }

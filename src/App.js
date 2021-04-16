@@ -50,7 +50,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
+            " https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
+            " https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ class App extends Component {
         if(event){
             event.preventDefault()
         }
-         await axios.post( `https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/userId`,
+         await axios.post( ` https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/userId`,
             {
                 UserID: this.state.pName,
             },
@@ -153,7 +153,7 @@ class App extends Component {
             let user = usersByName[i];
             let dateC = new Date(user.BirthDate).toLocaleDateString('en-GB', {day: 'numeric', month: 'numeric', year:"numeric"});
             cards.push(
-                <Card className="card" key={user.UserID}  onClick={() => {
+                <Card className="cardApp" key={user.UserID}  onClick={() => {
                     this.setState({patientUserId: user.UserID, user: user});
                     this.togglePopup();
                 }}>
@@ -259,7 +259,7 @@ class Popup extends React.Component {
     render() {
         return (
             <div className='popupApp'>
-                <div className='popup_inner' >
+                <div className='popup_inner_App' >
                     <button onClick={this.props.closePopup} id="x">x</button>
                     <h4>אנא בחר מבין הרשומות הבאות:</h4>
                     {this.props.text}

@@ -78,6 +78,16 @@ div.App, div.App-header {
   color: #61dafb;
 }
 
+
+.cardApp{
+  font-size: small;
+  text-align: right;
+  /*margin: 0 25% 3% 2%;*/
+  cursor: pointer;
+  width: 80%;
+  margin: auto
+}
+
 .popupApp {
   float: right;
   text-align: right;
@@ -92,7 +102,7 @@ div.App, div.App-header {
   background-color: rgba(0,0,0, 0.5);
 }
 
-.popup_inner {
+.popup_inner_App {
 
   position: absolute;
   left: 35%;

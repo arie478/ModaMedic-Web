@@ -44,10 +44,11 @@ class PatientData extends Component {
         e.preventDefault();
         let date = (new Date(this.state.new_date)).getTime();
         let id = this.props.user["UserID"];
-        axios.post('https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeDateOfSurgery',
+        axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeDateOfSurgery',
         {
             UserID: id,
-            DateOfSurgery: date
+            DateOfSurgery: date,
+            changedSurgeryDate: true
         },            
         { 
             headers: { 
@@ -93,7 +94,7 @@ class PatientData extends Component {
             });
         }           
         let id = this.props.user["UserID"];
-        axios.post('https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
+        axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
         {
             UserID: id,
             Questionnaires: Questionnaires
@@ -251,7 +252,7 @@ class Popup extends React.Component {
                         <label id="newD"> הכנס תאריך ניתוח חדש:</label>
                     </div>
                     <div className="line_newData">
-                    <input id="new_date" type="date" name="new_date"  onChange={this.props.handleChange}/>
+                    <input id="new_date" type="date" name="new_date" onChange={this.props.handleChange}/>
                     </div>
                     <div className="line_newData">
                         <button id="sumbitC" type="sumbit" >שינוי</button>

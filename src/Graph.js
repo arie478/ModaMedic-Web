@@ -56,10 +56,10 @@ class Graph extends Component {
                     if(this.props.showDaily){
                         var date = new Date(data[i].ValidTime)
                         var dateStr = date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year:"numeric"}).replace(/ /g, '-')
-                        if(date <= oDay){
+                        if(date <= oDay || oDay.valueOf() == 0 ||oDay.valueOf() == null){
                             points[dateStr] = data[i].Data.toFixed(2);
                         }
-                        if(date >= oDay){
+                        if(date >= oDay && oDay.valueOf() != 0){
                             line[dateStr] = data[i].Data.toFixed(2)
                         }
                     }
@@ -141,10 +141,10 @@ class Graph extends Component {
                             line[dateStr] = (avgO["after"]["sum"] /  avgO["after"]["counter"]).toFixed(2);
                             continue;
                         }
-                        if(date <= oDay){
+                        if(date <= oDay || oDay.valueOf() == 0 ||oDay == null){
                             points[dateStr] = (table[dateStr]["sum"] /  table[dateStr]["counter"]).toFixed(2);
                         }
-                        if(date >= oDay){
+                        if(date >= oDay && oDay.valueOf() != 0){
                             line[dateStr] = (table[dateStr]["sum"] /  table[dateStr]["counter"]).toFixed(2);
                         }
                     }
