@@ -268,7 +268,7 @@ class PatientSearchNew extends Component {
     }
 
     async handleSubmit(event) {
-        if(event){
+        if (event) {
             event.preventDefault()
         }
 
@@ -281,57 +281,58 @@ class PatientSearchNew extends Component {
         var numOfUsers = 0;
         var arr = [];
         let response = await this.getRequest("צעדים", "metrics/getSteps");
-        if(!response){
+        if (!response) {
             window.alert("לא קיים מטופל");
             return;
         }
-        if(response.values[0]["docs"].length > 0){
+        if (response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
+        if (response.numOfUsers > numOfUsers) {
             numOfUsers = response.numOfUsers;
         }
         response = await this.getRequest("מרחק", "metrics/getDistance");
-        if(response.values[0]["docs"].length > 0){
+        if (response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
-        if(response.numOfUsers > numOfUsers){
+        if (response.numOfUsers > numOfUsers) {
             numOfUsers = response.numOfUsers;
         }
 
-        let gender=response.values[0].UserID.Gender;
-        let bmi=parseFloat(response.values[0].UserID.BMI);
-        let smoke=response.values[0].UserID.Smoke;
-        response = await this.getCompereRequest("השוואת קלוריות לפני", "/comperePatients/getCaloriesCompere",gender,smoke,bmi,"Before");
-        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+        let gender = response.values[0].UserID.Gender;
+        let bmi = parseFloat(response.values[0].UserID.BMI);
+        let smoke = response.values[0].UserID.Smoke;
+        if (this.state.comp!==""){
+        response = await this.getCompereRequest("השוואת קלוריות לפני", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "Before");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת מרחק לפני", "/comperePatients/getDistanceCompere",gender,smoke,bmi,"Before");
-        if(response.values[0]!=undefined &&response.values[0]["docs"].length > 0){
+        response = await this.getCompereRequest("השוואת מרחק לפני", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "Before");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת צעדים לפני", "/comperePatients/getStepsCompere",gender,smoke,bmi,"Before");
-        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+        response = await this.getCompereRequest("השוואת צעדים לפני", "/comperePatients/getStepsCompere", gender, smoke, bmi, "Before");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת קלוריות אחרי", "/comperePatients/getCaloriesCompere",gender,smoke,bmi,"After");
-        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+        response = await this.getCompereRequest("השוואת קלוריות אחרי", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "After");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת מרחק אחרי", "/comperePatients/getDistanceCompere",gender,smoke,bmi,"After");
-        if(response.values[0]!=undefined &&response.values[0]["docs"].length > 0){
+        response = await this.getCompereRequest("השוואת מרחק אחרי", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "After");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת צעדים אחרי", "/comperePatients/getStepsCompere",gender,smoke,bmi,"After");
-        if(response.values[0]!=undefined && response.values[0]["docs"].length > 0){
+        response = await this.getCompereRequest("השוואת צעדים אחרי", "/comperePatients/getStepsCompere", gender, smoke, bmi, "After");
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
-
+    }
         response = await this.getRequest("קלוריות", "metrics/getCalories");
         if(response.values[0]["docs"].length > 0){
             arr.push(response);
@@ -555,7 +556,7 @@ class PatientSearchNew extends Component {
                            value=""
                            id="No_comp"
                            onChange={this.handleChange}
-                           checked={true}
+                        
                     />
                     <label htmlFor="No_comp">ללא השוואה</label>
 
