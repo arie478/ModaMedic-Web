@@ -166,7 +166,8 @@ class QuestionnaireManger extends Component {
             axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
                 {
                     UserID: id,
-                    Questionnaires: Questionnaires
+                    Questionnaires: Questionnaires,
+                    changedQuestionnaires: true
                 },
                 {
                     headers: {
