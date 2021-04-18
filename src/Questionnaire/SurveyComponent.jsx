@@ -7,6 +7,7 @@ import * as widgets from "surveyjs-widgets";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import "survey-react/survey.css";
+import {Redirect} from "react-router-dom";
 
 
 Survey1.StylesManager.applyTheme("bootstrap");
@@ -16,7 +17,8 @@ class SurveyComponent extends Component {
         super(props);
         this.state={
             json:{},
-            questionnaireId: this.props.match.params.QuestionnaireID
+            questionnaireId: this.props.match.params.QuestionnaireID,
+            isQuestionnaires: false
         }
 
         window["$"] = window["jQuery"] = $;
@@ -195,17 +197,19 @@ async sendAnswersToServer(serveryResult){
             (result)=> {
                 console.log(JSON.stringify(result.data, null, 3));
                 this.sendAnswersToServer(result.data);
-                window.location.href = "http://localhost:3000/ModaMedicWeb/questionnaires";
-
+                this.setState({isQuestionnaires: true})
+                // window.location.href = "https://noyharar.github.io/projectWeb/questionnaires";
             });
-
 
         return (
 // <body style={{alignRight: "auto", alignLeft: "auto"}}>
+            <div>
             <Survey1.Survey
                 model={survey}
                 showQuestionNumbers={"on"}
             />
+        {this.state.isQuestionnaires ? <Redirect to="/questionnaires" /> : null}
+            </div>
 // </body>
         );
     }
