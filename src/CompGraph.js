@@ -273,7 +273,7 @@ class CompGraph extends Component {
                                 year: "numeric"
                             }).replace(/ /g, '-')
 
-                            pointsCompere[dateStr] = afterRecords[i].Data.toFixed(2);
+                            lineCompere[dateStr] = afterRecords[i].Data.toFixed(2);
 
                         } else if (this.props.weekly) {
                             date = new Date(afterRecords[i].ValidTime);
@@ -362,7 +362,7 @@ class CompGraph extends Component {
                     var dataX = [
                         {"name": "מטופל לפני הניתוח", "data": points},
                         {"name": "מטופל אחרי הניתוח", "data": line},
-                        {"name": "השוואת מטופלים אחרי הניתוח", "data": pointsCompere},
+                        {"name": "השוואת מטופלים לפני הניתוח", "data": pointsCompere},
                         {"name": "השוואת מטופלים אחרי הניתוח", "data": lineCompere}
                     ];
 
