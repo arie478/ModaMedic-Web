@@ -62,6 +62,9 @@ class PatientSearchNew extends Component {
         this.getRequest = this.getRequest.bind(this);
         this.selectUser = this.selectUser.bind(this);
         this.getCompereRequest = this.getCompereRequest.bind(this);
+        this.compAfterRequests=this.compAfterRequests.bind(this);
+        this.getStartAndEndTimeByInterval=this.getStartAndEndTimeByInterval.bind(this);
+        this.findHowManyDaysAfter=this.findHowManyDaysAfter.bind(this);
     }
 
     handleChange(event) {
@@ -135,36 +138,46 @@ class PatientSearchNew extends Component {
         }
     }
 
-    async getCompereRequest(name, url,gender,smoke,bmi,beforeOrAfter) {
+    async getCompereRequest(name, url,gender,smoke,bmi,beforeOrAfter,interval,surgeryDate) {
 
             let getUrl = 'https://moda-medic.herokuapp.com/auth/doctors' + url + '?' ;
+            let searchStartByInterval;
+            let searchEndByInterval;
+            let times=[];
+        if (beforeOrAfter=="After")  {
+            times =this.getStartAndEndTimeByInterval(surgeryDate,interval);
+            searchStartByInterval=times[0];
+            searchEndByInterval=times[1];
+        }
             if (this.state.start_date !== "") {
                 var date = new Date(this.state.start_date)
                 let start_time = date.getTime();
-                getUrl += ("&start_time=" + start_time);
+                let searchStart= beforeOrAfter=="After"?searchStartByInterval :start_time;
+                getUrl += ("&start_time=" + searchStart);
             }
             if (this.state.end_date !== "") {
                 date = new Date(this.state.end_date)
                 date = new Date(date.getTime() + 86400000);
                 let end_time = date.getTime();
-                getUrl += ("&end_time=" + end_time);
+                let endSearch=beforeOrAfter=="After"? searchEndByInterval:surgeryDate;
+                getUrl += ("&end_time=" + endSearch);
             }
             if (this.state.comp == "Gender") {
                 getUrl += ("&filter=Gender" );
                 let genderGroup=findGenderGroup(gender);
-                getUrl += ("&groupId="+genderGroup+beforeOrAfter );
+                getUrl += ("&groupId="+genderGroup+interval+beforeOrAfter );
 
             }
             else if (this.state.comp == "Smoke") {
                 getUrl += ("&filter=Smoke" );
                 let smokeGroup=findSmokeGroup(gender);
-                getUrl += ("&groupId="+smokeGroup+beforeOrAfter);
+                getUrl += ("&groupId="+smokeGroup+interval+beforeOrAfter);
 
             }
             else if (this.state.comp == "BMI") {
                 getUrl += ("&filter=BMI" );
                 let bmiGroup=findBMIGroup(bmi);
-                getUrl += ("&groupId="+ bmiGroup+" "+beforeOrAfter);
+                getUrl += ("&groupId="+ bmiGroup+" "+interval+beforeOrAfter);
 
             }
             const response = await axios.get(
@@ -185,6 +198,24 @@ class PatientSearchNew extends Component {
                 numOfUsers: response.data.data.length
             });
 
+    }
+
+    getStartAndEndTimeByInterval(surgeryDate,interval){
+        let times=[];
+        let ranges=this.findHowManyDaysAfter(interval);
+        times.push(surgeryDate +ranges[0]*60*60*24*1000);
+        times.push (surgeryDate+ ranges[1]*60*60*24*1000 );
+        return times;
+    }
+
+    findHowManyDaysAfter(groupId) {
+        let range=  groupId.substring(
+            groupId.indexOf("/") + 1,
+            groupId.lastIndexOf("/")
+        );
+        let min=range.substr(0,range.indexOf('-'));
+        let max=range.substring(range.indexOf('-')+1);
+        return [min,max];
     }
 
     async getPatientRequest(name, url){
@@ -222,6 +253,23 @@ class PatientSearchNew extends Component {
         });
     }
 
+    async compAfterRequests(gender,smoke,bmi,arr,interval,surgeryDate){
+        let response = await this.getCompereRequest("השוואת קלוריות אחרי", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "After",interval,surgeryDate);
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת מרחק אחרי", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "After",interval,surgeryDate);
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
+            arr.push(response);
+        }
+
+        response = await this.getCompereRequest("השוואת צעדים אחרי", "/comperePatients/getStepsCompere", gender, smoke, bmi, "After",interval,surgeryDate);
+        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
+            arr.push(response);
+        }
+        return arr;
+    }
 
     async selectUser(key) {
         let arr = this.state.dataArr;
@@ -299,39 +347,51 @@ class PatientSearchNew extends Component {
             numOfUsers = response.numOfUsers;
         }
 
-        let gender = response.values[0].UserID.Gender;
-        let bmi = parseFloat(response.values[0].UserID.BMI);
-        let smoke = response.values[0].UserID.Smoke;
+
         if (this.state.comp!==""){
-        response = await this.getCompereRequest("השוואת קלוריות לפני", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "Before");
+            let gender = response.values[0].UserID.Gender;
+            let bmi = parseFloat(response.values[0].UserID.BMI);
+            let smoke = response.values[0].UserID.Smoke;
+            let dateOfSurgery= response.values[0].UserID.DateOfSurgery;
+           // **** before
+        response = await this.getCompereRequest("השוואת קלוריות לפני", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "Before","",dateOfSurgery);
         if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת מרחק לפני", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "Before");
+        response = await this.getCompereRequest("השוואת מרחק לפני", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "Before","",dateOfSurgery);
         if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת צעדים לפני", "/comperePatients/getStepsCompere", gender, smoke, bmi, "Before");
+        response = await this.getCompereRequest("השוואת צעדים לפני", "/comperePatients/getStepsCompere", gender, smoke, bmi, "Before","",dateOfSurgery);
         if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
             arr.push(response);
         }
 
-        response = await this.getCompereRequest("השוואת קלוריות אחרי", "/comperePatients/getCaloriesCompere", gender, smoke, bmi, "After");
-        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
-            arr.push(response);
-        }
+            //****after
 
-        response = await this.getCompereRequest("השוואת מרחק אחרי", "/comperePatients/getDistanceCompere", gender, smoke, bmi, "After");
-        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
-            arr.push(response);
-        }
 
-        response = await this.getCompereRequest("השוואת צעדים אחרי", "/comperePatients/getStepsCompere", gender, smoke, bmi, "After");
-        if (response.values[0] != undefined && response.values[0]["docs"].length > 0) {
-            arr.push(response);
-        }
+            let todayTimestamp = new Date().getTime();
+            if (dateOfSurgery!= undefined && dateOfSurgery< new Date(this.state.end_date).getTime()){
+                let numOfDaysAfterSurgery= (todayTimestamp-dateOfSurgery)/(24*60*60*1000);
+                let after5Days= true;
+                let after5To10Days= numOfDaysAfterSurgery>=5? true:false;
+                let after10To35Days= numOfDaysAfterSurgery>=10 ? true:false;
+                let after35To90Days= numOfDaysAfterSurgery>=35 ? true:false;
+                let after90To1800Days= numOfDaysAfterSurgery>=90 ? true:false;
+                let after180Days= numOfDaysAfterSurgery>=180 ? true:false;
+
+
+                arr=await this.compAfterRequests( gender, smoke, bmi, arr,"/0-5/",dateOfSurgery);
+                if (after5To10Days)    arr= await this.compAfterRequests( gender, smoke, bmi, arr,"/5-10/",dateOfSurgery);
+                if (after10To35Days)    arr= await this.compAfterRequests( gender, smoke, bmi, arr,"/10-35/",dateOfSurgery);
+                if (after35To90Days)    arr= await this.compAfterRequests( gender, smoke, bmi, arr,"/35-90/",dateOfSurgery);
+                if (after90To1800Days)   arr=await  this.compAfterRequests( gender, smoke, bmi, arr,"/90-180/",dateOfSurgery);
+                if (after180Days)   arr=await this.compAfterRequests( gender, smoke, bmi, arr,"/180/",dateOfSurgery);
+
+            }
+
     }
         response = await this.getRequest("קלוריות", "metrics/getCalories");
         if(response.values[0]["docs"].length > 0){

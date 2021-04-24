@@ -163,12 +163,10 @@ class CompGraph extends Component {
 
                 var noData = false;
                 if (this.props.data && this.props.data.length > 0 && this.props.data[0]) {
-                    var beforeRecords = this.sort_by_key(this.props.data[0]["Before"][0].docs, "Timestamp")
-                    var afterRecords = this.sort_by_key(this.props.data[0]["After"][0].docs, "Timestamp")
+                    var beforeRecords = this.props.data[0][0].Before[0] ? this.sort_by_key(this.props.data[0][0].Before[0][0].docs, "Timestamp"): [];
+                    var afterRecords =  this.props.data[0][0].After[0] ? this.sort_by_key(this.props.data[0][0].After[0][0].docs, "Timestamp"):[];
 
-                    //set sergery date according last record in Before / first record in After.
-                    if(beforeRecords.length>0)  dateO =beforeRecords[beforeRecords.length-1].ValidTime;
-                    else if (afterRecords.length>0)   dateO =afterRecords[0].ValidTime;
+
 
                     var pointsCompere = {};
                     var min = 0, week = false;
@@ -286,8 +284,8 @@ class CompGraph extends Component {
                             });
                             if (dateOStr === dateStr) {
 
-                                avgCompO["before"]["counter"]++;
-                                avgCompO["before"]["sum"] += afterRecords[i].Data;
+                                avgCompO["after"]["counter"]++;
+                                avgCompO["after"]["sum"] += afterRecords[i].Data;
 
                                 if (!week) {
                                     week = true;
