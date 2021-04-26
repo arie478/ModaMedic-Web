@@ -578,7 +578,7 @@ class PatientSearchNew extends Component {
                         חודשי
                     </label>
                 </div>
-                <div className="mddShow">
+                <div className="mddShow" style={sessionStorage.getItem('doctor') ? {} : { display: 'none' }} >
                     <label className="mLabel">
                         השוואת מטופלים לפי:
                     </label>
