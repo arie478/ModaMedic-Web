@@ -64,7 +64,7 @@ class CompGraph extends Component {
                             month: 'short',
                             year: "numeric"
                         }).replace(/ /g, '-')
-                        if (date <= oDay) {
+                        if (date <= oDay || this.props.date==0) {
                             points[dateStr] = data[i].Data.toFixed(2);
                         }
                         if (date >= oDay) {
@@ -149,7 +149,7 @@ class CompGraph extends Component {
                             line[dateStr] = (avgO["after"]["sum"] / avgO["after"]["counter"]).toFixed(2);
                             continue;
                         }
-                        if (date <= oDay) {
+                        if (date <= oDay || this.props.date==0) {
                             points[dateStr] = (table[dateStr]["sum"] / table[dateStr]["counter"]).toFixed(2);
                         }
                         if (date >= oDay) {
@@ -347,7 +347,7 @@ class CompGraph extends Component {
                                 lineCompere[dateStr] = (avgCompO["after"]["sum"] / avgCompO["after"]["counter"]).toFixed(2);
                                 continue;
                             }
-                            if (date <= oDay) {
+                            if (date <= oDay || this.props.date==0) {
                                 pointsCompere[dateStr] = (table[dateStr]["sum"] / table[dateStr]["counter"]).toFixed(2);
                             }
                             if (date >= oDay) {

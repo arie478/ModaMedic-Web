@@ -348,7 +348,7 @@ class PatientSearchNew extends Component {
         }
 
 
-        if (this.state.comp!==""){
+        if (response.values[0].UserID!=null && this.state.comp!==""){
             let gender = response.values[0].UserID.Gender;
             let bmi = parseFloat(response.values[0].UserID.BMI);
             let smoke = response.values[0].UserID.Smoke;
@@ -373,7 +373,7 @@ class PatientSearchNew extends Component {
 
 
             let todayTimestamp = new Date().getTime();
-            if (dateOfSurgery!= undefined && dateOfSurgery< new Date(this.state.end_date).getTime()){
+            if (dateOfSurgery!= undefined && dateOfSurgery!=0 && dateOfSurgery< new Date(this.state.end_date).getTime()){
                 let numOfDaysAfterSurgery= (todayTimestamp-dateOfSurgery)/(24*60*60*1000);
                 let after5Days= true;
                 let after5To10Days= numOfDaysAfterSurgery>=5? true:false;

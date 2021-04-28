@@ -56,7 +56,7 @@ class Graph extends Component {
                     if(this.props.showDaily){
                         var date = new Date(data[i].ValidTime)
                         var dateStr = date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short', year:"numeric"}).replace(/ /g, '-')
-                        if(date <= oDay){
+                        if(date <= oDay || this.props.date==0){
                             points[dateStr] = data[i].Data.toFixed(2);
                         }
                         if(date >= oDay){
@@ -141,7 +141,7 @@ class Graph extends Component {
                             line[dateStr] = (avgO["after"]["sum"] /  avgO["after"]["counter"]).toFixed(2);
                             continue;
                         }
-                        if(date <= oDay){
+                        if(date <= oDay || this.props.date==0){
                             points[dateStr] = (table[dateStr]["sum"] /  table[dateStr]["counter"]).toFixed(2);
                         }
                         if(date >= oDay){
