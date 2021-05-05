@@ -1,6 +1,7 @@
 import React, {Component} from "react"
 import "./DisplayButton.css"
 import Table from "./Table"
+import TableComp from "./TableComp"
 import TableAns from "./TableAns"
 import Graph from "./Graph"
 import TablePer from "./TablePer"
@@ -177,7 +178,7 @@ class DisplayButton extends Component {
                 <br />
                 { ((this.state.graph || this.state.table) && this.props.ready) ? <PatientData user={this.props.user} table={this.state.table}/> : null}
                 { (this.state.table && this.props.dataArr.length > 0 && this.props.ready) ? <h3>מדדים</h3> : null }
-                { this.state.table ? <div className="ex1"><Table dataArr={this.props.dataArr}
+                { this.state.table && sessionStorage.type=="patient" ? <div className="ex1"><Table dataArr={this.props.dataArr}
                     steps={this.props.steps}
                     distance={this.props.distance}
                     calories={this.props.calories}
@@ -189,6 +190,20 @@ class DisplayButton extends Component {
                     monthly={this.props.monthly}
                     name={this.props.name}
                     ready={this.props.ready}
+                /> </div>: null }
+
+                { this.state.table && sessionStorage.type=="doctor" ? <div className="ex1"><TableComp dataArr={this.props.dataArr}
+                                                                                                       steps={this.props.steps}
+                                                                                                       distance={this.props.distance}
+                                                                                                       calories={this.props.calories}
+                                                                                                       weather={this.props.weather}
+                                                                                                       sleep={this.props.sleep}
+                                                                                                       date={this.props.date}
+                                                                                                       showDaily={this.props.showDaily}
+                                                                                                       weekly={this.props.weekly}
+                                                                                                       monthly={this.props.monthly}
+                                                                                                       name={this.props.name}
+                                                                                                       ready={this.props.ready}
                 /> </div>: null }
                 <br />
                 { (this.state.table && this.props.dailyQ && this.props.ready) ? <h3>שאלון יומי</h3> : null }
