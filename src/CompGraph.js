@@ -163,9 +163,8 @@ class CompGraph extends Component {
 
                 var noData = false;
                 if (this.props.data && this.props.data.length > 0 && this.props.data[0]) {
-                    var beforeRecords = this.props.data[0][0].Before[0] ? this.sort_by_key(this.props.data[0][0].Before[0][0].docs, "Timestamp"): [];
-                    var afterRecords =  this.props.data[0][0].After[0] ? this.sort_by_key(this.props.data[0][0].After[0][0].docs, "Timestamp"):[];
-
+                    var beforeRecords = this.props.data[0][0].Before[0] ? this.sort_by_key(this.props.data[0][0].Before[0][0].docs, "Timestamp") : [];
+                    var afterRecords = this.props.data[0][0].After[0] ? this.sort_by_key(this.props.data[0][0].After[0], "Timestamp") : [];
 
 
                     var pointsCompere = {};
@@ -194,6 +193,7 @@ class CompGraph extends Component {
 
                     // ***** loop on before -
 
+                    if (beforeRecords) {
                     for (var i = 0; i < beforeRecords.length; i++) {
                         if (this.props.showDaily) {
                             var date = new Date(beforeRecords[i].ValidTime)
@@ -216,8 +216,8 @@ class CompGraph extends Component {
                             });
                             if (dateOStr === dateStr) {
 
-                                    avgCompO["before"]["counter"]++;
-                                    avgCompO["before"]["sum"] += beforeRecords[i].Data;
+                                avgCompO["before"]["counter"]++;
+                                avgCompO["before"]["sum"] += beforeRecords[i].Data;
 
                                 if (!week) {
                                     week = true;
@@ -238,8 +238,8 @@ class CompGraph extends Component {
                             dateStr = date.toLocaleDateString('en-GB', {month: 'short'});
                             if (dateOStr === dateStr) {
 
-                                    avgCompO["before"]["counter"]++;
-                                    avgCompO["before"]["sum"] += data[i].Data;
+                                avgCompO["before"]["counter"]++;
+                                avgCompO["before"]["sum"] += data[i].Data;
 
                                 if (!week) {
                                     week = true;
@@ -258,11 +258,11 @@ class CompGraph extends Component {
                         }
                     }
 
-
-
+                }
                     // ***** loop on after -
-
-                    for (var i = 0; i < afterRecords.length; i++) {
+                    afterRecords = afterRecords[0].docs;
+                    if(afterRecords){
+                    for (var i = 0; i < afterRecords.length ; i++) {
                         if (this.props.showDaily) {
                             var date = new Date(afterRecords[i].ValidTime)
                             var dateStr = date.toLocaleDateString('en-GB', {
@@ -325,6 +325,7 @@ class CompGraph extends Component {
                             }
                         }
                     }
+                }
                     }
 
                     dates = dates.sort();
