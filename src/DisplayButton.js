@@ -77,17 +77,34 @@ class DisplayButton extends Component {
             else if(this.props.dataArr[i].name === "שעות שינה"){
                 arrSleep = this.props.dataArr[i].values;
             }
-            else if (this.props.dataArr[i].name === "השוואת צעדים לפני")
+            else if (this.props.dataArr[i].name === "השוואת צעדים לפני"){
                 arrCompSteps[0].Before.push(this.props.dataArr[i].values);
-            else if (this.props.dataArr[i].name === "השוואת צעדים אחרי")
+
+            }
+
+            else if (this.props.dataArr[i].name === "השוואת צעדים אחרי") {
+                if (arrCompSteps[0].After.length == 0)
                 arrCompSteps[0].After.push(this.props.dataArr[i].values);
+                else
+                    arrCompSteps[0].After[0][0].docs=arrCompSteps[0].After[0][0].docs.concat(this.props.dataArr[i].values[0].docs);
+            }
             else if (this.props.dataArr[i].name === "השוואת קלוריות לפני")
                 arrCompCal[0].Before.push(this.props.dataArr[i].values);
-            else if (this.props.dataArr[i].name === "השוואת קלוריות אחרי")
-                arrCompCal[0].After.push(this.props.dataArr[i].values);
+            else if (this.props.dataArr[i].name === "השוואת קלוריות אחרי"){
+                if (arrCompCal[0].After.length == 0)
+                    arrCompCal[0].After.push(this.props.dataArr[i].values);
+                else
+                    arrCompCal[0].After[0][0].docs=arrCompCal[0].After[0][0].docs.concat(this.props.dataArr[i].values[0].docs);
+            }
+
             else if (this.props.dataArr[i].name === "השוואת מרחק לפני")
                 arrCompDis[0].Before.push(this.props.dataArr[i].values);
-            else if (this.props.dataArr[i].name === "השוואת מרחק אחרי")
+            else if (this.props.dataArr[i].name === "השוואת מרחק אחרי"){
+                if (arrCompDis[0].After.length == 0)
+                    arrCompDis[0].After.push(this.props.dataArr[i].values);
+                else
+                    arrCompDis[0].After[0][0].docs=arrCompDis[0].After[0][0].docs.concat(this.props.dataArr[i].values[0].docs);
+            }
                 arrCompDis[0].After.push(this.props.dataArr[i].values);
 
         }
