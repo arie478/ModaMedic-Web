@@ -79,12 +79,12 @@ class SleepGraph extends Component {
                     }
                     if(this.props.showDaily){
                         var dateStr = date.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'}).replace(/ /g, '-');
-                        if(date <= oDay){
+                        if(date <= oDay || oDay.valueOf() == 0 ||oDay.valueOf() == null){
                             pointsD[dateStr] = deep.toFixed(2);
                             pointsL[dateStr] = light.toFixed(2);
                             pointsT[dateStr] = total.toFixed(2);
                         }
-                        if(date >= oDay){
+                        if(date >= oDay && oDay.valueOf() != 0){
                             lineD[dateStr] = deep.toFixed(2);
                             lineL[dateStr] = light.toFixed(2);
                             lineT[dateStr] = total.toFixed(2);
@@ -210,12 +210,12 @@ class SleepGraph extends Component {
                             lineT[dateStr] = (avgO["after"]["total"]["sum"] /  avgO["after"]["total"]["counter"]).toFixed(2);
                             continue;
                         }
-                        if(date <= oDay){
+                        if(date <= oDay || oDay.valueOf() == 0 ||oDay.valueOf() == null){
                             pointsD[dateStr] = (table[dateStr]["deep"]["sum"] /  table[dateStr]["deep"]["counter"]).toFixed(2);
                             pointsL[dateStr] = (table[dateStr]["light"]["sum"] /  table[dateStr]["light"]["counter"]).toFixed(2);
                             pointsT[dateStr] = (table[dateStr]["total"]["sum"] /  table[dateStr]["total"]["counter"]).toFixed(2);
                         }
-                        if(date >= oDay){
+                        if(date >= oDay && oDay.valueOf() != 0){
                             lineD[dateStr] = (table[dateStr]["deep"]["sum"] /  table[dateStr]["deep"]["counter"]).toFixed(2);
                             lineL[dateStr] = (table[dateStr]["light"]["sum"] /  table[dateStr]["light"]["counter"]).toFixed(2);
                             lineT[dateStr] =(table[dateStr]["total"]["sum"] /  table[dateStr]["total"]["counter"]).toFixed(2);
