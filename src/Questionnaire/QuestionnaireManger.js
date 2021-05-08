@@ -10,9 +10,46 @@ import {borderColor} from "@material-ui/system";
 
 class QuestionnaireManger extends Component {
     constructor(props) {
-        super()
-        if(props.user && sessionStorage.getItem('doctor')) {
-            var q2 = false, q3 = false, q4 = false, q5 = false;
+        super();
+        // this.extractQuestionnaires(props);
+        this.state = {
+            user: props.user,
+            showPopup: false,
+            showPopupQ: false,
+            new_date: "",
+            Questionnaires: [],
+            quest1: false,
+            // quest2: q2,
+            // quest3: q3,
+            // quest4: q4,
+            // quest5: q5,
+            quest6: false,
+            questionnairesArr: [],
+            questionnairesArrDoctor: [],
+            type: sessionStorage.getItem('type'),
+            firstTime: true
+        };
+        this.presentQuestionnaire = this.presentQuestionnaire.bind(this);
+        this.changeDate = this.changeDate.bind(this);
+        this.togglePopup = this.togglePopup.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.togglePopupQ = this.togglePopupQ.bind(this);
+        this.handleSubmitQ = this.handleSubmitQ.bind(this)
+        this.extractQuestionnaires = this.extractQuestionnaires.bind(this)
+    }
+
+    extractQuestionnaires(props) {
+        let questionnairesArrDoctor = [];
+        if(this.props.user) {
+            for (var i = 0; i < this.props.user["Questionnaires"].length; i++) {
+                if (this.props.user["Questionnaires"][i]["QuestionnaireID"] !== 0 && this.props.user["Questionnaires"][i]["QuestionnaireID"] !== 6) {
+                    questionnairesArrDoctor.push(this.props.user["Questionnaires"][i]["QuestionnaireText"]);
+                }
+            }
+        }
+        var q2 = false, q3 = false, q4 = false, q5 = false;
+        if (props.user && sessionStorage.getItem('doctor')) {
             for (var i = 0; i < props.user["Questionnaires"].length; i++) {
                 if (props.user["Questionnaires"][i]["QuestionnaireID"] === 1) {
                     q2 = true;
@@ -25,38 +62,30 @@ class QuestionnaireManger extends Component {
                 }
             }
         }
-        this.state = {
+        this.setState({
             user: props.user,
-            showPopup: false,
-            showPopupQ: false,
-            new_date: "",
-            Questionnaires: [],
-            quest1: false,
             quest2: q2,
             quest3: q3,
             quest4: q4,
             quest5: q5,
-            quest6: false,
-            questionnairesArr: [],
-            questionnairesArrDoctor: [],
-            type: sessionStorage.getItem('type'),
-            firstTime: true
-        };
-
-
-        this.presentQuestionnaire = this.presentQuestionnaire.bind(this);
+            questionnairesArrDoctor: questionnairesArrDoctor
+        });
         this.presentQuestionnaire();
-        this.changeDate = this.changeDate.bind(this);
-        this.togglePopup = this.togglePopup.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.togglePopupQ = this.togglePopupQ.bind(this);
-        this.handleSubmitQ = this.handleSubmitQ.bind(this)
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(this.props.user && this.props.user !== prevProps.user) {
+            this.extractQuestionnaires(this.props);
+        }
+    }
+
+    componentDidMount() {
+        this.extractQuestionnaires(this.props);
     }
 
     async presentQuestionnaire(){
         if(sessionStorage.getItem('patient')) {
-            let url = 'https://moda-medic.herokuapp.com/auth/usersAll/getUserQuestionnaire';
+            let url = ' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/getUserQuestionnaire';
             let response = await axios.get(
                 url,
                 {
@@ -84,7 +113,7 @@ class QuestionnaireManger extends Component {
         e.preventDefault();
         //     let date = (new Date(this.state.new_date)).getTime();
         //     let id = this.props.user["UserID"];
-        //     axios.post('https://moda-medic.herokuapp.com/auth/usersAll/changeDateOfSurgery',
+        //     axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeDateOfSurgery',
         //         {
         //             UserID: id,
         //             DateOfSurgery: date
@@ -134,10 +163,11 @@ class QuestionnaireManger extends Component {
                 });
             }
             let id = this.props.user["UserID"];
-            axios.post('https://moda-medic.herokuapp.com/auth/usersAll/changeUserQuestionnaire',
+            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
                 {
                     UserID: id,
-                    Questionnaires: Questionnaires
+                    Questionnaires: Questionnaires,
+                    changedQuestionnaires: true
                 },
                 {
                     headers: {
@@ -239,20 +269,6 @@ class QuestionnaireManger extends Component {
 
     render(){
         require("../Table.css");
-        var first = true;
-        if(this.props.user && this.state.firstTime) {
-            for (var i = 0; i < this.props.user["Questionnaires"].length; i++) {
-                if (this.props.user["Questionnaires"][i]["QuestionnaireID"] !== 0 && this.props.user["Questionnaires"][i]["QuestionnaireID"] !== 6) {
-                    // if (!first) {
-                    //     Questionnaires += ", "
-                    // } else {
-                    //     first = false;
-                    // }
-                    this.state.questionnairesArrDoctor.push(this.props.user["Questionnaires"][i]["QuestionnaireText"]);
-                }
-            }
-            this.state.firstTime = false;
-        }
         // if (Questionnaires.charAt(Questionnaires.length - 1) === " ") {
         //     Questionnaires = Questionnaires.substring(0, Questionnaires.length - 2);
         // }

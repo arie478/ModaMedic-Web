@@ -5,16 +5,12 @@ import {Card} from "react-bootstrap";
 // ES5 require
 import ImageMapper from "react-image-mapper";
 import CardMedia from "@material-ui/core/CardMedia";
-import {Document, Page, pdfjs} from 'react-pdf';
-import ACL from "./prtocols/ACL.pdf";
-import ASD from "./prtocols/ASD.pdf";
-import BANKART from "./prtocols/BANKART.pdf";
-import KNEE from "./prtocols/KNEE.pdf";
-import REVERSE_TSR from "./prtocols/REVERSE_TSR.pdf";
-import ROTATORCUFF from "./prtocols/ROTATORCUFF.pdf";
-import FIRST from "./prtocols/FIRST.pdf";
 import Grid from '@material-ui/core/Grid';
 import {BsDownload} from "react-icons/bs";
+import {AiFillDelete} from "react-icons/ai";
+import Tooltip from "@material-ui/core/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Button from "react-bootstrap/Button";
 
 var MAP = {
     name: "my-map",
@@ -78,7 +74,6 @@ var MAP = {
 var URL = "https://modernorthonj.com/wp-content/uploads/2020/03/body-schematic-transparent-2048x1257.jpg"
 
 class InstructionsSurgery extends Component {
-
     constructor(props) {
         super(props);
         // pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -87,16 +82,7 @@ class InstructionsSurgery extends Component {
             instructionsForGrid: [],
             // numPages: null,
             // pageNumber: 1,
-            // pdfNames:{"ACL": ACL,ASD,BANKART,KNEE,REVERSE_TSR,ROTATORCUFF]}
-            pdfNames: {
-                "ACL": ACL,
-                "KNEE": KNEE,
-                "ASD": ASD,
-                "BANKART": BANKART,
-                "REVERSE_TSR": REVERSE_TSR,
-                "ROTATORCUFF": ROTATORCUFF,
-                "FIRST": FIRST
-            },
+
             headerNames: {
                 "knee": "פרוטוקולי שיקום - ברך",
                 "shoulder": "פרוטוקולי שיקום - כתף",
@@ -106,11 +92,33 @@ class InstructionsSurgery extends Component {
                 "back" : "פרוטוקולי שיקום - גב",
                 "neck" : "פרוטוקולי שיקום - צוואר"
             },
+            categoryToImage: {
+                "knee": require('./ImagesOrth/ACL.jpg'),
+                "shoulder": require('./ImagesOrth/REVERSETSR.jpg'),
+                "hip" : require('./ImagesOrth/Hip.png'),
+                "ankle" : require('./ImagesOrth/Ankle.jpg'),
+                "elbow" : require('./ImagesOrth/Elbow.jpg'),
+                "back" : require('./ImagesOrth/Back.jpg'),
+                "neck" : require('./ImagesOrth/Neck.jpg'),
+            },
+
             instructionsByCategory: {},
             showInstructions: false,
-            showPopup: false
-        }
-        ;
+            showPopup: false,
+            selectedFile: null,
+            newInstructionCategory: "knee",
+            newInstructionTitle: "",
+            categories: {
+                "ברך": "knee",
+                "גב": "back",
+                "כתף": "shoulder",
+                "ירך": "hip",
+                "קרסול":  "ankle",
+                "מרפק":"elbow",
+                "צוואר": "neck"
+            },
+            area:undefined
+        };
 
         this.getInstructions = this.getInstructions.bind(this);
         this.changePdfToShow = this.changePdfToShow.bind(this);
@@ -126,6 +134,12 @@ class InstructionsSurgery extends Component {
         this.moveOnArea = this.moveOnArea.bind(this);
         this.getTipPosition = this.getTipPosition.bind(this);
         this.togglePopup = this.togglePopup.bind(this);
+        this.selectFile = this.selectFile.bind(this);
+        this.upload = this.upload.bind(this);
+        this.uploadFile = this.uploadFile.bind(this);
+        this.onSelectCategoryChosen =  this.onSelectCategoryChosen.bind(this)
+        this.handleChange =  this.handleChange.bind(this)
+        this.handleSubmit =  this.handleSubmit.bind(this)
 
     }
 
@@ -171,7 +185,7 @@ class InstructionsSurgery extends Component {
     moveOnImage(evt) {
         const coords = {x: evt.nativeEvent.layerX, y: evt.nativeEvent.layerY};
         this.setState({
-            moveMsg: `You moved on the image at coords ${JSON.stringify(coords)} !`
+            moveMsg: ` `
         });
     }
 
@@ -187,18 +201,17 @@ class InstructionsSurgery extends Component {
     leaveArea(area) {
         this.setState({
             hoveredArea: null,
-            msg: `You leaved ${area.shape} ${area.name} at coords ${JSON.stringify(
-                area.coords
-            )} !`
+            // msg: '',
+            // moveMsg: ''
         });
     }
 
     moveOnArea(area, evt) {
         const coords = {x: evt.nativeEvent.layerX, y: evt.nativeEvent.layerY};
         this.setState({
-            moveMsg: `You moved on ${area.shape} ${
-                area.name
-            } at coords ${JSON.stringify(coords)} !`
+            moveMsg: ' לחץ להצגת ' + this.state.headerNames[`${area.name}`],
+            currArea: area,
+            hoveredArea: area
         });
     }
 
@@ -213,32 +226,32 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-            let respone = await axios.get('https://moda-medic.herokuapp.com/auth/usersAll/instructions',
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem("token")
-                    }
-                });
-            if (respone.data.data) {
-                let instructionsArr = [];
-                for (var i = 0; i < respone.data.data.length; i++) {
-                    instructionsArr.push(respone.data.data[i]);
+        let respone = await axios.get(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/instructions',
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-auth-token': sessionStorage.getItem("token")
                 }
-                let instructionsForGrid = [];
-                for (var i = 0; i < instructionsArr.length; i = i + 2) {
-                    if (instructionsArr[i + 1]) {
-                        instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": instructionsArr[i + 1]});
-                    } else {
-                        instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": {}});
-                    }
-                }
-                this.setState({
-                    instructions: instructionsArr,
-                    instructionsForGrid: instructionsForGrid,
-                    instructionsByCategory: this.groupArrayOfObjects(instructionsArr, "Category")
-                });
+            });
+        if (respone.data.data) {
+            let instructionsArr = [];
+            for (var i = 0; i < respone.data.data.length; i++) {
+                instructionsArr.push(respone.data.data[i]);
             }
+            let instructionsForGrid = [];
+            for (var i = 0; i < instructionsArr.length; i = i + 2) {
+                if (instructionsArr[i + 1]) {
+                    instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": instructionsArr[i + 1]});
+                } else {
+                    instructionsForGrid.push({"obj1": instructionsArr[i], "obj2": {}});
+                }
+            }
+            this.setState({
+                instructions: instructionsArr,
+                instructionsForGrid: instructionsForGrid,
+                instructionsByCategory: this.groupArrayOfObjects(instructionsArr, "Category")
+            });
+        }
 
     }
 
@@ -264,19 +277,234 @@ class InstructionsSurgery extends Component {
         });
     }
 
+    onSelectCategoryChosen(event) {
+        let value = this.state.categories[event.target.options[event.target.options.selectedIndex].label];
+        this.setState({
+            newInstructionCategory: value
+        });
+        // console.log(this.state.categories[event.target.options.selectedIndex])
+    }
+    // On file select (from the pop up)
+    onFileChange = event => {
+
+        // Update the state
+        this.setState({ selectedFile: event.target.files[0] });
+
+    };
+
+    downloadFile = (instruction) => {
+        axios({
+            url: `https://icc.ise.bgu.ac.il/njsw18auth/usersAll/instructions/${instruction.InstructionId}`,
+            method: 'GET',
+            responseType: 'blob', // important
+            headers: {
+                'x-auth-token': sessionStorage.getItem("token")
+            }
+        }).then((response) => {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${instruction.Title}.pdf`); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+        });
+    };
+
+    uploadFile(category, title, file, onUploadProgress) {
+        let formData = new FormData();
+        formData.append("Category", category);
+        formData.append("Title", title);
+        formData.append("pdf", file);
+        return axios.post("https://icc.ise.bgu.ac.il/njsw18auth/doctors/instructions", formData, {
+            headers: {
+                "Content-Type": "multipart/form-data",
+                'x-auth-token': sessionStorage.getItem("token")
+            },
+            onUploadProgress,
+        });
+    }
+
+    selectFile(event) {
+        this.setState({
+            selectedFiles: event.target.files,
+        });
+    }
+
+    upload() {
+        let currentFile = this.state.selectedFiles[0];
+        this.setState({
+            progress: 0,
+            currentFile: currentFile,
+        });
+
+        this.uploadFile(this.state.newInstructionCategory, this.state.newInstructionTitle, currentFile, (event) => {
+            this.setState({
+                progress: Math.round((100 * event.loaded) / event.total),
+            });
+        })
+            .then((response) => {
+                this.setState({
+                        message: response.data.message,
+                    }
+                );
+                window.alert("פרוטוקול הועלה בהצלחה!")
+                this.setState({newInstructionTitle : '',  progress: 0, currentFile: undefined, selectedFiles:undefined});
+                this.getInstructions();
+            })
+            .catch(() => {
+                this.setState({
+                    progress: 0,
+                    message: "Could not upload the file!",
+                    currentFile: undefined,
+                    selectedFiles: undefined
+                });
+            });
+
+        this.setState({
+            selectedFiles: undefined,
+        });
+    }
+
+    // On file upload (click the upload button)
+    onFileUpload = () => {
+        // Create an object of formData
+        const formData = new FormData();
+        // Update the formData object
+        formData.append(
+            "myFile",
+            this.state.selectedFile,
+            this.state.selectedFile.name
+        );
+
+        // Details of the uploaded file
+        console.log(this.state.selectedFile);
+        // Request made to the backend api
+        // Send formData object
+        // axios.post("api/uploadfile", formData);
+    };
+
+    // File content to be displayed after
+    // file upload is complete
+    fileData = () => {
+        if (this.state.selectedFile) {
+            return (
+                <div>
+                    <h2>File Details:</h2>
+                    <p>File Name: {this.state.selectedFile.name}</p>
+                    <p>File Type: {this.state.selectedFile.type}</p>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <br />
+                    <h4>Choose before Pressing the Upload button</h4>
+                </div>
+            );
+        }
+    };
+
+    async removeInstruction(eId){
+        if(sessionStorage.getItem('doctor')) {
+            const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הפרוטוקול?");
+            if (r) {
+                await axios.delete(` https://icc.ise.bgu.ac.il/njsw18auth/doctors/instructions/${eId}`,
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'x-auth-token': sessionStorage.getItem("token")
+                        }
+                    });
+                window.alert("הפרוטוקול נמחק!")
+                this.getInstructions()
+            }
+        }
+    }
+    handleChange(e) {
+        if (e.target.name === "newInstructionTitle") {
+            this.setState({[e.target.name]: e.target.value})}
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        this.upload();
+    }
+
+    renderUploadFile() {
+        const {
+            selectedFiles,
+            currentFile,
+            progress,
+            message,
+        } = this.state;
+        let optionItems = Object.keys(this.state.categories).map((category) =>
+            <option key={category} >{category}</option>
+        );
+        return <div>
+            <form onSubmit={this.handleSubmit}>
+                <div className="divs_in_add_pdf">
+                    <label className="labels_in_add_instructions">כותרת הפרוטוקול: </label>
+                    <input className="inputs_in_add_instructions" name="newInstructionTitle" type="text"
+                           value={this.state.newInstructionTitle} onChange={e => this.handleChange(e)} required/>
+                </div>
+                <div className="divs_in_add_pdf">
+                    <label className="labels_in_add_instructions">קטגוריית הפרוטוקול:    </label>
+                    <select  className="select_in_add_instructions" onChange={this.onSelectCategoryChosen} required>
+                        {optionItems}
+                    </select>
+                </div>
+                <br/>
+                <br/>
+                {currentFile && (
+                    <div className="progress">
+                        <div
+                            className="progress-bar progress-bar-info progress-bar-striped"
+                            role="progressbar"
+                            aria-valuenow={progress}
+                            aria-valuemin="0"
+                            aria-valuemax="100"
+                            style={{ width: progress + "%" }}
+                        >
+                            {progress}%
+                        </div>
+                    </div>
+                )}
+                <br/>
+                <br/>
+                <label className="btn btn-default">
+                    <input type="file" onChange={this.selectFile} />
+                </label>
+                <button className="btn btn-primary"
+                        disabled={!selectedFiles}
+                        type={"submit"}
+                >
+                    העלאת הפרוטוקל
+                </button>
+                <div className="alert alert-light" role="alert">
+                    {message}
+                </div>
+            </form>
+        </div>
+    }
+
     render() {
         // const { pageNumber, numPages } = this.state;
         // require("./MessagesPage.css");
+
         require("./InstructionsSurgery.css");
         return (
             <div className="presenter">
                 <Grid container spacing={2} >
                     <Grid item xs={6} >
                         <br/>
-                        <img style={{width: '100%', marginLeft:"auto"}} src={require('./ImagesOrth/INSTRUCTIONS.PNG')} />
+                        {sessionStorage.getItem('patient') &&
+                        <img style={{width: '100%', marginLeft:"auto"}} src={require('./ImagesOrth/INSTRUCTIONS.PNG')} />}
+                        {sessionStorage.getItem('doctor') && this.renderUploadFile()}
                     </Grid>
                     <Grid item xs={6} >
                         <div>
+                            <pre className="message">{this.state.msg ? this.state.msg : null}</pre>
+                            <pre>{this.state.moveMsg ? this.state.moveMsg : null}</pre>
                             <div style={{ width: '100%', position: "relative"}}>
                                 <ImageMapper
                                     src={URL}
@@ -287,9 +515,9 @@ class InstructionsSurgery extends Component {
                                     onClick={area => this.clicked(area)}
                                     // onMouseEnter={area => this.enterArea(area)}
                                     // onMouseLeave={area => this.leaveArea(area)}
-                                    // onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
+                                    onMouseMove={(area, _, evt) => this.moveOnArea(area, evt)}
                                     // onImageClick={evt => this.clickedOutside(evt)}
-                                    // onImageMouseMove={evt => this.moveOnImage(evt)}
+                                    onImageMouseMove={evt => this.moveOnImage(evt)}
                                     lineWidth={4}
                                     strokeColor={"white"}
                                 />
@@ -302,24 +530,10 @@ class InstructionsSurgery extends Component {
 							</span>
                                 )}
                             </div>
-                            <pre className="message">{this.state.msg ? this.state.msg : null}</pre>
-                            <pre>{this.state.moveMsg ? this.state.moveMsg : null}</pre>
+
                         </div>
                     </Grid>
                 </Grid>
-                {/*{this.state.pdfToShow &&*/}
-                {/*<div>*/}
-                {/*    <PDF pdfFile={this.state.pdfNames[this.state.pdfToShow]}/>*/}
-                {/*</div>*/}
-                {/*<Grid item xs={6}>*/}
-                {/*    {this.state.pdfToShow &&*/}
-                {/*    <div>*/}
-                {/*        <PDF pdfFile={this.state.pdfNames[this.state.pdfToShow]}/>*/}
-                {/*    </div>}*/}
-                {/*</Grid>*/}
-                {/*<Grid item xs={6}>*/}
-
-                {/*</Grid>*/}
                 <div id="inst">
                     <br/>
                     <br/>
@@ -327,7 +541,7 @@ class InstructionsSurgery extends Component {
                     <h2 className="insth2">{this.state.headerNames[this.state.category]}</h2>
                 </div>
                 <div >
-                    {!this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
+                    {this.state.category && !this.state.instructionsByCategory[this.state.category] && <div><h3>אין פרוטוקולים בתחום זה</h3></div>}
                     <Grid container spacing={2} >
                         {this.state.showInstructions && this.state.instructionsByCategory[this.state.category] &&
                         this.state.instructionsByCategory[this.state.category].map((instruction) => {
@@ -337,20 +551,21 @@ class InstructionsSurgery extends Component {
                                         component="img"
                                         alt="Contemplative Reptile"
                                         height="200"
-                                        image={instruction.ImagePart}
+                                        image={this.state.categoryToImage[instruction.Category]}
                                         title="Contemplative Reptile"
                                         style={{borderColor: 'black'}}
                                     />
                                     <Card.Header>
-                                        <button onClick={() => this.changePdfToShow(instruction.PdfName)}>
-                                                <a href={this.state.pdfNames[this.state.pdfToShow]} target="_blank">
-                                                {/*<a href={this.state.pdfNames[this.state.pdfToShow]} download={instruction.PdfName}>*/}
-                                                    <b>{instruction.Title}</b>
-                                                    <BsDownload style={{float:'left'}}></BsDownload>
-                                                </a>
+                                        <button onClick={() => this.downloadFile(instruction)}>
+                                            <b>{instruction.Title}</b>
+                                            <BsDownload style={{float:'left'}}/>
                                         </button>
                                     </Card.Header>
                                 </Card>
+                                {sessionStorage.getItem('doctor') &&
+                                <AiFillDelete type="button" class="trushIcon" style={{color: 'black'}} size={20}
+                                              onClick={() => this.removeInstruction(instruction.InstructionId)}/>
+                                }
                             </Grid>
                         })
                         }
@@ -362,53 +577,4 @@ class InstructionsSurgery extends Component {
 }
 
 export default InstructionsSurgery;
-
-class PDF extends Component {
-
-    constructor(props) {
-        super(props);
-        pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-        this.state = {
-            numPages: null,
-            pageNumber: 1,
-        };
-
-        this.nextPage = this.nextPage.bind(this);
-        this.previousPage = this.previousPage.bind(this);
-
-    }
-
-    onDocumentLoad = ({ numPages }) => {
-        this.setState({ numPages });
-    };
-
-    previousPage() {
-        this.setState({pageNumber: this.state.pageNumber - 1});
-    }
-
-    nextPage() {
-        this.setState({pageNumber: this.state.pageNumber + 1});
-    }
-
-    render() {
-        require("./Pdf.css");
-
-        return <div>
-            <Document file={this.props.pdfFile} onLoadSuccess={this.onDocumentLoad} options={{ workerSrc: "/pdf.worker.js" }}>
-                <Page pageNumber={this.state.pageNumber} />
-            </Document>
-            <p>Page {this.state.pageNumber} of {this.state.numPages}</p>
-            <button class="nextprv" type="button" disabled={this.state.pageNumber <= 1} onClick={this.previousPage}>
-                Previous
-            </button>
-            <button class="nextprv"
-                    type="button"
-                    disabled={this.state.pageNumber >= this.state.numPages}
-                    onClick={this.nextPage}
-            >
-                Next
-            </button>
-        </div>
-    }
-}
 

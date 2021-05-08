@@ -143,7 +143,7 @@ class AddUserAfterResearch extends Component {
         let initQuestionsID = [];
         let initQuestionsText = [];
 
-        fetch('https://moda-medic.herokuapp.com/users/getVerifications')
+        fetch(' https://icc.ise.bgu.ac.il/njsw18users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -167,7 +167,7 @@ class AddUserAfterResearch extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch('https://moda-medic.herokuapp.com/questionnaires/all')
+        fetch(' https://icc.ise.bgu.ac.il/njsw18questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -205,7 +205,7 @@ class AddUserAfterResearch extends Component {
         //     return
         // }
         if(this.state.type === 'doctor') {
-            axios.post('https://moda-medic.herokuapp.com/users/doctorRegister', {
+            axios.post(' https://icc.ise.bgu.ac.il/njsw18users/doctorRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: this.state.fName,
@@ -260,7 +260,7 @@ class AddUserAfterResearch extends Component {
             }
             let height_double = Number(this.state.height / 100);
             let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-            axios.post('https://moda-medic.herokuapp.com/users/patientRegister', {
+            axios.post(' https://icc.ise.bgu.ac.il/njsw18users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: this.state.fName,
@@ -298,7 +298,7 @@ class AddUserAfterResearch extends Component {
         let initialQuestions = [];
         let initQuestionsID = [];
         let initQuestionsText = [];
-        fetch('https://moda-medic.herokuapp.com/users/getVerifications')
+        fetch(' https://icc.ise.bgu.ac.il/njsw18users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -323,7 +323,7 @@ class AddUserAfterResearch extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch('https://moda-medic.herokuapp.com/questionnaires/all')
+        fetch(' https://icc.ise.bgu.ac.il/njsw18questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {

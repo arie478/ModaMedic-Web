@@ -42,16 +42,24 @@
 
 }
 
-.divs_in_add{
-    /*overflow: hidden;*/
+.divs_in_add_user{
+    overflow: hidden;
     text-align: center;
     margin-top: 0.5%;
+    font-size: calc(11px + 1vmin);
 }
 
-.divs_in_add_drop{
+.divs_in_add_try{
     /*overflow: hidden;*/
     text-align: center;
     margin-top: 0.5%;
+    font-size: calc(11px + 1vmin);
+}
+
+.divs_in_add_code{
+    overflow: hidden;
+    text-align: center;
+    margin-top: 6.5%;
     font-size: calc(11px + 1vmin);
 }
 

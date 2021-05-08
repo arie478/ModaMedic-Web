@@ -107,7 +107,7 @@ class NavBar extends React.Component {
             });
         }
         else{
-            let url = 'https://moda-medic.herokuapp.com/auth/usersAll/askChangePassword';
+            let url = ' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/askChangePassword';
             var token;
             const response = await axios.post(
                 url,
@@ -120,7 +120,7 @@ class NavBar extends React.Component {
                 }
             );
             token = response.data.data;
-            url = 'https://moda-medic.herokuapp.com/users/passwordChangeCheck/changePassword';
+            url = ' https://icc.ise.bgu.ac.il/njsw18users/passwordChangeCheck/changePassword';
             const responsec = await axios.post(
                 url,
                 {
@@ -145,7 +145,7 @@ class NavBar extends React.Component {
     }
 
     async getInfo(){
-        let url = 'https://moda-medic.herokuapp.com/auth/usersAll/userInfo';
+        let url = ' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/userInfo';
         var token;
         const response = await axios.get(
             url,
@@ -345,7 +345,7 @@ class DoctorInfo extends React.Component{
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put('https://moda-medic.herokuapp.com/auth/usersAll/doctorUpdate', {
+        const response = await axios.put(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/doctorUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
@@ -410,7 +410,10 @@ class DoctorInfo extends React.Component{
                             </div>
                         </form> : null}
                     {!this.props.isEdit ?
-                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
+                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת פרטים </button> : null}
+                    {this.props.isEdit ?
+                        <div className="divs_in_add">
+                            <button style={{width: 150,position:'relative'}} variant="info" onClick={this.props.changeToEdit}>הצגת פרטים </button></div> : null}
                 </div>
             </div>
         );
@@ -455,7 +458,7 @@ class UserInfo extends React.Component {
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put('https://moda-medic.herokuapp.com/auth/usersAll/patientUpdate', {
+        const response = await axios.put(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/patientUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
@@ -563,14 +566,14 @@ class UserInfo extends React.Component {
         var date = new Date(this.state.bday).toISOString().substr(0,10);
         var surgeryDate = new Date(this.state.dateOfSurgery).toISOString().substr(0,10);
         return (
-            <div className='popup'>
+            <div className='popup_info'>
                 <div className='popup_inner_info'>
                     <button onClick={this.props.closePopup} id="x">x</button>
                     {!this.props.isEdit ?
                         <Card class="cardInfo">
                             <Card.Header><b>{this.props.user.First_Name}{' '}{this.props.user.Last_Name}</b></Card.Header>
                             <ListGroup variant="flush">
-                                <ListGroup.Item className={"listItem"} > תאריך לידה: {bDate} </ListGroup.Item>
+                                <ListGroup.Item className={"listItem"}> תאריך לידה:{bDate} </ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> גיל: {age}</ListGroup.Item>
                                 <ListGroup.Item className={"listItem"}> מין: {this.props.user.Gender} </ListGroup.Item>
                                 {sessionStorage.getItem('doctor') &&
@@ -647,7 +650,10 @@ class UserInfo extends React.Component {
                             </div>
                         </form> : null}
                     {!this.props.isEdit ?
-                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת/הצגת פרטים </button> : null}
+                        <button style={{width: 150, float:'left',position:'relative'}} variant="info" onClick={this.props.changeToEdit}> עריכת פרטים </button> : null}
+                    {this.props.isEdit ?
+                        <div className="divs_in_add">
+                            <button style={{width: 150,position:'relative'}} variant="info" onClick={this.props.changeToEdit}>הצגת פרטים </button></div> : null}
                 </div>
             </div>
         );

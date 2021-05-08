@@ -54,8 +54,6 @@
 /*}*/
 
 
-
-
 #labels #hello {
     float: right;
     font-size: medium;
@@ -71,15 +69,6 @@ div.App, div.App-header {
 #buttons{
     /*margin-right: auto;*/
     margin-left: auto;
-}
-
-.card {
-    font-size: small;
-    text-align: right;
-    margin: 0 25% 3% 2%;
-    cursor: pointer;
-    width: 80%;
-
 }
 
 #change{
@@ -166,32 +155,31 @@ div.App, div.App-header {
     color: #61dafb;
 }
 
-.popup {
-
+.popup_info {
     float: right;
     text-align: right;
     position: fixed;
     width: 100%;
     height: 100%;
-    top: 15rem;
+    top: 5rem;
     left: 0;
     right: 0;
     bottom: 0;
     margin: auto;
-    background-color:#8FBC8F;
+    background-color:darkgrey;
     overflow-y: scroll;
 }
 
 
-.popup_inner {
-    position: absolute;
-    left: 35%;
-    right: 35%;
-    top: 40%;
-    bottom: 35%;
-    margin: auto;
-    background-color:#8FBC8F;
-}
+/*.popup_inner_navbar {*/
+/*    position: absolute;*/
+/*    left: 35%;*/
+/*    right: 35%;*/
+/*    top: 40%;*/
+/*    bottom: 35%;*/
+/*    margin: auto;*/
+/*    background-color:#8FBC8F;*/
+/*}*/
 
 #pass, #pass2{
     width: 40%;
@@ -288,16 +276,14 @@ div.App, div.App-header {
     /*margin: auto;*/
     /*background-color:lightblue;*/
 }
-.cont{
-    background-color:#99e6ff;
-}
 
-.card{
+.cardInfo{
     width: 32rem;
     height: 25%;
-    margin-right: 0%;
-    margin-top: 0%;
+    /*margin-right: 0%;*/
+    /*margin-top: 0%;*/
     border-color: black;
+    margin: inherit;
 }
 
 .list-group-item {
