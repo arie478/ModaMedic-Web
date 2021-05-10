@@ -105,8 +105,7 @@ class DisplayButton extends Component {
                 else
                     arrCompDis[0].After[0][0].docs=arrCompDis[0].After[0][0].docs.concat(this.props.dataArr[i].values[0].docs);
             }
-                arrCompDis[0].After.push(this.props.dataArr[i].values);
-
+                // arrCompDis[0].After.push(this.props.dataArr[i].values);
         }
         
         for(i = 0; i < this.props.periodicAnswers.length; i++){
