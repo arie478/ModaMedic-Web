@@ -85,7 +85,7 @@ class QuestionnaireManger extends Component {
 
     async presentQuestionnaire(){
         if(sessionStorage.getItem('patient')) {
-            let url = ' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/getUserQuestionnaire';
+            let url = '  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/getUserQuestionnaire';
             let response = await axios.get(
                 url,
                 {
@@ -113,7 +113,7 @@ class QuestionnaireManger extends Component {
         e.preventDefault();
         //     let date = (new Date(this.state.new_date)).getTime();
         //     let id = this.props.user["UserID"];
-        //     axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeDateOfSurgery',
+        //     axios.post('  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeDateOfSurgery',
         //         {
         //             UserID: id,
         //             DateOfSurgery: date
@@ -163,7 +163,7 @@ class QuestionnaireManger extends Component {
                 });
             }
             let id = this.props.user["UserID"];
-            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
+            axios.post('  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/changeUserQuestionnaire',
                 {
                     UserID: id,
                     Questionnaires: Questionnaires,

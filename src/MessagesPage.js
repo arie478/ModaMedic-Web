@@ -12,7 +12,7 @@ class MessagesPage extends Component {
         super(props);
         this.state = {
             messages:[],
-            content:''
+            content:""
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +32,7 @@ class MessagesPage extends Component {
     async fetchMessagesPatient(){
         if(sessionStorage.getItem('patient')) {
             var response = await axios.get(
-                " https://icc.ise.bgu.ac.il/njsw18auth/patients/messages",
+                "  https://icc.ise.bgu.ac.il/njsw18auth/patients/messages",
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -48,9 +48,10 @@ class MessagesPage extends Component {
 
     async fetchMessagesDoctor(){
         if(sessionStorage.getItem('doctor') && this.props.patientUserId) {
+            this.setState({content:"" })
             let patientId = encodeURIComponent(this.props.patientUserId);
             var response = await axios.get(
-                ` https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
+                `  https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ class MessagesPage extends Component {
 
     async addMessage(){
         if (sessionStorage.getItem('patient')) {
-            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages',
+            axios.post('  https://icc.ise.bgu.ac.il/njsw18auth/patients/messages',
                 {
                     content: this.state.content,
                 },
@@ -83,7 +84,7 @@ class MessagesPage extends Component {
         }
         if (sessionStorage.getItem('doctor')){
             let patientId = encodeURIComponent(this.props.patientUserId);
-            axios.post( `https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
+            axios.post( ` https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
                 {
                     content: this.state.content,
                 },
@@ -94,7 +95,7 @@ class MessagesPage extends Component {
                     }
                 }).then(res => {
                 this.fetchMessagesDoctor();
-                this.setState({content:''})
+                this.handleChange()
             });
         }
     }
@@ -102,7 +103,7 @@ class MessagesPage extends Component {
     async removeMessage(mId){
         if (sessionStorage.getItem('patient')) {
             console.log("patient")
-            axios.post(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/removeMessage',
+            axios.post('  https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/removeMessage',
                 {
                     MessageId: mId,
                 },
@@ -117,7 +118,7 @@ class MessagesPage extends Component {
             });
         }
         else if(sessionStorage.getItem('doctor')) {
-            axios.delete(` https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/removeMessage/${mId}`,
+            axios.delete(`  https://icc.ise.bgu.ac.il/njsw18auth/doctors/messages/removeMessage/${mId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -133,7 +134,7 @@ class MessagesPage extends Component {
     // async updateMessage(mId){
     //     console.log(mId)
     //     if (sessionStorage.getItem('patient')) {
-    //         axios.put(' https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/updateMessage',
+    //         axios.put('  https://icc.ise.bgu.ac.il/njsw18auth/patients/messages/updateMessage',
     //             {
     //                 MessageId: mId,
     //                 Content: this.state.content
@@ -153,7 +154,8 @@ class MessagesPage extends Component {
 
 
     handleChange(event) {
-        this.setState({content: event.target.value});
+        if(event) {
+            this.setState({content: event.target.value});}
     }
 
     handleSubmit(event) {
@@ -193,7 +195,7 @@ class MessagesPage extends Component {
         return (
             <div>
                 <form onSubmit={this.handleSubmit}>
-                    <textarea class="textarea" placeholder="כתוב את הודעתך כאן" onChange={this.handleChange} />
+                    <textarea class="textarea" placeholder={"כתוב את הודעתך כאן"} value={this.state.content} onChange={this.handleChange} />
                     <br/>
                     <input style={{marginRight: "auto", marginLeft: "auto"}} type="submit" value="Submit" />
                 </form>
