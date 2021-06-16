@@ -49,7 +49,7 @@ class AppAfterResearch extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "  https://icc.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
+            "  https://rps.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',

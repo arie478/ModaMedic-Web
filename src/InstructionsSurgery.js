@@ -226,7 +226,7 @@ class InstructionsSurgery extends Component {
 
 
     async getInstructions() {
-        let respone = await axios.get('  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/instructions',
+        let respone = await axios.get('  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/instructions',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -294,7 +294,7 @@ class InstructionsSurgery extends Component {
 
     downloadFile = (instruction) => {
         axios({
-            url: ` https://icc.ise.bgu.ac.il/njsw18auth/usersAll/instructions/${instruction.InstructionId}`,
+            url: ` https://rps.ise.bgu.ac.il/njsw18auth/usersAll/instructions/${instruction.InstructionId}`,
             method: 'GET',
             responseType: 'blob', // important
             headers: {
@@ -315,7 +315,7 @@ class InstructionsSurgery extends Component {
         formData.append("Category", category);
         formData.append("Title", title);
         formData.append("pdf", file);
-        return axios.post(" https://icc.ise.bgu.ac.il/njsw18auth/doctors/instructions", formData, {
+        return axios.post(" https://rps.ise.bgu.ac.il/njsw18auth/doctors/instructions", formData, {
             headers: {
                 "Content-Type": "multipart/form-data",
                 'x-auth-token': sessionStorage.getItem("token")
@@ -408,7 +408,7 @@ class InstructionsSurgery extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הפרוטוקול?");
             if (r) {
-                await axios.delete(`  https://icc.ise.bgu.ac.il/njsw18auth/doctors/instructions/${eId}`,
+                await axios.delete(`  https://rps.ise.bgu.ac.il/njsw18auth/doctors/instructions/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',

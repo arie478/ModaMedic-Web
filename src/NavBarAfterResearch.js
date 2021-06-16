@@ -107,7 +107,7 @@ class NavBar extends React.Component {
             });
         }
         else{
-            let url = '  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/askChangePassword';
+            let url = '  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/askChangePassword';
             var token;
             const response = await axios.post(
                 url,
@@ -120,7 +120,7 @@ class NavBar extends React.Component {
                 }
             );
             token = response.data.data;
-            url = '  https://icc.ise.bgu.ac.il/njsw18users/passwordChangeCheck/changePassword';
+            url = '  https://rps.ise.bgu.ac.il/njsw18users/passwordChangeCheck/changePassword';
             const responsec = await axios.post(
                 url,
                 {
@@ -145,7 +145,7 @@ class NavBar extends React.Component {
     }
 
     async getInfo(){
-        let url = '  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/userInfo';
+        let url = '  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/userInfo';
         var token;
         const response = await axios.get(
             url,
@@ -345,7 +345,7 @@ class DoctorInfo extends React.Component{
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put('  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/doctorUpdate', {
+        const response = await axios.put('  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/doctorUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
@@ -455,7 +455,7 @@ class UserInfo extends React.Component {
         var dateOfSurgery = new Date(this.state.dateOfSurgery);
         let height_double = Number(this.state.height / 100);
         let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-        const response = await axios.put('  https://icc.ise.bgu.ac.il/njsw18auth/usersAll/patientUpdate', {
+        const response = await axios.put('  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/patientUpdate', {
                 // UserID: this.state.userName,
                 First_Name: this.state.fName,
                 Last_Name: this.state.lName,
