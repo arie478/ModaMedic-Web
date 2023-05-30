@@ -82,7 +82,7 @@ class Login extends Component{
 
     async handleSubmit(e){
         e.preventDefault();
-        let url = '  https://rps.ise.bgu.ac.il/njsw18users/forgotPassword';
+        let url = '  https://modamedic.cs.bgu.ac.il/users/forgotPassword';
         const response = await axios.post(
             url,
             {
@@ -96,7 +96,7 @@ class Login extends Component{
         }
         else{
             var qID = response.data.data;
-            const response1 = await axios.get("  https://rps.ise.bgu.ac.il/njsw18users/getVerificationQuestion?QuestionID=" + qID);
+            const response1 = await axios.get("  https://modamedic.cs.bgu.ac.il/users/getVerificationQuestion?QuestionID=" + qID);
             this.setState({
                 showID: false,
                 showWrongUser: false,
@@ -113,7 +113,7 @@ class Login extends Component{
         e.preventDefault();
         var date = new Date(this.state.date);
         var dateLong = date.getTime();
-        let url = '  https://rps.ise.bgu.ac.il/njsw18users/checkVerification';
+        let url = '  https://modamedic.cs.bgu.ac.il/users/checkVerification';
         const response = await axios.post(
             url,
             {
@@ -149,7 +149,7 @@ class Login extends Component{
         }
         else{
             var token = this.state.token;
-            var url = '  https://rps.ise.bgu.ac.il/njsw18users/passwordChangeCheck/changePassword';
+            var url = '  https://modamedic.cs.bgu.ac.il/users/passwordChangeCheck/changePassword';
             const response = await axios.post(
                 url,
                 {
@@ -183,7 +183,7 @@ class Login extends Component{
 
     sumbit(e){
         e.preventDefault();
-        axios.post('  https://rps.ise.bgu.ac.il/njsw18users/login', {
+        axios.post('  https://modamedic.cs.bgu.ac.il/users/login', {
             UserID: this.state.ID,
             Password: this.state.password
         }).then(res => {

@@ -147,7 +147,7 @@ class AddUser extends Component {
         let initQuestionsID = [];
         let initQuestionsText = [];
 
-        fetch('  https://rps.ise.bgu.ac.il/njsw18users/getVerifications')
+        fetch('  https://modamedic.cs.bgu.ac.il/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -171,7 +171,7 @@ class AddUser extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch('  https://rps.ise.bgu.ac.il/njsw18questionnaires/all')
+        fetch('  https://modamedic.cs.bgu.ac.il/questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -209,7 +209,7 @@ class AddUser extends Component {
         //     return
         // }
         if(this.state.type === 'doctor') {
-            axios.post('  https://rps.ise.bgu.ac.il/njsw18users/doctorRegister', {
+            axios.post('  https://modamedic.cs.bgu.ac.il/users/doctorRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: this.state.fName,
@@ -264,7 +264,7 @@ class AddUser extends Component {
             }
             let height_double = Number(this.state.height / 100);
             let bmi = String((Number(this.state.weight)/Math.pow(height_double,2)));
-            axios.post('  https://rps.ise.bgu.ac.il/njsw18users/patientRegister', {
+            axios.post('  https://modamedic.cs.bgu.ac.il/users/patientRegister', {
                 UserID: this.state.userName,
                 Password: this.state.password,
                 First_Name: "מטופל",
@@ -303,7 +303,7 @@ class AddUser extends Component {
         let initialQuestions = [];
         let initQuestionsID = [];
         let initQuestionsText = [];
-        fetch('  https://rps.ise.bgu.ac.il/njsw18users/getVerifications')
+        fetch('  https://modamedic.cs.bgu.ac.il/users/getVerifications')
             .then(response => {
                 return response.json();
             }).then(results => {
@@ -328,7 +328,7 @@ class AddUser extends Component {
         let initQuestionnairesID = [];
         let initQuestionnairesText = [];
         let initQuestionnaires = [];
-        fetch('  https://rps.ise.bgu.ac.il/njsw18questionnaires/all')
+        fetch('  https://modamedic.cs.bgu.ac.il/questionnaires/all')
             .then(response => {
                 return response.json();
             }).then(results => {

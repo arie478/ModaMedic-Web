@@ -50,7 +50,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "  https://rps.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
+            "  https://modamedic.cs.bgu.ac.il/auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -85,7 +85,7 @@ class App extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "  https://rps.ise.bgu.ac.il/njsw18auth/doctors/metrics/getUsers",
+            "  https://modamedic.cs.bgu.ac.il/auth/doctors/metrics/getUsers",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ class App extends Component {
         if(event){
             event.preventDefault()
         }
-         await axios.post( `  https://rps.ise.bgu.ac.il/njsw18auth/doctors/metrics/userId`,
+         await axios.post( `  https://modamedic.cs.bgu.ac.il/auth/doctors/metrics/userId`,
             {
                 UserID: this.state.pName,
             },

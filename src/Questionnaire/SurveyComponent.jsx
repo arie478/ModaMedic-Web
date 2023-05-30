@@ -32,7 +32,7 @@ class SurveyComponent extends Component {
     async getQuestionnaire(){
         //to do: fix questionnaireId dynamic
 
-        let url = `  https://rps.ise.bgu.ac.il/njsw18questionnaires/getQuestionnaire/${this.state.questionnaireId}`;
+        let url = `  https://modamedic.cs.bgu.ac.il/questionnaires/getQuestionnaire/${this.state.questionnaireId}`;
         let response =await axios.get(
             url,
             {
@@ -109,7 +109,7 @@ class SurveyComponent extends Component {
     }
 
     async sendParsedResultToServer(result){
-        let url = `  https://rps.ise.bgu.ac.il/njsw18auth/patients/answers/sendAnswers`;
+        let url = `  https://modamedic.cs.bgu.ac.il/auth/patients/answers/sendAnswers`;
         const response = await axios.post(
             url,
 

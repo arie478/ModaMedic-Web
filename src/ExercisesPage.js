@@ -28,7 +28,7 @@ class ExercisesPage extends Component {
     }
 
     async getExercises(){
-        let respone = await axios.get('  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/exercises',
+        let respone = await axios.get('  https://modamedic.cs.bgu.ac.il/auth/usersAll/exercises',
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ class ExercisesPage extends Component {
                 return;
             }
         }
-        let url = `  https://rps.ise.bgu.ac.il/njsw18auth/doctors/exercises`;
+        let url = `  https://modamedic.cs.bgu.ac.il/auth/doctors/exercises`;
         axios.post(url,
             {
                 category: this.state.newExerciseCategory,
@@ -97,7 +97,7 @@ class ExercisesPage extends Component {
         if(sessionStorage.getItem('doctor')) {
             const r = window.confirm("האם אתה בטוח שאתה רוצה למחוק את הסרטון?");
             if (r == true) {
-                await axios.delete(`  https://rps.ise.bgu.ac.il/njsw18auth/doctors/exercises/removeExercise/${eId}`,
+                await axios.delete(`  https://modamedic.cs.bgu.ac.il/auth/doctors/exercises/removeExercise/${eId}`,
                     {
                         headers: {
                             'Content-Type': 'application/json',
