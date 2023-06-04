@@ -61,7 +61,7 @@ class PatientSearch extends Component {
         var namesDiv = [];
         this.setState({isFetchingNames: true});
         var response = await axios.get(
-            "  https://rps.ise.bgu.ac.il/njsw18auth/usersAll/getNames",
+            "  https://modamedic.cs.bgu.ac.il/auth/usersAll/getNames",
             {
                 headers: {
                     'Content-Type': 'application/json',
@@ -142,7 +142,7 @@ class PatientSearch extends Component {
 
     async getDoctorRequest(name, url){
         var nameSplit = this.findUser(this.state.pName);
-        let getUrl = '  https://rps.ise.bgu.ac.il/njsw18auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
+        let getUrl = '  https://modamedic.cs.bgu.ac.il/auth/doctors/' + url + '?FirstName=' + nameSplit[0] + '&LastName=' + nameSplit[1];
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date)
             let start_time = date.getTime();
@@ -174,7 +174,7 @@ class PatientSearch extends Component {
     }
 
     async getPatientRequest(name, url){
-        let getUrl = `  https://rps.ise.bgu.ac.il/njsw18auth/patients/${url}`;
+        let getUrl = `  https://modamedic.cs.bgu.ac.il/auth/patients/${url}`;
         let start_time;
         if(this.state.start_date !== ""){
             var date = new Date(this.state.start_date);

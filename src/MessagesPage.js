@@ -32,7 +32,7 @@ class MessagesPage extends Component {
     async fetchMessagesPatient(){
         if(sessionStorage.getItem('patient')) {
             var response = await axios.get(
-                "  https://rps.ise.bgu.ac.il/njsw18auth/patients/messages",
+                "  https://modamedic.cs.bgu.ac.il/auth/patients/messages",
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ class MessagesPage extends Component {
             this.setState({content:"" })
             let patientId = encodeURIComponent(this.props.patientUserId);
             var response = await axios.get(
-                `  https://rps.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
+                `  https://modamedic.cs.bgu.ac.il/auth/doctors/messages/${patientId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ class MessagesPage extends Component {
 
     async addMessage(){
         if (sessionStorage.getItem('patient')) {
-            axios.post('  https://rps.ise.bgu.ac.il/njsw18auth/patients/messages',
+            axios.post('  https://modamedic.cs.bgu.ac.il/auth/patients/messages',
                 {
                     content: this.state.content,
                 },
@@ -84,7 +84,7 @@ class MessagesPage extends Component {
         }
         if (sessionStorage.getItem('doctor')){
             let patientId = encodeURIComponent(this.props.patientUserId);
-            axios.post( ` https://rps.ise.bgu.ac.il/njsw18auth/doctors/messages/${patientId}`,
+            axios.post( ` https://modamedic.cs.bgu.ac.il/auth/doctors/messages/${patientId}`,
                 {
                     content: this.state.content,
                 },
@@ -103,7 +103,7 @@ class MessagesPage extends Component {
     async removeMessage(mId){
         if (sessionStorage.getItem('patient')) {
             console.log("patient")
-            axios.post('  https://rps.ise.bgu.ac.il/njsw18auth/patients/messages/removeMessage',
+            axios.post('  https://modamedic.cs.bgu.ac.il/auth/patients/messages/removeMessage',
                 {
                     MessageId: mId,
                 },
@@ -118,7 +118,7 @@ class MessagesPage extends Component {
             });
         }
         else if(sessionStorage.getItem('doctor')) {
-            axios.delete(`  https://rps.ise.bgu.ac.il/njsw18auth/doctors/messages/removeMessage/${mId}`,
+            axios.delete(`  https://modamedic.cs.bgu.ac.il/auth/doctors/messages/removeMessage/${mId}`,
                 {
                     headers: {
                         'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ class MessagesPage extends Component {
     // async updateMessage(mId){
     //     console.log(mId)
     //     if (sessionStorage.getItem('patient')) {
-    //         axios.put('  https://rps.ise.bgu.ac.il/njsw18auth/patients/messages/updateMessage',
+    //         axios.put('  https://modamedic.cs.bgu.ac.il/auth/patients/messages/updateMessage',
     //             {
     //                 MessageId: mId,
     //                 Content: this.state.content
