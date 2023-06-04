@@ -2,7 +2,7 @@
   "name": "final_project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://modamedic.github.io/frontend-web/",
+  "homepage": "https://modamedic.github.io/modamedic/",
   "dependencies": {
     "@phuocng/react-pdf-viewer": "^1.7.0",
     "@testing-library/jest-dom": "^4.2.4",
