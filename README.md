@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# ModaMedic Web Interface
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
+The **ModaMedic Web Interface** serves as the primary dashboard for physicians and healthcare professionals, providing insights into patient recovery data. Built using **React**, it allows medical staff to analyze patient mobility metrics, compare recovery trends, and communicate with patients through a centralized system.
 
-## Available Scripts
+## Features
+- **Patient Data Dashboard**: View patient health metrics and progress reports.
+- **Comparative Analytics**: Compare a patient’s recovery against similar cases.
+- **Medical Questionnaires**: Access patient-submitted forms and survey data.
+- **Doctor-Patient Communication**: Message board for seamless interaction.
+- **Multilingual Support**: Supports Hebrew, Arabic, Russian, and English.
 
-In the project directory, you can run:
+## Tech Stack
+- **Frontend**: React (JavaScript, TypeScript)
+- **Backend API**: Node.js (via [ModaMedic Backend](https://github.com/arie478/ModaMedic-Backend))
+- **Database**: MongoDB
+- **Health Data Integration**: Google Fit, Mi Band
 
-### `npm start`
+## Installation
+### Prerequisites
+- Node.js & npm installed
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Steps
+1. Clone the repository:
+   ```sh
+   git clone https://github.com/arie478/ModaMedic-Web
+   cd ModaMedic-Web
+   ```
+2. Install dependencies:
+   ```sh
+   npm install
+   ```
+3. Start the development server:
+   ```sh
+   npm start
+   ```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## API Integration
+The web interface connects with the ModaMedic backend for data retrieval, authentication, and communication services.
+- **Backend Repo**: [ModaMedic Backend](https://github.com/arie478/ModaMedic-Backend)
 
-### `npm test`
+## Deployment
+- Website was hosted on offical BGU server during the project run time.
+---
+For related components of ModaMedic, see:
+- **[Backend](https://github.com/arie478/ModaMedic-Backend)**
+- **[Mobile App](https://github.com/arie478/ModaMedic-App)**
+<!--
+- **[Machine Learning Module](https://github.com/arie478/ModaMedic-ML)**
+-->
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
